@@ -9,4 +9,9 @@ class LogincontrollerBindings implements Bindings {
   }
 }
 
-class Logincontroller extends BaseController {}
+class Logincontroller extends BaseController {
+  @override
+  void onInit() {
+    super.onInit();
+  }
+}
