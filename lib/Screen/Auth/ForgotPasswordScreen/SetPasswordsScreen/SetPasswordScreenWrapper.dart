@@ -36,7 +36,7 @@ class Setpasswordscreenwrapper extends BaseView<Setpasswordcontroller> {
             style: TextStyle(
                 fontSize: 15.sp,
                 fontWeight: FontWeight.w500,
-                color: AppColors().white100Color),
+                color: AppColors.white100Color),
           ),
           SizedBox(
             height: 2.h,
@@ -57,7 +57,7 @@ class Setpasswordscreenwrapper extends BaseView<Setpasswordcontroller> {
           ),
           Text(
             'At-Least 8 Characters',
-            style: TextStyle(fontSize: 15.sp, color: AppColors().white100Color),
+            style: TextStyle(fontSize: 15.sp, color: AppColors.white100Color),
           ),
           SizedBox(
             height: 2.h,
