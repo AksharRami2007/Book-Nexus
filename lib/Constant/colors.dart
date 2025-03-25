@@ -8,4 +8,5 @@ class AppColors {
   var dividerColor = const Color(0xFF2D3B48);
   var filterbutton = const Color(0xFFE9EDEF);
   var dottedcolors = const Color(0xFFEEEEEE);
+  var container = const Color(0xFF313333);
 }

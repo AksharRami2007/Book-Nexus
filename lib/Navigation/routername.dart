@@ -1,3 +1,3 @@
 class Routername {
-  static const String loginscreenwrapper = '/Loginscreenwrapper';
+  static const String loginscreen = '/Loginscreenwrapper';
 }
