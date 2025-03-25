@@ -20,11 +20,11 @@ class Signupscreenwrapper extends BaseView<VerifyCodecontroller> {
           children: [
             Text(
               'Looks Like You Don\'t Have An Account',
-              style: TextStyle(color: AppColors().white100Color),
+              style: TextStyle(color: AppColors.white100Color),
             ),
             Text(
               'Let\'s ',
-              style: TextStyle(color: AppColors().white100Color),
+              style: TextStyle(color: AppColors.white100Color),
             ),
           ],
         ));

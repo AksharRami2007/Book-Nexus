@@ -20,7 +20,7 @@ class Customtextfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.symmetric(horizontal: 4.w),
+      padding: EdgeInsets.symmetric(horizontal: 4.w),
       child: TextField(
         obscureText: obsecuretext,
         onChanged: onchanged,
@@ -28,7 +28,7 @@ class Customtextfield extends StatelessWidget {
         decoration: InputDecoration(
           hintText: name,
           filled: true,
-          fillColor: AppColors().white100Color,
+          fillColor: AppColors.white100Color,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
           ),

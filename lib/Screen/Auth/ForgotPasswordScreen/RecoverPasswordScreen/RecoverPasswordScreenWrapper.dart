@@ -1,5 +1,5 @@
 import 'package:book_nexus/Constant/colors.dart';
-import 'package:book_nexus/Navigation/routername.dart';
+import 'package:book_nexus/Navigation/RouterName.dart';
 import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/RecoverPasswordScreen/RecoverPasswordController.dart';
 import 'package:book_nexus/Screen/Basecontroller/basecontroller.dart';
 import 'package:book_nexus/Screen/Widget/Custombutton/Custombutton.dart';
@@ -29,7 +29,7 @@ class RecoverPasswordScreenWrapper extends BaseView<RecoverPasswordController> {
               padding: EdgeInsets.only(left: 5.w),
               child: Text(
                 'Forgot Your Password? Don\'t Worry Enter Your Email To Reset Your Current password',
-                style: TextStyle(color: AppColors().white100Color),
+                style: TextStyle(color: AppColors.white100Color),
               ),
             ),
             SizedBox(
@@ -56,14 +56,14 @@ class RecoverPasswordScreenWrapper extends BaseView<RecoverPasswordController> {
                 TextSpan(
                     text: 'Don\'t Have An Account? ',
                     style: TextStyle(
-                      color: AppColors().white100Color,
+                      color: AppColors.white100Color,
                       fontSize: 15.sp,
                     )),
                 TextSpan(
                     text: 'Sign Up',
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
-                        Get.toNamed(Routername.signupscreen);
+                        Get.toNamed(RouterName.signupscreen);
                       },
                     style: TextStyle(
                         color: AppColors.green,

@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       return GetMaterialApp(
         theme: ThemeData(
             appBarTheme: AppBarTheme(
-              backgroundColor: AppColors().white100Color,
+              backgroundColor: AppColors.white100Color,
             ),
             fontFamily: Appfonts.family2Regular,
             useMaterial3: true),
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         locale: initialLocale,
         translations: null,
         fallbackLocale: const Locale('en', 'US'),
-        initialRoute: Routername.loginscreen,
+        initialRoute: RouterName.loginEmailScreen,
         debugShowCheckedModeBanner: false,
         getPages: Pages.pages(),
       );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../Constant/assets.dart';
 import '../../../Constant/colors.dart';
@@ -29,30 +30,38 @@ class CustomScaffold extends StatelessWidget {
             children: [
               SizedBox(
                   width: double.infinity,
-                  child: Image.asset(AppImages.bgImage, fit: BoxFit.cover)),
-               isBackBtn ? Positioned(
-                left: 2.w,
-                right: 0,
-                top: 4.h,
-                child: Row(
-                  children: [
-                    Image.asset(
-                      AppImages.backBtn,
-                      height: 3.h,
-                    ),
-                    SizedBox(
-                      width: 2.w,
-                    ),
-                    Text(
-                      'Back to Log in',
-                      style: TextStyle(
-                        fontSize: 17.sp,
-                        color: AppColors().white100Color,
+                  child: Image.asset(AppImages.bgImage,
+                      height: 100.h, fit: BoxFit.cover)),
+              isBackBtn
+                  ? Positioned(
+                      left: 2.w,
+                      right: 0,
+                      top: 4.h,
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Get.back();
+                            },
+                            child: Image.asset(
+                              AppImages.backBtn,
+                              height: 3.h,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          Text(
+                            'Back to Log in',
+                            style: TextStyle(
+                              fontSize: 17.sp,
+                              color: AppColors.white100Color,
+                            ),
+                          )
+                        ],
                       ),
                     )
-                  ],
-                ),
-              ): SizedBox(),
+                  : SizedBox(),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 2.w),
                 child: Column(
@@ -66,7 +75,7 @@ class CustomScaffold extends StatelessWidget {
                       title,
                       style: TextStyle(
                           fontSize: 23.sp,
-                          color: AppColors().white100Color,
+                          color: AppColors.white100Color,
                           fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
@@ -77,7 +86,7 @@ class CustomScaffold extends StatelessWidget {
                       width: containerWidth.w,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: AppColors().container.withOpacity(0.7)),
+                          color: AppColors.containerBGColor.withOpacity(0.7)),
                       child: child,
                     ),
                   ],
