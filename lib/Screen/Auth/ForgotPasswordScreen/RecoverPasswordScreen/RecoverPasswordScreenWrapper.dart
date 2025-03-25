@@ -1,5 +1,5 @@
 import 'package:book_nexus/Constant/colors.dart';
-import 'package:book_nexus/Navigation/routername.dart';
+import 'package:book_nexus/Navigation/RouterName.dart';
 import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/RecoverPasswordScreen/RecoverPasswordController.dart';
 import 'package:book_nexus/Screen/Basecontroller/basecontroller.dart';
 import 'package:book_nexus/Screen/Widget/Custombutton/Custombutton.dart';
@@ -12,7 +12,7 @@ import 'package:get/get.dart';
 import '../../../Widget/CustomScafflod/CustomScaffold.dart';
 
 class RecoverPasswordScreenWrapper extends BaseView<RecoverPasswordController> {
-  const RecoverPasswordScreenWrapper({super.key});
+  const RecoverPasswordScreenWrapper ({super.key});
 
   @override
   Widget vBuilder(BuildContext context) {
@@ -22,17 +22,14 @@ class RecoverPasswordScreenWrapper extends BaseView<RecoverPasswordController> {
         title: 'Recover Password',
         isBackBtn: true,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              height: 2.h,
-            ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4.w),
+              padding: EdgeInsets.only(left: 5.w),
               child: Text(
                 'Forgot Your Password? Don\'t Worry Enter Your Email To Reset Your Current password',
-                style: TextStyle(color: AppColors().white100Color),
+                style: TextStyle(color: AppColors.white100Color),
               ),
             ),
             SizedBox(
@@ -45,34 +42,35 @@ class RecoverPasswordScreenWrapper extends BaseView<RecoverPasswordController> {
             SizedBox(
               height: 2.h,
             ),
-            Custombutton(
-              name: 'Submit',
-              onclick: () {
-                Get.toNamed(Routername.verifycodescreen);
-              },
+            Padding(
+              padding: EdgeInsets.only(left: 4.w),
+              child: Custombutton(name: 'Submit'),
             ),
             SizedBox(
               height: 2.h,
             ),
-            RichText(
-                text: TextSpan(children: <TextSpan>[
-              TextSpan(
-                  text: 'Don\'t Have An Account? ',
-                  style: TextStyle(
-                    color: AppColors().white100Color,
-                    fontSize: 15.sp,
-                  )),
-              TextSpan(
-                  text: 'Sign Up',
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () {
-                      Get.toNamed(Routername.signupscreen);
-                    },
-                  style: TextStyle(
-                      color: AppColors.green,
+            Padding(
+              padding: EdgeInsets.only(left: 20.w),
+              child: RichText(
+                  text: TextSpan(children: <TextSpan>[
+                TextSpan(
+                    text: 'Don\'t Have An Account? ',
+                    style: TextStyle(
+                      color: AppColors.white100Color,
                       fontSize: 15.sp,
-                      fontWeight: FontWeight.bold)),
-            ]))
+                    )),
+                TextSpan(
+                    text: 'Sign Up',
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        Get.toNamed(RouterName.signupscreen);
+                      },
+                    style: TextStyle(
+                        color: AppColors.green,
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.bold)),
+              ])),
+            )
           ],
         ));
   }
