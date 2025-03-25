@@ -1,14 +1,14 @@
 import 'package:book_nexus/Screen/Basecontroller/basecontroller.dart';
 import 'package:get/get.dart';
 
-class ForgotpasswordcontrollerBindings implements Bindings {
+class VerifyCodecontrollerBindings implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => Forgotpasswordcontroller());
+    Get.lazyPut(() => VerifyCodecontroller());
   }
 }
 
-class Forgotpasswordcontroller extends BaseController {
+class VerifyCodecontroller extends BaseController {
   @override
   void onInit() {
     super.onInit();

@@ -1,14 +1,15 @@
-import 'package:book_nexus/Constant/assets.dart';
 import 'package:book_nexus/Constant/colors.dart';
+import 'package:book_nexus/Navigation/routername.dart';
 import 'package:book_nexus/Screen/Auth/LogInScreen/LoginController.dart';
 import 'package:book_nexus/Screen/Basecontroller/basecontroller.dart';
 import 'package:book_nexus/Screen/Widget/Custombutton/Custombutton.dart';
 import 'package:book_nexus/Screen/Widget/Customtextfield/Customtextfield.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:get/get.dart';
 
 import '../../Widget/CustomScafflod/CustomScaffold.dart';
-
 
 class Loginscreenwrapper extends BaseView<Logincontroller> {
   const Loginscreenwrapper({super.key});
@@ -36,7 +37,9 @@ class Loginscreenwrapper extends BaseView<Logincontroller> {
             padding: EdgeInsets.only(left: 4.w),
             child: Custombutton(
               name: 'Continue',
-              onclick: () {},
+              onclick: () {
+                Get.toNamed(Routername.recoverPasswordscreen);
+              },
             ),
           ),
           SizedBox(
@@ -48,10 +51,15 @@ class Loginscreenwrapper extends BaseView<Logincontroller> {
                 text: TextSpan(children: <TextSpan>[
               TextSpan(
                   text: 'Forgot Password?',
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      Get.toNamed(Routername.recoverPasswordscreen);
+                    },
                   style: TextStyle(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.greenAccent))
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.green,
+                  ))
             ])),
           )
         ],

@@ -65,7 +65,7 @@ class CustomScaffold extends StatelessWidget {
                     Text(
                       title,
                       style: TextStyle(
-                          fontSize: 20.sp,
+                          fontSize: 23.sp,
                           color: AppColors().white100Color,
                           fontWeight: FontWeight.bold),
                     ),
