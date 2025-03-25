@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 
 class AppColors {
   var white100Color = const Color(0xffFFFFFF);
