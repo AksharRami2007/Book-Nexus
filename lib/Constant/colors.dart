@@ -1,5 +1,6 @@
-
 import 'dart:ui';
+
+import 'package:flutter/material.dart';
 
 class AppColors {
   var white100Color = const Color(0xffFFFFFF);
@@ -11,4 +12,5 @@ class AppColors {
   var filterbutton = const Color(0xFFE9EDEF);
   var dottedcolors = const Color(0xFFEEEEEE);
   var container = const Color(0xFF313333);
+  static const Color green = Colors.greenAccent;
 }

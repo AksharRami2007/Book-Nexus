@@ -1,3 +1,4 @@
+import 'package:book_nexus/Constant/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -18,11 +19,13 @@ class Custombutton extends StatelessWidget {
     return Container(
         height: height.h,
         width: width.w,
+        decoration: BoxDecoration(
+            color:AppColors.green, borderRadius: BorderRadius.circular(10)),
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
-                backgroundColor: Colors.greenAccent),
+                backgroundColor: AppColors.green,),
             onPressed: onclick,
             child: Text(
               name,
