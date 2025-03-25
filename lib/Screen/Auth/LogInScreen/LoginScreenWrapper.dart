@@ -1,10 +1,13 @@
 import 'package:book_nexus/Constant/assets.dart';
 import 'package:book_nexus/Constant/colors.dart';
+import 'package:book_nexus/Navigation/routername.dart';
 import 'package:book_nexus/Screen/Auth/LogInScreen/LoginController.dart';
 import 'package:book_nexus/Screen/Basecontroller/basecontroller.dart';
 import 'package:book_nexus/Screen/Widget/Custombutton/Custombutton.dart';
 import 'package:book_nexus/Screen/Widget/Customtextfield/Customtextfield.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../Widget/CustomGreenContainer/CustomGreenContainer.dart';
@@ -63,7 +66,9 @@ class Loginscreenwrapper extends BaseView<Logincontroller> {
                             padding: EdgeInsets.only(left: 4.w),
                             child: Custombutton(
                               name: 'Continue',
-                              onclick: () {},
+                              onclick: () {
+                                Get.toNamed(Routername.forgotpasswordsreen);
+                              },
                             ),
                           ),
                           SizedBox(

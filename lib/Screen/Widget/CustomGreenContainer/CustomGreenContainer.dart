@@ -19,7 +19,7 @@ class CustomeGreenContainer extends StatelessWidget {
       width: width,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: AppColors().container.withOpacity(0.5)),
+          color: AppColors().container.withOpacity(0.7)),
       child: child,
     );
   }
