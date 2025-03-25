@@ -12,7 +12,7 @@ import 'package:get/get.dart';
 import '../../../Widget/CustomScafflod/CustomScaffold.dart';
 
 class RecoverPasswordScreenWrapper extends BaseView<RecoverPasswordController> {
-  const RecoverPasswordScreenWrapper ({super.key});
+  const RecoverPasswordScreenWrapper({super.key});
 
   @override
   Widget vBuilder(BuildContext context) {
@@ -22,11 +22,14 @@ class RecoverPasswordScreenWrapper extends BaseView<RecoverPasswordController> {
         title: 'Recover Password',
         isBackBtn: true,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            SizedBox(
+              height: 2.h,
+            ),
             Padding(
-              padding: EdgeInsets.only(left: 5.w),
+              padding: EdgeInsets.symmetric(horizontal: 4.w),
               child: Text(
                 'Forgot Your Password? Don\'t Worry Enter Your Email To Reset Your Current password',
                 style: TextStyle(color: AppColors().white100Color),
@@ -42,35 +45,34 @@ class RecoverPasswordScreenWrapper extends BaseView<RecoverPasswordController> {
             SizedBox(
               height: 2.h,
             ),
-            Padding(
-              padding: EdgeInsets.only(left: 4.w),
-              child: Custombutton(name: 'Submit'),
+            Custombutton(
+              name: 'Submit',
+              onclick: () {
+                Get.toNamed(Routername.verifycodescreen);
+              },
             ),
             SizedBox(
               height: 2.h,
             ),
-            Padding(
-              padding: EdgeInsets.only(left: 20.w),
-              child: RichText(
-                  text: TextSpan(children: <TextSpan>[
-                TextSpan(
-                    text: 'Don\'t Have An Account? ',
-                    style: TextStyle(
-                      color: AppColors().white100Color,
+            RichText(
+                text: TextSpan(children: <TextSpan>[
+              TextSpan(
+                  text: 'Don\'t Have An Account? ',
+                  style: TextStyle(
+                    color: AppColors().white100Color,
+                    fontSize: 15.sp,
+                  )),
+              TextSpan(
+                  text: 'Sign Up',
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      Get.toNamed(Routername.signupscreen);
+                    },
+                  style: TextStyle(
+                      color: AppColors.green,
                       fontSize: 15.sp,
-                    )),
-                TextSpan(
-                    text: 'Sign Up',
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        Get.toNamed(Routername.signupscreen);
-                      },
-                    style: TextStyle(
-                        color: AppColors.green,
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.bold)),
-              ])),
-            )
+                      fontWeight: FontWeight.bold)),
+            ]))
           ],
         ));
   }
