@@ -1,4 +1,6 @@
 
+import 'dart:ui';
+
 class AppColors {
   var white100Color = const Color(0xffFFFFFF);
   var blue = const Color(0xFF5B9EE1);
