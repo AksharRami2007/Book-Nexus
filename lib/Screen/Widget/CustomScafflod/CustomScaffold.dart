@@ -86,7 +86,7 @@ class CustomScaffold extends StatelessWidget {
                       width: containerWidth.w,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: AppColors.containerBGColor.withOpacity(0.7)),
+                          color: AppColors.grey4.withOpacity(0.7)),
                       child: child,
                     ),
                   ],

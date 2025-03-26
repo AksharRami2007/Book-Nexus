@@ -7,5 +7,6 @@ class RouterName {
   static const String verifyCodeScreen = '/Verifycodescreenwrapper';
   static const String genrePreferencesScreen = '/GenrePreferencesWrapper';
   static const String homescreen = '/Homescreenwrapper';
+  static const String bookdetailscreen = '/Bookdetailscreenwrapper';
   
 }

@@ -5,6 +5,8 @@ import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/SetPasswordsScreen/S
 import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/SetPasswordsScreen/SetPasswordScreenWrapper.dart';
 import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/VerifyCodeScreen/VerifyCodeController.dart';
 import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/VerifyCodeScreen/VerifyCodeScreenWrapper.dart';
+import 'package:book_nexus/Screen/MainTab/BookDetailScreen/BookDetailController.dart';
+import 'package:book_nexus/Screen/MainTab/BookDetailScreen/BookDetailScreenWrapper.dart';
 import 'package:book_nexus/Screen/MainTab/HomeSrceen/HomeController.dart';
 import 'package:book_nexus/Screen/MainTab/HomeSrceen/HomeScreenWrapper.dart';
 import 'package:book_nexus/Screen/Auth/LogInScreen/LoginEmailScreen/LoginEmailController.dart';
@@ -62,6 +64,10 @@ class Pages {
         name: RouterName.homescreen,
         page: () => const Homescreenwrapper(),
         binding: HomecontrollerBindings(),
+      ),GetPage(
+        name: RouterName.bookdetailscreen,
+        page: () => const Bookdetailscreenwrapper(),
+        binding: BookdetailcontrollerBindings(),
       ),
     ];
   }
