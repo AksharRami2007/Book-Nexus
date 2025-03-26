@@ -4,5 +4,5 @@ class AppImages {
   static const String facebook = 'assets/images/Facebook.png';
   static const String google = 'assets/images/Google.png';
   static const String profilePic = 'assets/images/ProfilePic.png';
-  static const String checked = 'assets/images/checked.png';
+  static const String checked = 'assets/images/Checked.png';
 }

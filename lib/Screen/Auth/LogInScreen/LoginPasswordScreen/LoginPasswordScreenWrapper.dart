@@ -80,7 +80,7 @@ class LoginPasswordScreenWrapper extends BaseView<LoginPasswordController> {
             )),
         Text('john.doe@example.com',
             style: TextStyle(
-              fontSize: 15.sp,
+              fontSize: 16.sp,
               fontWeight: FontWeight.normal,
               color: AppColors.grey,
             ))
@@ -92,7 +92,6 @@ class LoginPasswordScreenWrapper extends BaseView<LoginPasswordController> {
     return Padding(
       padding: EdgeInsets.only(left: 5.w),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           ClipRRect(
               borderRadius: BorderRadius.circular(50),
@@ -103,7 +102,14 @@ class LoginPasswordScreenWrapper extends BaseView<LoginPasswordController> {
           SizedBox(
             width: 3.w,
           ),
-          buildTextColumn()
+          buildTextColumn(),
+          SizedBox(
+            width: 18.w,
+          ),
+          Image.asset(
+            AppImages.checked,
+            width: 10.w,
+          )
         ],
       ),
     );
