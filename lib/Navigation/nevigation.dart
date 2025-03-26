@@ -5,6 +5,8 @@ import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/SetPasswordsScreen/S
 import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/SetPasswordsScreen/SetPasswordScreenWrapper.dart';
 import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/VerifyCodeScreen/VerifyCodeController.dart';
 import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/VerifyCodeScreen/VerifyCodeScreenWrapper.dart';
+import 'package:book_nexus/Screen/Auth/HomeSrceen/HomeController.dart';
+import 'package:book_nexus/Screen/Auth/HomeSrceen/HomeScreenWrapper.dart';
 import 'package:book_nexus/Screen/Auth/LogInScreen/LoginEmailScreen/LoginEmailController.dart';
 import 'package:book_nexus/Screen/Auth/LogInScreen/LoginEmailScreen/LoginEmailScreenWrapper.dart';
 import 'package:book_nexus/Screen/Auth/SignUpScreen/SignUpController.dart';
@@ -45,6 +47,21 @@ class Pages {
         name: RouterName.setPasswordScreen,
         page: () => const Setpasswordscreenwrapper(),
         binding: SetpasswordcontrollerBindings(),
+      ),
+      GetPage(
+        name: RouterName.verifyCodeScreen,
+        page: () => const Verifycodescreenwrapper(),
+        binding: VerifyCodecontrollerBindings(),
+      ),
+      GetPage(
+        name: RouterName.genrePreferencesScreen,
+        page: () => const GenrePreferencesWrapper(),
+        binding: GenrePreferencesControllerBinding(),
+      ),
+      GetPage(
+        name: RouterName.homescreen,
+        page: () => const Homescreenwrapper(),
+        binding: HomecontrollerBindings(),
       ),
     ];
   }

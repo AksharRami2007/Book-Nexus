@@ -37,7 +37,7 @@ class Signupscreenwrapper extends BaseView<Signupcontroller> {
             Customtextfield(
               name: 'Name',
               obsecuretext: false,
-              onchanged: (String value) {},
+             
               inputType: TextInputType.name,
             ),
             SizedBox(
@@ -46,7 +46,7 @@ class Signupscreenwrapper extends BaseView<Signupcontroller> {
             Customtextfield(
               name: 'Email',
               obsecuretext: false,
-              onchanged: (String value) {},
+             
               inputType: TextInputType.emailAddress,
             ),
             SizedBox(
@@ -56,9 +56,7 @@ class Signupscreenwrapper extends BaseView<Signupcontroller> {
               () => Customtextfield(
                   name: 'Password',
                   obsecuretext: controller.isPasswordhidden.value,
-                  onchanged: (String value) {
-                   
-                  },
+                
                   inputType: TextInputType.visiblePassword,
                   suffixicon: IconButton(
                       onPressed: () {

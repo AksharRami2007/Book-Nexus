@@ -34,7 +34,7 @@ class LoginPasswordScreenWrapper extends BaseView<LoginPasswordController> {
           Customtextfield(
             name: 'Email',
             obsecuretext: false,
-            onchanged: (String value) {},
+           
             inputType: TextInputType.emailAddress,
           ),
           SizedBox(
