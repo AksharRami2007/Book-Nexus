@@ -1,4 +1,4 @@
-class Appfonts {
+class AppFonts {
   static const String family2Regular = "Poppins-Regular";
   static const String family2Medium = "Poppins-Medium";
   static const String family2SemiBold = "Poppins-SemiBold";
