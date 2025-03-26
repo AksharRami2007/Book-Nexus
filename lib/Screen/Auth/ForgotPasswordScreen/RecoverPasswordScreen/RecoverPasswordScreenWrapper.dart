@@ -1,5 +1,5 @@
 import 'package:book_nexus/Constant/colors.dart';
-import 'package:book_nexus/Navigation/RouterName.dart';
+import 'package:book_nexus/Navigation/routername.dart';
 import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/RecoverPasswordScreen/RecoverPasswordController.dart';
 import 'package:book_nexus/Screen/Basecontroller/basecontroller.dart';
 import 'package:book_nexus/Screen/Widget/Custombutton/Custombutton.dart';
@@ -12,7 +12,7 @@ import 'package:get/get.dart';
 import '../../../Widget/CustomScafflod/CustomScaffold.dart';
 
 class RecoverPasswordScreenWrapper extends BaseView<RecoverPasswordController> {
-  const RecoverPasswordScreenWrapper ({super.key});
+  const RecoverPasswordScreenWrapper({super.key});
 
   @override
   Widget vBuilder(BuildContext context) {
@@ -38,13 +38,19 @@ class RecoverPasswordScreenWrapper extends BaseView<RecoverPasswordController> {
             Customtextfield(
                 name: 'Email',
                 obsecuretext: false,
+                inputType: TextInputType.emailAddress,
                 onchanged: (String value) {}),
             SizedBox(
               height: 2.h,
             ),
             Padding(
               padding: EdgeInsets.only(left: 4.w),
-              child: Custombutton(name: 'Submit'),
+              child: Custombutton(
+                name: 'Submit',
+                onclick: () {
+                  Get.toNamed(RouterName.verifyCodeScreen);
+                },
+              ),
             ),
             SizedBox(
               height: 2.h,

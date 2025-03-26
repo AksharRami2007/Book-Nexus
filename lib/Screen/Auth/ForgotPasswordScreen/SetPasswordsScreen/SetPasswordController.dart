@@ -9,6 +9,12 @@ class SetpasswordcontrollerBindings implements Bindings {
 }
 
 class Setpasswordcontroller extends BaseController {
+  var isPasswordhidden = true.obs;
+
+  void togglevisiblity() {
+    isPasswordhidden.value = !isPasswordhidden.value;
+  }
+
   @override
   void onInit() {
     super.onInit();
