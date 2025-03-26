@@ -6,4 +6,5 @@ class AppImages {
   static const String profilePic = 'assets/images/ProfilePic.png';
   static const String checked = 'assets/images/Checked.png';
   static const String outlineAdd = 'assets/images/OutlineAdd.png';
+ 
 }
