@@ -35,7 +35,7 @@ class Verifycodescreenwrapper extends BaseView<VerifyCodecontroller> {
             Customtextfield(
               name: 'Enter Code',
               obsecuretext: false,
-              onchanged: (String value) {},
+            
               inputType: TextInputType.name,
             ),
             SizedBox(

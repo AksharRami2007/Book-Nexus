@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:get/get.dart';
 
-
 class Setpasswordscreenwrapper extends BaseView<Setpasswordcontroller> {
   const Setpasswordscreenwrapper({super.key});
 
@@ -42,22 +41,41 @@ class Setpasswordscreenwrapper extends BaseView<Setpasswordcontroller> {
           SizedBox(
             height: 2.h,
           ),
-          Customtextfield(
+          Obx(
+            () => Customtextfield(
               name: 'Enter New Password',
               obsecuretext: controller.isPasswordhidden.value,
-              onchanged: (String value) {},suffixicon: IconButton(onPressed: (){}, icon: Icon(Icons.)),),
+              suffixicon: IconButton(
+                onPressed: () {
+                  controller.togglevisiblity();
+                },
+                icon: Icon(controller.isPasswordhidden.value
+                    ? Icons.visibility_off_outlined
+                    : Icons.visibility_outlined),
+              ),
+            ),
+          ),
           SizedBox(
             height: 2.h,
           ),
-          Customtextfield(
+          Obx(
+            () => Customtextfield(
               name: 'Re-type a New Password',
-              obsecuretext: true,
-              onchanged: (String value) {}),
+              obsecuretext: controller.isConformPassword.value,
+              suffixicon: IconButton(
+                  onPressed: () {
+                    controller.togglevisiblity2();
+                  },
+                  icon: Icon(controller.isConformPassword.value
+                      ? Icons.visibility_off_outlined
+                      : Icons.visibility_outlined)),
+            ),
+          ),
           SizedBox(
             height: 1.h,
           ),
           Padding(
-            padding:  EdgeInsets.only(right: 48.w),
+            padding: EdgeInsets.only(right: 48.w),
             child: Text(
               'At-Least 8 Characters',
               style: TextStyle(fontSize: 15.sp, color: AppColors.white100Color),

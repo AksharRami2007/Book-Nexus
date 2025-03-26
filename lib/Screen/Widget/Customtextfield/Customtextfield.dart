@@ -6,14 +6,14 @@ class Customtextfield extends StatelessWidget {
   final String name;
   final TextInputType? inputType;
   final bool obsecuretext;
-  final ValueChanged<String> onchanged;
+  
   final Widget? suffixicon;
   const Customtextfield(
       {Key? key,
       required this.name,
       this.inputType,
       required this.obsecuretext,
-      required this.onchanged,
+     
       this.suffixicon})
       : super(key: key);
 
@@ -23,7 +23,7 @@ class Customtextfield extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 4.w),
       child: TextField(
         obscureText: obsecuretext,
-        onChanged: onchanged,
+       
         keyboardType: inputType,
         decoration: InputDecoration(
           hintText: name,suffixIcon: suffixicon,

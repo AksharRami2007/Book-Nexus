@@ -30,7 +30,7 @@ class LoginEmailScreenWrapper extends BaseView<LoginEmailController> {
           Customtextfield(
             name: 'Email',
             obsecuretext: false,
-            onchanged: (String value) {},
+            
             inputType: TextInputType.emailAddress,
           ),
           SizedBox(

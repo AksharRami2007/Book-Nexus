@@ -36,10 +36,10 @@ class RecoverPasswordScreenWrapper extends BaseView<RecoverPasswordController> {
               height: 2.h,
             ),
             Customtextfield(
-                name: 'Email',
-                obsecuretext: false,
-                inputType: TextInputType.emailAddress,
-                onchanged: (String value) {}),
+              name: 'Email',
+              obsecuretext: false,
+              inputType: TextInputType.emailAddress,
+            ),
             SizedBox(
               height: 2.h,
             ),
