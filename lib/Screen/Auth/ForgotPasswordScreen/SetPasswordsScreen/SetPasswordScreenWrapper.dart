@@ -7,6 +7,8 @@ import 'package:book_nexus/Screen/Widget/Custombutton/Custombutton.dart';
 import 'package:book_nexus/Screen/Widget/Customtextfield/Customtextfield.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:get/get.dart';
+
 
 class Setpasswordscreenwrapper extends BaseView<Setpasswordcontroller> {
   const Setpasswordscreenwrapper({super.key});
@@ -18,7 +20,6 @@ class Setpasswordscreenwrapper extends BaseView<Setpasswordcontroller> {
       containerHeight: 45,
       containerWidth: 95,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
@@ -26,10 +27,10 @@ class Setpasswordscreenwrapper extends BaseView<Setpasswordcontroller> {
           ),
           Image.asset(
             AppImages.checked,
-            height: 6.h,
+            height: 7.h,
           ),
           SizedBox(
-            height: 2.h,
+            height: 1.h,
           ),
           Text(
             'Code Verified',
@@ -43,8 +44,8 @@ class Setpasswordscreenwrapper extends BaseView<Setpasswordcontroller> {
           ),
           Customtextfield(
               name: 'Enter New Password',
-              obsecuretext: true,
-              onchanged: (String value) {}),
+              obsecuretext: controller.isPasswordhidden.value,
+              onchanged: (String value) {},suffixicon: IconButton(onPressed: (){}, icon: Icon(Icons.)),),
           SizedBox(
             height: 2.h,
           ),
@@ -55,9 +56,12 @@ class Setpasswordscreenwrapper extends BaseView<Setpasswordcontroller> {
           SizedBox(
             height: 1.h,
           ),
-          Text(
-            'At-Least 8 Characters',
-            style: TextStyle(fontSize: 15.sp, color: AppColors.white100Color),
+          Padding(
+            padding:  EdgeInsets.only(right: 48.w),
+            child: Text(
+              'At-Least 8 Characters',
+              style: TextStyle(fontSize: 15.sp, color: AppColors.white100Color),
+            ),
           ),
           SizedBox(
             height: 2.h,
