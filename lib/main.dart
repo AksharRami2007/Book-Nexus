@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         locale: initialLocale,
         translations: null,
         fallbackLocale: const Locale('en', 'US'),
-        initialRoute: RouterName.genrePreferencesWrapper,
+        initialRoute: RouterName.loginEmailScreen,
         debugShowCheckedModeBanner: false,
         getPages: Pages.pages(),
       );

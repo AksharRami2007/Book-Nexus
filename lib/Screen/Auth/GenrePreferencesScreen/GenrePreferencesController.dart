@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 
 import '../../Basecontroller/basecontroller.dart';
 
-
 class GenrePreferencesControllerBinding implements Bindings {
   @override
   void dependencies() {
@@ -11,8 +10,27 @@ class GenrePreferencesControllerBinding implements Bindings {
 }
 
 class GenrePreferencesController extends BaseController {
-  final categories = <String>[].obs;
-  var selectedCategories = <String>[].obs;
+  final RxList<String> categories = [
+    'Fiction',
+    'Novel',
+    'Narrative',
+    'Historical Fiction',
+    'Non-fiction',
+    'Mystery',
+    'Horror',
+    'Children’s Literature',
+    'Thriller',
+    'Sci-Fi',
+    'Romantic',
+    'History',
+    'Poetry',
+    'Biography',
+    'Crime',
+    'Autobiography',
+    'Cookbook'
+  ].obs;
+  final RxList<String> selectedCategories = <String>[].obs;
+  final RxBool isExpanded = false.obs;
 
   void toggleCategory(String category) {
     if (selectedCategories.contains(category)) {

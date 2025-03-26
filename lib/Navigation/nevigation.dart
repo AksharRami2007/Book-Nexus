@@ -14,7 +14,7 @@ import 'package:get/get_navigation/src/routes/get_route.dart';
 import '../Screen/Auth/ForgotPasswordScreen/SetPasswordsScreen/SetPasswordController.dart';
 import '../Screen/Auth/ForgotPasswordScreen/SetPasswordsScreen/SetPasswordScreenWrapper.dart';
 import '../Screen/Auth/GenrePreferencesScreen/GenrePreferencesController.dart';
-import '../Screen/Auth/GenrePreferencesScreen/PersonalizeScreenWrapper.dart';
+import '../Screen/Auth/GenrePreferencesScreen/GenrePreferencesScreenWrapper.dart';
 import '../Screen/Auth/LogInScreen/LoginPasswordScreen/LoginPasswordController.dart';
 import '../Screen/Auth/LogInScreen/LoginPasswordScreen/LoginPasswordScreenWrapper.dart';
 
