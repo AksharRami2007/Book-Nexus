@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 
+import '../../../model/GenreList/BookGenreList.dart';
 import '../../Basecontroller/basecontroller.dart';
 
 class GenrePreferencesControllerBinding implements Bindings {
@@ -10,25 +11,7 @@ class GenrePreferencesControllerBinding implements Bindings {
 }
 
 class GenrePreferencesController extends BaseController {
-  final RxList<String> categories = [
-    'Fiction',
-    'Novel',
-    'Narrative',
-    'Historical Fiction',
-    'Non-fiction',
-    'Mystery',
-    'Horror',
-    'Children’s Literature',
-    'Thriller',
-    'Sci-Fi',
-    'Romantic',
-    'History',
-    'Poetry',
-    'Biography',
-    'Crime',
-    'Autobiography',
-    'Cookbook'
-  ].obs;
+  final RxList<String> categories =BookGenreList.genre.obs;
   final RxList<String> selectedCategories = <String>[].obs;
   final RxBool isExpanded = false.obs;
 

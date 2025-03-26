@@ -104,11 +104,11 @@ class LoginPasswordScreenWrapper extends BaseView<LoginPasswordController> {
           ),
           buildTextColumn(),
           SizedBox(
-            width: 18.w,
+            width: 14.w,
           ),
           Image.asset(
             AppImages.checked,
-            width: 10.w,
+            width: 9.w,
           )
         ],
       ),

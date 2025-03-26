@@ -1,6 +1,5 @@
 import 'package:book_nexus/Constant/assets.dart';
 import 'package:book_nexus/Constant/colors.dart';
-import 'package:book_nexus/Navigation/RouterName.dart';
 import 'package:book_nexus/Screen/Auth/LogInScreen/LoginEmailScreen/LoginEmailController.dart';
 import 'package:book_nexus/Screen/Basecontroller/basecontroller.dart';
 import 'package:book_nexus/Screen/Widget/Custombutton/Custombutton.dart';
@@ -10,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:get/get.dart';
 
+import '../../../../Navigation/routername.dart';
 import '../../../Widget/CustomScafflod/CustomScaffold.dart';
 
 class LoginEmailScreenWrapper extends BaseView<LoginEmailController> {
@@ -30,7 +30,6 @@ class LoginEmailScreenWrapper extends BaseView<LoginEmailController> {
           Customtextfield(
             name: 'Email',
             obsecuretext: false,
-            
             inputType: TextInputType.emailAddress,
           ),
           SizedBox(
@@ -39,7 +38,7 @@ class LoginEmailScreenWrapper extends BaseView<LoginEmailController> {
           Custombutton(
             name: 'Continue',
             onclick: () {
-              Get.toNamed(RouterName.loginPasswordScreen);
+              Get.toNamed(RouterName.homeScreen);
             },
           ),
           SizedBox(

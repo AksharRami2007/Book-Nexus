@@ -19,6 +19,7 @@ import '../Screen/Auth/GenrePreferencesScreen/GenrePreferencesController.dart';
 import '../Screen/Auth/GenrePreferencesScreen/GenrePreferencesScreenWrapper.dart';
 import '../Screen/Auth/LogInScreen/LoginPasswordScreen/LoginPasswordController.dart';
 import '../Screen/Auth/LogInScreen/LoginPasswordScreen/LoginPasswordScreenWrapper.dart';
+import '../Screen/MainTab/NavBar/NavBArWrapper.dart';
 
 class Pages {
   static List<GetPage> pages() {
@@ -55,13 +56,13 @@ class Pages {
       ),
       GetPage(
         name: RouterName.genrePreferencesScreen,
-        page: () => const GenrePreferencesScreenWrapper(),
+        page: () => GenrePreferencesScreenWrapper(),
         binding: GenrePreferencesControllerBinding(),
       ),
       GetPage(
-        name: RouterName.homescreen,
-        page: () => const Homescreenwrapper(),
-        binding: HomecontrollerBindings(),
+        name: RouterName.homeScreen,
+        page: () => Navbarwrapper(),
+        binding: HomeControllerBindings(),
       ),
     ];
   }
