@@ -5,8 +5,8 @@ import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/SetPasswordsScreen/S
 import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/SetPasswordsScreen/SetPasswordScreenWrapper.dart';
 import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/VerifyCodeScreen/VerifyCodeController.dart';
 import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/VerifyCodeScreen/VerifyCodeScreenWrapper.dart';
-import 'package:book_nexus/Screen/Auth/HomeSrceen/HomeController.dart';
-import 'package:book_nexus/Screen/Auth/HomeSrceen/HomeScreenWrapper.dart';
+import 'package:book_nexus/Screen/MainTab/HomeSrceen/HomeController.dart';
+import 'package:book_nexus/Screen/MainTab/HomeSrceen/HomeScreenWrapper.dart';
 import 'package:book_nexus/Screen/Auth/LogInScreen/LoginEmailScreen/LoginEmailController.dart';
 import 'package:book_nexus/Screen/Auth/LogInScreen/LoginEmailScreen/LoginEmailScreenWrapper.dart';
 import 'package:book_nexus/Screen/Auth/SignUpScreen/SignUpController.dart';
@@ -55,7 +55,7 @@ class Pages {
       ),
       GetPage(
         name: RouterName.genrePreferencesScreen,
-        page: () => const GenrePreferencesWrapper(),
+        page: () => const GenrePreferencesScreenWrapper(),
         binding: GenrePreferencesControllerBinding(),
       ),
       GetPage(
