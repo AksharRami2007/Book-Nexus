@@ -11,6 +11,10 @@ import 'package:book_nexus/Screen/Auth/SignUpScreen/SignUpController.dart';
 import 'package:book_nexus/Screen/Auth/SignUpScreen/SignUpScreenWrapper.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
+import '../Screen/Auth/ForgotPasswordScreen/SetPasswordsScreen/SetPasswordController.dart';
+import '../Screen/Auth/ForgotPasswordScreen/SetPasswordsScreen/SetPasswordScreenWrapper.dart';
+import '../Screen/Auth/GenrePreferencesScreen/GenrePreferencesController.dart';
+import '../Screen/Auth/GenrePreferencesScreen/PersonalizeScreenWrapper.dart';
 import '../Screen/Auth/LogInScreen/LoginPasswordScreen/LoginPasswordController.dart';
 import '../Screen/Auth/LogInScreen/LoginPasswordScreen/LoginPasswordScreenWrapper.dart';
 
@@ -36,11 +40,6 @@ class Pages {
         name: RouterName.signupscreen,
         page: () => const Signupscreenwrapper(),
         binding: SignupcontrollerBindings(),
-      ),
-      GetPage(
-        name: RouterName.verifyCodeScreen,
-        page: () => const Verifycodescreenwrapper(),
-        binding: VerifyCodecontrollerBindings(),
       ),
       GetPage(
         name: RouterName.setPasswordScreen,
