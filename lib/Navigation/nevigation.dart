@@ -1,6 +1,10 @@
 import 'package:book_nexus/Navigation/routername.dart';
 import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/RecoverPasswordScreen/RecoverPasswordController.dart';
 import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/RecoverPasswordScreen/RecoverPasswordScreenWrapper.dart';
+import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/SetPasswordsScreen/SetPasswordController.dart';
+import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/SetPasswordsScreen/SetPasswordScreenWrapper.dart';
+import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/VerifyCodeScreen/VerifyCodeController.dart';
+import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/VerifyCodeScreen/VerifyCodeScreenWrapper.dart';
 import 'package:book_nexus/Screen/Auth/LogInScreen/LoginEmailScreen/LoginEmailController.dart';
 import 'package:book_nexus/Screen/Auth/LogInScreen/LoginEmailScreen/LoginEmailScreenWrapper.dart';
 import 'package:book_nexus/Screen/Auth/SignUpScreen/SignUpController.dart';
@@ -36,11 +40,6 @@ class Pages {
         name: RouterName.signupscreen,
         page: () => const Signupscreenwrapper(),
         binding: SignupcontrollerBindings(),
-      ),
-      GetPage(
-        name: RouterName.genrePreferencesWrapper,
-        page: () => const GenrePreferencesWrapper(),
-        binding: GenrePreferencesControllerBinding(),
       ),
       GetPage(
         name: RouterName.setPasswordScreen,

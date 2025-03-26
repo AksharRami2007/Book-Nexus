@@ -26,11 +26,12 @@ class Customtextfield extends StatelessWidget {
         onChanged: onchanged,
         keyboardType: inputType,
         decoration: InputDecoration(
-          hintText: name,
+          hintText: name,suffixIcon: suffixicon,
           filled: true,
           fillColor: AppColors.white100Color,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
+            
           ),
         ),
       ),
