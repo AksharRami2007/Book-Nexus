@@ -5,6 +5,8 @@ import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/SetPasswordsScreen/S
 import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/SetPasswordsScreen/SetPasswordScreenWrapper.dart';
 import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/VerifyCodeScreen/VerifyCodeController.dart';
 import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/VerifyCodeScreen/VerifyCodeScreenWrapper.dart';
+import 'package:book_nexus/Screen/MainTab/BookDetailScreen/BookDetailController.dart';
+import 'package:book_nexus/Screen/MainTab/BookDetailScreen/BookDetailScreenWrapper.dart';
 import 'package:book_nexus/Screen/MainTab/HomeSrceen/HomeController.dart';
 import 'package:book_nexus/Screen/MainTab/HomeSrceen/HomeScreenWrapper.dart';
 import 'package:book_nexus/Screen/Auth/LogInScreen/LoginEmailScreen/LoginEmailController.dart';
@@ -19,7 +21,6 @@ import '../Screen/Auth/GenrePreferencesScreen/GenrePreferencesController.dart';
 import '../Screen/Auth/GenrePreferencesScreen/GenrePreferencesScreenWrapper.dart';
 import '../Screen/Auth/LogInScreen/LoginPasswordScreen/LoginPasswordController.dart';
 import '../Screen/Auth/LogInScreen/LoginPasswordScreen/LoginPasswordScreenWrapper.dart';
-import '../Screen/MainTab/NavBar/NavBArWrapper.dart';
 
 class Pages {
   static List<GetPage> pages() {
@@ -56,13 +57,17 @@ class Pages {
       ),
       GetPage(
         name: RouterName.genrePreferencesScreen,
-        page: () => GenrePreferencesScreenWrapper(),
+        page: () => const GenrePreferencesScreenWrapper(),
         binding: GenrePreferencesControllerBinding(),
       ),
       GetPage(
-        name: RouterName.homeScreen,
-        page: () => Navbarwrapper(),
-        binding: HomeControllerBindings(),
+        name: RouterName.homescreen,
+        page: () => const Homescreenwrapper(),
+        binding: HomecontrollerBindings(),
+      ),GetPage(
+        name: RouterName.bookdetailscreen,
+        page: () => const Bookdetailscreenwrapper(),
+        binding: BookdetailcontrollerBindings(),
       ),
     ];
   }

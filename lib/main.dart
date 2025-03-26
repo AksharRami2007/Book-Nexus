@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
             appBarTheme: AppBarTheme(
               backgroundColor: AppColors.white100Color,
             ),
-            fontFamily: AppFonts.family2Regular,
+            fontFamily: Appfonts.family2Regular,
             useMaterial3: true),
         darkTheme: ThemeData(
           brightness: Brightness.dark,
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         locale: initialLocale,
         translations: null,
         fallbackLocale: const Locale('en', 'US'),
-        initialRoute: RouterName.homeScreen,
+        initialRoute: RouterName.bookdetailscreen,
         debugShowCheckedModeBanner: false,
         getPages: Pages.pages(),
       );

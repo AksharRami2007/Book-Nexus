@@ -6,5 +6,9 @@ class AppImages {
   static const String profilePic = 'assets/images/ProfilePic.png';
   static const String checked = 'assets/images/Checked.png';
   static const String outlineAdd = 'assets/images/OutlineAdd.png';
- 
+  static const String bookcover = 'assets/images/Bookcover.png';
+  static const String read = 'assets/images/Read.png';
+  static const String headphone = 'assets/images/Headphone.png';
+  static const String bulb = 'assets/images/Bulb.png';
+  static const String clock = 'assets/images/Clock.png';
 }
