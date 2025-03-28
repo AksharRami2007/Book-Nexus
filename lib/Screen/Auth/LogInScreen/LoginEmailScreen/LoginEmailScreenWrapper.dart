@@ -38,7 +38,7 @@ class LoginEmailScreenWrapper extends BaseView<LoginEmailController> {
           Custombutton(
             name: 'Continue',
             onclick: () {
-              Get.toNamed(RouterName.homeScreen);
+              Get.toNamed(RouterName.homescreen);
             },
           ),
           SizedBox(

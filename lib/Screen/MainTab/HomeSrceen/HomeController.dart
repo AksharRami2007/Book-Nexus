@@ -15,7 +15,10 @@ class HomeController extends BaseController {
   var isKeyboardVisible = false.obs;
   var trendingBooks = <Map<String, dynamic>>[].obs;
   var forYouBooks = <Map<String, dynamic>>[].obs;
-  var popularBooks = <Map<String, dynamic>>[].obs;
+  var fictionBooks = <Map<String, dynamic>>[].obs;
+  var scifiBooks = <Map<String, dynamic>>[].obs;
+  var thrillerBooks = <Map<String, dynamic>>[].obs;
+  var romanceBooks = <Map<String, dynamic>>[].obs;
 
   final BookApiService _bookApiService = BookApiService();
 
@@ -41,10 +44,31 @@ class HomeController extends BaseController {
     }
   }
 
-  Future<void> fetchPopularBooks() async {
-    var books = await _bookApiService.getPopularBooks();
+  Future<void> fetchFictionBooks() async {
+    var books = await _bookApiService.getFictionBooks();
     if (books != null) {
-      popularBooks.assignAll(books);
+      fictionBooks.assignAll(books);
+    }
+  }
+
+  Future<void> fetchSciFiBooks() async {
+    var books = await _bookApiService.getSciFiBooks();
+    if (books != null) {
+      scifiBooks.assignAll(books);
+    }
+  }
+
+  Future<void> fetchThrillerBooks() async {
+    var books = await _bookApiService.getThrillerBooks();
+    if (books != null) {
+      thrillerBooks.assignAll(books);
+    }
+  }
+
+  Future<void> fetchRomanceBooks() async {
+    var books = await _bookApiService.getRomanceBooks();
+    if (books != null) {
+      romanceBooks.assignAll(books);
     }
   }
 
@@ -52,7 +76,10 @@ class HomeController extends BaseController {
   void onInit() {
     fetchTrendingBooks();
     fetchForYouBooks();
-    fetchPopularBooks();
+    fetchFictionBooks();
+    fetchSciFiBooks();
+    fetchThrillerBooks();
+    fetchRomanceBooks();
     super.onInit();
   }
 }

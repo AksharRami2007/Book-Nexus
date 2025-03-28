@@ -3,56 +3,68 @@ import 'package:shimmer/shimmer.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../MainTab/BookDetailScreen/BookDetailController.dart';
+import '../../MainTab/BookDetailScreen/BookDetailScreenWrapper.dart';
+import '../BookShimmer/BookShimmer.dart';
 import '../CustomBookContainer/CustomBookContainer.dart';
+import '../SeeMoreRow/SeeMoreRow.dart';
 
-class ForYouBookList extends StatelessWidget {
+class BuildRowBookList extends StatelessWidget {
   final List<Map<String, dynamic>> books;
-  final Widget Function(String title) buildRow;
+  final String title;
 
-  const ForYouBookList({
+  const BuildRowBookList({
     super.key,
     required this.books,
-    required this.buildRow,
+    required this.title,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        buildRow('For You'),
-        SizedBox(height: 1.h),
-        books.isEmpty
-            ? const BookListShimmer()
-            : SizedBox(
-                height: 40.h,
-                child: ListView.builder(
-                  padding: EdgeInsets.symmetric(vertical: 2.h),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: books.length,
-                  itemBuilder: (context, index) {
-                    var book = books[index];
+    return Obx(() => Column(
+          children: [
+            SeeMoreRow(title: title),
+            SizedBox(height: 1.h),
+            books.isEmpty
+                ? const BookListShimmer()
+                : SizedBox(
+                    height: 40.h,
+                    child: ListView.builder(
+                      padding: EdgeInsets.symmetric(vertical: 2.h),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 5,
+                      itemBuilder: (context, index) {
+                        var book = books[index];
 
-                    return GestureDetector(
-                      onTap: () {
-                        // Get.to(() => BookDetailsScreen(book: book));
+                        return GestureDetector(
+                          onTap: () {
+                            Get.to( 
+                              () => Bookdetailscreenwrapper(
+                                bookTitle: book['title'],
+                                categories: book['categories'],
+                              ),
+                              binding: BookdetailcontrollerBindings(),
+                              arguments: {
+                                'bookTitle': book['title'],
+                                'categories': book['categories'],
+                              },
+                            );
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.only(right: 2.h),
+                            child: BookContainer(
+                              image: book['imageLinks']['thumbnail'],
+                              bookName: book['title'] ?? 'No Title',
+                              authorsName:
+                                  (book['authors'] as List?)?.join(', ') ??
+                                      'Unknown Author',
+                            ),
+                          ),
+                        );
                       },
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 2.h),
-                        child: BookContainer(
-                          image: book['cover_i'] != null
-                              ? 'https://covers.openlibrary.org/b/id/${book['cover_i']}-M.jpg'
-                              : 'assets/images/book_placeholder.png',
-                          bookName: book['title'] ?? 'No Title',
-                          authorsName:
-                              (book['author_name'] as List?)?.join(', ') ??
-                                  'Unknown Author',
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-      ],
-    );
+                    ),
+                  ),
+          ],
+        ));
   }
 }
