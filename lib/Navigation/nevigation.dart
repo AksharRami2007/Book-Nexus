@@ -5,6 +5,8 @@ import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/SetPasswordsScreen/S
 import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/SetPasswordsScreen/SetPasswordScreenWrapper.dart';
 import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/VerifyCodeScreen/VerifyCodeController.dart';
 import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/VerifyCodeScreen/VerifyCodeScreenWrapper.dart';
+import 'package:book_nexus/Screen/MainTab/AccountScreen/AccountController.dart';
+import 'package:book_nexus/Screen/MainTab/AccountScreen/AccountScreenWrapper.dart';
 import 'package:book_nexus/Screen/MainTab/BookDetailScreen/BookDetailController.dart';
 import 'package:book_nexus/Screen/MainTab/BookDetailScreen/BookDetailScreenWrapper.dart';
 import 'package:book_nexus/Screen/MainTab/HomeSrceen/HomeController.dart';
@@ -13,6 +15,13 @@ import 'package:book_nexus/Screen/Auth/LogInScreen/LoginEmailScreen/LoginEmailCo
 import 'package:book_nexus/Screen/Auth/LogInScreen/LoginEmailScreen/LoginEmailScreenWrapper.dart';
 import 'package:book_nexus/Screen/Auth/SignUpScreen/SignUpController.dart';
 import 'package:book_nexus/Screen/Auth/SignUpScreen/SignUpScreenWrapper.dart';
+import 'package:book_nexus/Screen/MainTab/MyLibraryScreen/MyLibraryController.dart';
+import 'package:book_nexus/Screen/MainTab/MyLibraryScreen/MyLibraryScreenWrapper.dart';
+import 'package:book_nexus/Screen/MainTab/NavBar/NavBArWrapper.dart';
+import 'package:book_nexus/Screen/MainTab/ProfileDetailScreen/ProfileDetailController.dart';
+import 'package:book_nexus/Screen/MainTab/ProfileDetailScreen/ProfileDetailScreenWrapper.dart';
+import 'package:book_nexus/Screen/MainTab/SeeMoreScreen/SeeMoreController.dart';
+import 'package:book_nexus/Screen/MainTab/SeeMoreScreen/SeeMoreScreenWrapper.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
 import '../Screen/Auth/ForgotPasswordScreen/SetPasswordsScreen/SetPasswordController.dart';
@@ -21,7 +30,6 @@ import '../Screen/Auth/GenrePreferencesScreen/GenrePreferencesController.dart';
 import '../Screen/Auth/GenrePreferencesScreen/GenrePreferencesScreenWrapper.dart';
 import '../Screen/Auth/LogInScreen/LoginPasswordScreen/LoginPasswordController.dart';
 import '../Screen/Auth/LogInScreen/LoginPasswordScreen/LoginPasswordScreenWrapper.dart';
-import '../Screen/MainTab/NavBar/NavBArWrapper.dart';
 
 class Pages {
   static List<GetPage> pages() {
@@ -65,6 +73,26 @@ class Pages {
         name: RouterName.homescreen,
         page: () => const Navbarwrapper(),
         binding: HomeControllerBindings(),
+      ),
+      GetPage(
+        name: RouterName.bookdetailscreen,
+        page: () => const Bookdetailscreenwrapper(),
+        binding: BookdetailcontrollerBindings(),
+      ),
+      GetPage(
+        name: RouterName.accountScreen,
+        page: () => const Accountscreenwrapper(),
+        binding: AccountcontrollerBindings(),
+      ),
+      GetPage(
+        name: RouterName.myLibraryScreen,
+        page: () => const Mylibraryscreenwrapper(),
+        binding: MylibrarycontrollerBindings(),
+      ),
+      GetPage(
+        name: RouterName.seeMoreScreenWrapper,
+        page: () => const Seemorescreenwrapper(),
+        binding: SeemorecontrollerBindings(),
       ),
     ];
   }
