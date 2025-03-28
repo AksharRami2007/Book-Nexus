@@ -11,4 +11,16 @@ class AppImages {
   static const String headphone = 'assets/images/Headphone.png';
   static const String bulb = 'assets/images/Bulb.png';
   static const String clock = 'assets/images/Clock.png';
+  static const String home = 'assets/images/Home.png';
+  static const String explore = 'assets/images/Explore.png';
+  static const String library = 'assets/images/Library.png';
+  static const String curve = 'assets/images/Curv.png';
+  static const String bookName = 'assets/images/BookName.png';
+  static const String rightSideArrow = 'assets/images/RightSideArrow.png';
+  static const String line = 'assets/images/Line.png';
+  static const String fAQs = 'assets/images/FAQs.png';
+  static const String profile = 'assets/images/Profile.png';
+  static const String logout = 'assets/images/Logout.png';
+  static const String upload = 'assets/images/Upload.png';
+  static const String bookmark = 'assets/images/Bookmark.webp';
 }

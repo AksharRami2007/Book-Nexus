@@ -75,11 +75,6 @@ class Pages {
         binding: HomeControllerBindings(),
       ),
       GetPage(
-        name: RouterName.bookdetailscreen,
-        page: () => const Bookdetailscreenwrapper(),
-        binding: BookdetailcontrollerBindings(),
-      ),
-      GetPage(
         name: RouterName.accountScreen,
         page: () => const Accountscreenwrapper(),
         binding: AccountcontrollerBindings(),

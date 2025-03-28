@@ -3,6 +3,9 @@ import 'package:shimmer/shimmer.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../MainTab/BookDetailScreen/BookDetailController.dart';
+import '../../MainTab/BookDetailScreen/BookDetailScreenWrapper.dart';
+import '../BookShimmer/BookShimmer.dart';
 import '../CustomBookContainer/CustomBookContainer.dart';
 import '../SeeMoreRow/SeeMoreRow.dart';
 
