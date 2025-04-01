@@ -11,6 +11,8 @@ import 'package:book_nexus/Screen/MainTab/AudioPlayerScreen/AudioPlayerControlle
 import 'package:book_nexus/Screen/MainTab/AudioPlayerScreen/AudioPlayerScreenWrapper.dart';
 import 'package:book_nexus/Screen/MainTab/BookDetailScreen/BookDetailController.dart';
 import 'package:book_nexus/Screen/MainTab/BookDetailScreen/BookDetailScreenWrapper.dart';
+import 'package:book_nexus/Screen/MainTab/BookReaderScreen/BookReaderController.dart';
+import 'package:book_nexus/Screen/MainTab/BookReaderScreen/BookReaderScreenWrapper.dart';
 import 'package:book_nexus/Screen/MainTab/HomeSrceen/HomeController.dart';
 import 'package:book_nexus/Screen/MainTab/HomeSrceen/HomeScreenWrapper.dart';
 import 'package:book_nexus/Screen/Auth/LogInScreen/LoginEmailScreen/LoginEmailController.dart';
@@ -26,8 +28,6 @@ import 'package:book_nexus/Screen/MainTab/SeeMoreScreen/SeeMoreController.dart';
 import 'package:book_nexus/Screen/MainTab/SeeMoreScreen/SeeMoreScreenWrapper.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
-import '../Screen/Auth/ForgotPasswordScreen/SetPasswordsScreen/SetPasswordController.dart';
-import '../Screen/Auth/ForgotPasswordScreen/SetPasswordsScreen/SetPasswordScreenWrapper.dart';
 import '../Screen/Auth/GenrePreferencesScreen/GenrePreferencesController.dart';
 import '../Screen/Auth/GenrePreferencesScreen/GenrePreferencesScreenWrapper.dart';
 import '../Screen/Auth/LogInScreen/LoginPasswordScreen/LoginPasswordController.dart';
@@ -83,18 +83,24 @@ class Pages {
       ),
       GetPage(
         name: RouterName.myLibraryScreen,
-        page: () => const Mylibraryscreenwrapper(),
+        page: () => const MyLibraryScreenWrapper(),
         binding: MylibrarycontrollerBindings(),
       ),
-      GetPage(
-        name: RouterName.seeMoreScreen,
+      // GetPage(
+        // name: RouterName.seeMoreScreen,
         page: () => const Seemorescreenwrapper(),
         binding: SeemorecontrollerBindings(),
       ),
       GetPage(
+<<<<<<< Updated upstream
         name: RouterName.audioPlayerScreen,
         page: () => const Audioplayerscreenwrapper(),
         binding: AudioplayercontrollerBindings(),
+// =======
+        // name: RouterName.bookReaderScreenWrapper,
+        page: () => const BookReaderScreenWrapper(),
+        binding: BookReaderControllerBindings(),
+>>>>>>> Stashed changes
       ),
     ];
   }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../Constant/assets.dart';
 import '../../../Constant/colors.dart';
 import '../../../Constant/font_family.dart';
+import '../../../Navigation/routername.dart';
 
 class SeeMoreRow extends StatelessWidget {
   final String title;
@@ -34,7 +36,11 @@ class SeeMoreRow extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(top: 0.7.h),
           child: GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Get.toNamed(RouterName.seeMoreScreenWrapper, arguments: {
+                'category': title,
+              });
+            },
             child: Text(
               'See All',
               style: TextStyle(

@@ -8,6 +8,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:get/get.dart';
+
+
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -23,9 +25,7 @@ class Bookdetailscreenwrapper extends BaseView<BookDetailController> {
 
   @override
   Widget vBuilder(BuildContext context) {
-    if (controller.bookTitle == null) {
-      controller.setBookTitle(bookTitle);
-    }
+    
     return SafeArea(
       child: Scaffold(
           backgroundColor: Colors.black,
@@ -45,6 +45,17 @@ class Bookdetailscreenwrapper extends BaseView<BookDetailController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 2.h),
+                      child: GestureDetector(
+                        onTap: () => Get.back(),
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          size: 3.h,
+                          color: AppColors.white100Color,
+                        ),
+                      ),
+                    ),
                     Stack(
                       children: [
                         Container(
@@ -173,22 +184,24 @@ class Bookdetailscreenwrapper extends BaseView<BookDetailController> {
   }
 
   Widget buildTextRow(String image, String title) {
-    return Row(children: [
-      Image.asset(
-        image,
-        height: 2.5.h,
-      ),
-      SizedBox(
-        width: 2.w,
-      ),
-      Text(
-        title,
-        style: TextStyle(
-            fontSize: 16.sp,
-            color: AppColors.white100Color,
-            fontWeight: FontWeight.bold),
-      )
-    ]);
+    return Row(
+      children: [
+        Image.asset(
+          image,
+          height: 2.5.h,
+        ),
+        SizedBox(
+          width: 2.w,
+        ),
+        Text(
+          title,
+          style: TextStyle(
+              fontSize: 16.sp,
+              color: AppColors.white100Color,
+              fontWeight: FontWeight.bold),
+        ),
+      ],
+    );
   }
 
   Widget buildTitleRow() {

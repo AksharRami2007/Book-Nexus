@@ -1,3 +1,4 @@
+import 'package:book_nexus/Navigation/routername.dart';
 import 'package:book_nexus/Screen/Basecontroller/basecontroller.dart';
 import 'package:book_nexus/model/ApiService/BookApiService.dart';
 import 'package:get/get.dart';
@@ -18,24 +19,23 @@ class BookDetailController extends BaseController {
   String? bookTitle;
   List<String>? categories;
 
-  void setBookTitle(String title, {List<String>? categoryList}) {
-    bookTitle = title;
+  void setBookDetails(Map<String, dynamic> details,
+      {List<String>? categoryList}) {
+    bookData.value = details;
+    bookTitle = details['title'];
     categories = categoryList;
-    fetchBookDetails(title);
-
-    print("Fetching similar books for categories: $categories");
 
     if (categories != null && categories!.isNotEmpty) {
-      fetchBooksByCategory(categoryList);
+      fetchBooksByCategory(categories);
     }
   }
 
-  void openWebReader(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      print("Could not open the link.");
-    }
+  void openWebReader(String url) {
+    Get.toNamed(RouterName.bookReaderScreenWrapper, arguments: {
+      'bookUrl': url,
+      'bookTitle': bookData['title'] ?? 'Book Reader',
+      'bookDetails': bookData.value
+    });
   }
 
   void setCategories(List<String> bookCategories) {
@@ -82,11 +82,32 @@ class BookDetailController extends BaseController {
   void onInit() {
     super.onInit();
     if (Get.arguments != null) {
-      if (Get.arguments['bookTitle'] != null) {
-        setBookTitle(Get.arguments['bookTitle']);
-      }
-      if (Get.arguments['categories'] != null) {
-        setCategories(List<String>.from(Get.arguments['categories']));
+      if (Get.arguments['bookDetails'] != null) {
+        // Use book details directly from arguments
+        Map<String, dynamic> details = Get.arguments['bookDetails'];
+        List<String>? cats;
+
+        if (Get.arguments['categories'] != null) {
+          cats = List<String>.from(Get.arguments['categories']);
+        }
+
+        setBookDetails(details, categoryList: cats);
+      } else if (Get.arguments['bookTitle'] != null) {
+        // Fallback to fetching by title if only title is provided
+        String title = Get.arguments['bookTitle'];
+        List<String>? cats;
+
+        if (Get.arguments['categories'] != null) {
+          cats = List<String>.from(Get.arguments['categories']);
+        }
+
+        fetchBookDetails(title);
+        bookTitle = title;
+        categories = cats;
+
+        if (categories != null && categories!.isNotEmpty) {
+          fetchBooksByCategory(categories);
+        }
       }
     }
   }

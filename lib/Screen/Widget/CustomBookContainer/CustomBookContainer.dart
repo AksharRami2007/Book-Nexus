@@ -78,25 +78,4 @@ class BookContainer extends StatelessWidget {
     );
   }
 
-  // Widget buildRow() {
-  //   return Row(
-  //     children: [
-  //       Icon(
-  //         Icons.headphones,
-  //         color: AppColors.white100Color,
-  //         size: 2.h,
-  //       ),
-  //       SizedBox(width: 1.w),
-  //       if (audioLength.isNotEmpty)
-  //         Text(
-  //           '$audioLength/m',
-  //           style: TextStyle(
-  //             color: AppColors.white100Color,
-  //             fontSize: 16.sp,
-  //             fontWeight: FontWeight.w500,
-  //           ),
-  //         ),
-  //     ],
-  //   );
-  // }
 }

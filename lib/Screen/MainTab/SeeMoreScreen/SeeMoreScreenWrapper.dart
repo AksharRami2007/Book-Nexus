@@ -1,5 +1,7 @@
 import 'package:book_nexus/Constant/colors.dart';
 import 'package:book_nexus/Screen/Basecontroller/basecontroller.dart';
+import 'package:book_nexus/Screen/MainTab/BookDetailScreen/BookDetailController.dart';
+import 'package:book_nexus/Screen/MainTab/BookDetailScreen/BookDetailScreenWrapper.dart';
 import 'package:book_nexus/Screen/MainTab/SeeMoreScreen/SeeMoreController.dart';
 import 'package:book_nexus/Screen/Widget/CustomBookContainer/CustomBookContainer.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,46 +24,68 @@ class Seemorescreenwrapper extends BaseView<Seemorecontroller> {
             CupertinoSliverNavigationBar(
               backgroundColor: AppColors.black,
               largeTitle: Text(
-                'Fiction',
+                controller.category.value,
                 style: TextStyle(
                     fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
                     color: AppColors.white100Color),
               ),
-              leading: Icon(
-                Icons.arrow_back_ios,
-                size: 3.h,
-                color: AppColors.white100Color,
+              leading: GestureDetector(
+                onTap: () => Get.back(),
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  size: 3.h,
+                  color: AppColors.white100Color,
+                ),
               ),
             )
           ],
           body: SizedBox(
             height: 500.h,
+            
             child: Obx(() {
-              if (controller.fiction.isEmpty) {
+              if (controller.books.isEmpty) {
                 return buildShimmerEffect();
               }
               return GridView.builder(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 2.w,
                   childAspectRatio: 0.6,
                   mainAxisSpacing: 2.h,
                 ),
-                itemCount: controller.fiction.length,
+                itemCount: controller.books.length,
                 itemBuilder: (BuildContext context, int index) {
-                  var book = controller.fiction[index];
+                  var book = controller.books[index];
                   return Padding(
                     padding: EdgeInsets.only(left: 6.w),
-                    child: BookContainer(
-                      image: book['cover_i'] != null
-                          ? 'https://covers.openlibrary.org/b/id/${book['cover_i']}-M.jpg'
-                          : 'assets/images/book_placeholder.png',
-                      bookName: book['title'] ?? 'No Title',
-                      authorsName: (book['author_name'] as List?)?.join(', ') ??
-                          'Unknown Author',
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.to(
+                          () => Bookdetailscreenwrapper(
+                            bookTitle: book['title'],
+                            categories: book['categories'],
+                          ),
+                          binding: BookdetailcontrollerBindings(),
+                          arguments: {
+                            'bookDetails': book,
+                            'categories': book['categories'],
+                          },
+                        );
+                      },
+                      child: BookContainer(
+                        image: book['imageLinks'] != null &&
+                                book['imageLinks']['thumbnail'] != null &&
+                                book['imageLinks']['thumbnail']
+                                    .toString()
+                                    .isNotEmpty
+                            ? book['imageLinks']['thumbnail']
+                            : 'assets/images/book_placeholder.png',
+                        bookName: book['title'] ?? 'No Title',
+                        authorsName: (book['authors'] as List?)?.join(', ') ??
+                            'Unknown Author',
+                      ),
                     ),
                   );
                 },
@@ -80,7 +104,7 @@ Widget buildShimmerEffect() {
     child: ListView.builder(
       padding: EdgeInsets.symmetric(vertical: 2.h),
       scrollDirection: Axis.vertical,
-      itemCount: 5, // Show 5 shimmer placeholders
+      itemCount: 5,
       itemBuilder: (context, index) {
         return Padding(
           padding: EdgeInsets.only(right: 2.h),

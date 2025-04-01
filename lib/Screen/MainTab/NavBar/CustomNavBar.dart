@@ -98,14 +98,15 @@ class _CustomNavBarState extends State<CustomNavBar> {
               ),
               Text(
                 title,
-                style: TextStyle(color: isSelected ? AppColors.green :  Colors.grey),
+                style: TextStyle(
+                    color: isSelected ? AppColors.green : Colors.grey),
               ),
               if (isSelected)
                 Container(
                   height: 0.5.h,
                   width: 6.w,
                   decoration: BoxDecoration(
-                    color: Colors.blueAccent,
+                    color: AppColors.green,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),

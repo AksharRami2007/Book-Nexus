@@ -3,6 +3,9 @@ import 'package:book_nexus/model/ApiService/BookApiService.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../ExploreScreen/ExploreController.dart';
+import '../MyLibraryScreen/MyLibraryController.dart';
+
 class HomeControllerBindings implements Bindings {
   @override
   void dependencies() {
@@ -14,6 +17,7 @@ class HomeController extends BaseController {
   var selectedIndex = 0.obs;
   var isKeyboardVisible = false.obs;
   var trendingBooks = <Map<String, dynamic>>[].obs;
+  var recentArrive = <Map<String, dynamic>>[].obs;
   var forYouBooks = <Map<String, dynamic>>[].obs;
   var fictionBooks = <Map<String, dynamic>>[].obs;
   var scifiBooks = <Map<String, dynamic>>[].obs;
@@ -28,6 +32,13 @@ class HomeController extends BaseController {
 
   void changeIndex(int index) {
     selectedIndex.value = index;
+  }
+
+  Future<void> fetchRecentArrivesBooks() async {
+    var books = await _bookApiService.getRecentArrivals();
+    if (books != null) {
+      recentArrive.assignAll(books);
+    }
   }
 
   Future<void> fetchTrendingBooks() async {
@@ -72,6 +83,17 @@ class HomeController extends BaseController {
     }
   }
 
+  String getGreeting() {
+    int hour = DateTime.now().hour;
+    if (hour < 12) {
+      return "Good Morning";
+    } else if (hour < 18) {
+      return "Good Afternoon";
+    } else {
+      return "Good Evening";
+    }
+  }
+
   @override
   void onInit() {
     fetchTrendingBooks();
@@ -80,6 +102,10 @@ class HomeController extends BaseController {
     fetchSciFiBooks();
     fetchThrillerBooks();
     fetchRomanceBooks();
+    fetchRecentArrivesBooks();
     super.onInit();
+
+    Get.lazyPut(() => MyLibraryController());
+    Get.lazyPut(() => ExploreController());
   }
 }
