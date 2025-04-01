@@ -14,6 +14,8 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../Widget/BuildRowList/buildRowList.dart';
 
 class Bookdetailscreenwrapper extends BaseView<BookDetailController> {
+
+  
   final String bookTitle;
   final List<String>? categories;
   const Bookdetailscreenwrapper(
