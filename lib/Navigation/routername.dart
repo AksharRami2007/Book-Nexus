@@ -11,6 +11,7 @@ class RouterName {
   static const String accountScreen = '/Accountscreenwrapper';
   static const String profileDetailScreen = '/Profiledetailscreenwrapper';
   static const String myLibraryScreen = '/Mylibraryscreenwrapper';
-  static const String seeMoreScreenWrapper = '/Seemorescreenwrapper';
+  static const String seeMoreScreen = '/Seemorescreenwrapper';
+  static const String audioPlayerScreen = '/Audioplayerscreenwrapper';
   
 }

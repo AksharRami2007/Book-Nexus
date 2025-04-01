@@ -7,6 +7,8 @@ import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/VerifyCodeScreen/Ver
 import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/VerifyCodeScreen/VerifyCodeScreenWrapper.dart';
 import 'package:book_nexus/Screen/MainTab/AccountScreen/AccountController.dart';
 import 'package:book_nexus/Screen/MainTab/AccountScreen/AccountScreenWrapper.dart';
+import 'package:book_nexus/Screen/MainTab/AudioPlayerScreen/AudioPlayerController.dart';
+import 'package:book_nexus/Screen/MainTab/AudioPlayerScreen/AudioPlayerScreenWrapper.dart';
 import 'package:book_nexus/Screen/MainTab/BookDetailScreen/BookDetailController.dart';
 import 'package:book_nexus/Screen/MainTab/BookDetailScreen/BookDetailScreenWrapper.dart';
 import 'package:book_nexus/Screen/MainTab/HomeSrceen/HomeController.dart';
@@ -85,9 +87,14 @@ class Pages {
         binding: MylibrarycontrollerBindings(),
       ),
       GetPage(
-        name: RouterName.seeMoreScreenWrapper,
+        name: RouterName.seeMoreScreen,
         page: () => const Seemorescreenwrapper(),
         binding: SeemorecontrollerBindings(),
+      ),
+      GetPage(
+        name: RouterName.audioPlayerScreen,
+        page: () => const Audioplayerscreenwrapper(),
+        binding: AudioplayercontrollerBindings(),
       ),
     ];
   }
