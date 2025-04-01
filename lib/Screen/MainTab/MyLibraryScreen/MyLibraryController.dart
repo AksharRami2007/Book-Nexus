@@ -5,17 +5,17 @@ import 'package:get/get.dart';
 class MylibrarycontrollerBindings implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => Mylibrarycontroller());
+    Get.lazyPut(() => MyLibraryController());
   }
 }
 
-class Mylibrarycontroller extends BaseController {
+class MyLibraryController extends BaseController {
   var library = <Map<String, dynamic>>[].obs;
 
   final BookApiService _bookApiService = BookApiService();
 
   Future<void> fetchlibrary() async {
-    var books = await _bookApiService.getTrendingBooks();
+    var books = await _bookApiService.getRandomBooks();
     if (books != null) {
       library.assignAll(books);
     }

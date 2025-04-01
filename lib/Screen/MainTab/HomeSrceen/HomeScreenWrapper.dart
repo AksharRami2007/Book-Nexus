@@ -1,5 +1,6 @@
 import 'package:book_nexus/Constant/assets.dart';
 import 'package:book_nexus/Constant/colors.dart';
+import 'package:book_nexus/Navigation/routername.dart';
 import 'package:book_nexus/Screen/MainTab/HomeSrceen/HomeController.dart';
 import 'package:book_nexus/Screen/Basecontroller/basecontroller.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,8 @@ class HomeScreenWrapper extends BaseView<HomeController> {
                 SizedBox(height: 2.h),
                 buildForYouBookList(),
                 SizedBox(height: 2.h),
+                buildRecentArrivesBookList(),
+                SizedBox(height: 2.h),
                 buildTrendingBookList(),
                 SizedBox(height: 2.h),
                 buildPopularBookList(),
@@ -43,6 +46,13 @@ class HomeScreenWrapper extends BaseView<HomeController> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildRecentArrivesBookList() {
+    return BuildRowBookList(
+      title: 'Recent Arrive',
+      books: controller.recentArrive,
     );
   }
 
@@ -97,7 +107,7 @@ class HomeScreenWrapper extends BaseView<HomeController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Good Afternoon',
+              controller.getGreeting(),
               style: TextStyle(
                 fontSize: 20.sp,
                 fontWeight: FontWeight.bold,
@@ -107,9 +117,14 @@ class HomeScreenWrapper extends BaseView<HomeController> {
             Image.asset(AppImages.curve, width: 15.w),
           ],
         ),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(30),
-          child: Image.asset(AppImages.profilePic, height: 6.h),
+        GestureDetector(
+          onTap: () {
+            Get.toNamed(RouterName.accountScreen);
+          },
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(30),
+            child: Image.asset(AppImages.profilePic, height: 6.h),
+          ),
         ),
       ],
     );

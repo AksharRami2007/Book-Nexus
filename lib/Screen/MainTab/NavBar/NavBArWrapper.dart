@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../HomeSrceen/HomeController.dart';
 import '../HomeSrceen/HomeScreenWrapper.dart';
+import '../ExploreScreen/ExploreScreenWrapper.dart';
+import '../MyLibraryScreen/MyLibraryScreenWrapper.dart';
 import 'CustomNavBar.dart';
 
 class Navbarwrapper extends StatefulWidget {
@@ -16,6 +18,8 @@ class _NavbarwrapperState extends State<Navbarwrapper> {
 
   final List<Widget> _screens = [
     const HomeScreenWrapper(),
+    const ExploreScreenWrapper(),
+    const MyLibraryScreenWrapper(),
   ];
 
   @override

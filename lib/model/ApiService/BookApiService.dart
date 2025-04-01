@@ -4,10 +4,10 @@ import 'package:dio/dio.dart';
 class BookApiService {
   final Dio _dio = Dio();
   final int maxRetries = 3;
-  final int maxBooks = 30;
+  final int maxBooks = 300;
   final String apiKey = 'AIzaSyAVkjmx50m8eN1Fo6rB53RQPP-qZw6TMog';
   final String baseUrl = 'https://www.googleapis.com/books/v1/volumes';
-  final String downloadUrl = '&download=epub';
+  // final String downloadUrl = '&download=epub';
 
   Future<Response?> _fetchWithRetry(String url, {int retries = 3}) async {
     for (int i = 0; i < retries; i++) {
@@ -23,8 +23,7 @@ class BookApiService {
   }
 
   Future<List<Map<String, dynamic>>?> getTrendingBooks() async {
-    final url =
-        '$baseUrl?q=subject:thriller$downloadUrl&orderBy=newest&key=$apiKey';
+    final url = '$baseUrl?q=subject:thriller&orderBy=newest&key=$apiKey';
     final response = await _fetchWithRetry(url);
 
     if (response != null && response.data['items'] != null) {
@@ -33,9 +32,20 @@ class BookApiService {
     return null;
   }
 
+  Future<List<Map<String, dynamic>>?> getRecentArrivals({int count = 5}) async {
+    final url = '$baseUrl?q=*&orderBy=newest&key=$apiKey';
+    final response = await _fetchWithRetry(url);
+
+    if (response != null && response.data['items'] != null) {
+      List<Map<String, dynamic>> books =
+          _extractBookData(response.data['items']);
+      return books.take(min(count, maxBooks)).toList();
+    }
+    return null;
+  }
+
   Future<List<Map<String, dynamic>>?> getRandomBooks({int count = 5}) async {
-    final url =
-        '$baseUrl?q=subject:fiction$downloadUrl&orderBy=relevance&key=$apiKey';
+    final url = '$baseUrl?q=subject:fiction&orderBy=relevance&key=$apiKey';
     final response = await _fetchWithRetry(url);
 
     if (response != null && response.data['items'] != null) {
@@ -48,8 +58,7 @@ class BookApiService {
   }
 
   Future<List<Map<String, dynamic>>?> getFictionBooks({int count = 5}) async {
-    final url =
-        '$baseUrl?q=subject:fiction$downloadUrl&orderBy=relevance&key=$apiKey';
+    final url = '$baseUrl?q=subject:fiction&orderBy=relevance&key=$apiKey';
     final response = await _fetchWithRetry(url);
 
     if (response != null && response.data['items'] != null) {
@@ -62,7 +71,7 @@ class BookApiService {
 
   Future<List<Map<String, dynamic>>?> getSciFiBooks({int count = 5}) async {
     final url =
-        '$baseUrl?q=subject:science_fiction$downloadUrl&orderBy=relevance&key=$apiKey';
+        '$baseUrl?q=subject:science_fiction&orderBy=relevance&key=$apiKey';
     final response = await _fetchWithRetry(url);
 
     if (response != null && response.data['items'] != null) {
@@ -74,8 +83,7 @@ class BookApiService {
   }
 
   Future<List<Map<String, dynamic>>?> getThrillerBooks({int count = 5}) async {
-    final url =
-        '$baseUrl?q=subject:thriller$downloadUrl&orderBy=relevance&key=$apiKey';
+    final url = '$baseUrl?q=subject:thriller&orderBy=relevance&key=$apiKey';
     final response = await _fetchWithRetry(url);
 
     if (response != null && response.data['items'] != null) {
@@ -87,8 +95,7 @@ class BookApiService {
   }
 
   Future<List<Map<String, dynamic>>?> getRomanceBooks({int count = 5}) async {
-    final url =
-        '$baseUrl?q=subject:romance$downloadUrl&orderBy=relevance&key=$apiKey';
+    final url = '$baseUrl?q=subject:romance&orderBy=relevance&key=$apiKey';
     final response = await _fetchWithRetry(url);
 
     if (response != null && response.data['items'] != null) {
@@ -118,15 +125,32 @@ class BookApiService {
   Future<List<Map<String, dynamic>>?> getBooksByCategory(
       String category) async {
     try {
-      final encodedCategory = Uri.encodeComponent(category);
+      String queryCategory = category.toLowerCase();
+
+      if (queryCategory == 'sci-fi') {
+        queryCategory = 'science_fiction';
+      } else if (queryCategory == 'for you') {
+        return await getRandomBooks(count: 20);
+      } else if (queryCategory == 'trending') {
+        return await getTrendingBooks();
+      }
+
+      final encodedCategory = Uri.encodeComponent(queryCategory);
       final url =
-          '$baseUrl?q=subject:$encodedCategory$downloadUrl&orderBy=relevance&key=$apiKey';
+          '$baseUrl?q=subject:$encodedCategory&orderBy=relevance&maxResults=20&key=$apiKey';
+
+      print('Fetching books for category: $category with URL: $url');
+
       final response = await _fetchWithRetry(url);
 
       if (response != null && response.data['items'] != null) {
+        print(
+            'Found ${response.data['items'].length} books for category: $category');
         return response.data['items'].map<Map<String, dynamic>>((item) {
           return _extractBookDetails(item);
         }).toList();
+      } else {
+        print('No books found for category: $category');
       }
       return null;
     } catch (e) {
@@ -191,5 +215,4 @@ class BookApiService {
       }
     };
   }
-
 }

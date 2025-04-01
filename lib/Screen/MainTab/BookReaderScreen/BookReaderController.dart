@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// import 'package:webview_flutter/webview_flutter.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
+import 'package:webview_flutter/webview_flutter.dart';
 import '../../Basecontroller/basecontroller.dart';
 
 class BookReaderControllerBindings implements Bindings {
@@ -14,45 +11,80 @@ class BookReaderControllerBindings implements Bindings {
 }
 
 class BookReaderController extends BaseController {
-  // late WebViewController webViewController;
-  var bookUrl = ''.obs;
+  late final WebViewController webController;
+  final isLoading = true.obs;
+  final hasError = false.obs;
+  final errorMessage = ''.obs;
 
   @override
   void onInit() {
     super.onInit();
-    // webViewController = WebViewController()
-    //   ..setJavaScriptMode(JavaScriptMode.unrestricted);
+    webController = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageStarted: (String url) {
+            isLoading.value = true;
+            hasError.value = false;
+          },
+          onPageFinished: (String url) {
+            isLoading.value = false;
+          },
+          onWebResourceError: (WebResourceError error) {
+            isLoading.value = false;
+            hasError.value = true;
+            errorMessage.value = 'Error: ${error.description}';
+            print('WebView error: ${error.description}');
+          },
+          onNavigationRequest: (NavigationRequest request) {
+            // Allow all navigation requests
+            return NavigationDecision.navigate;
+          },
+        ),
+      )
+      ..setUserAgent(
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36')
+      ..enableZoom(true);
   }
 
-  Future<void> searchAndLoadBook(String bookTitle) async {
+  void loadBook(String url, [Map<String, dynamic>? bookDetails]) {
     try {
-      final String apiUrl = "https://gutendex.com/books/?search=$bookTitle"; // Gutenberg API
-      final response = await http.get(Uri.parse(apiUrl));
-
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-
-        if (data['results'].isNotEmpty) {
-          var book = data['results'][0];
-
-          String? readableUrl = book['formats']['text/html'];
-
-          readableUrl ??= book['formats']['text/plain'];
-
-          if (readableUrl != null) {
-            bookUrl.value = readableUrl;
-            // webViewController.loadRequest(Uri.parse(readableUrl));
-          } else {
-            Get.snackbar("Error", "No readable format found for this book.");
-          }
-        } else {
-          Get.snackbar("Error", "Book not found.");
-        }
-      } else {
-        Get.snackbar("Error", "Failed to fetch book data.");
+      // Ensure URL uses HTTPS
+      String secureUrl = url;
+      if (url.startsWith('http://')) {
+        secureUrl = url.replaceFirst('http://', 'https://');
       }
+
+      print('Loading book URL: $secureUrl');
+      if (bookDetails != null) {
+        print('Book details: ${bookDetails['title']}');
+      }
+
+      // Add additional headers for Google Books
+      webController.loadRequest(
+        Uri.parse(secureUrl),
+        headers: {
+          'Referer': 'https://books.google.com/',
+          'Origin': 'https://books.google.com'
+        },
+      );
+
+      // Execute JavaScript to check if the page loaded correctly
+      Future.delayed(const Duration(seconds: 5), () {
+        webController.runJavaScript('''
+          if (document.body.innerText.includes('not found') || 
+              document.body.innerText.includes('error') || 
+              document.body.innerText.includes('not available')) {
+            window.flutter_inappwebview.callHandler('onError', document.body.innerText);
+          }
+        ''').catchError((e) {
+          print('JavaScript error: $e');
+        });
+      });
     } catch (e) {
-      Get.snackbar("Error", "An error occurred while searching for the book.");
+      print('Error loading book URL: $e');
+      hasError.value = true;
+      errorMessage.value = 'Error loading book: $e';
     }
   }
 }
