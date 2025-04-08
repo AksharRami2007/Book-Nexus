@@ -39,6 +39,7 @@ class BuildRowBookList extends StatelessWidget {
 
                         return GestureDetector(
                           onTap: () {
+<<<<<<< Updated upstream
                             // Use addPostFrameCallback to ensure navigation happens after the current frame is built
                             WidgetsBinding.instance.addPostFrameCallback((_) {
                               // Navigate to book detail screen
@@ -54,6 +55,19 @@ class BuildRowBookList extends StatelessWidget {
                                 },
                               );
                             });
+=======
+                            Get.to(
+                              () => Bookdetailscreenwrapper(
+                                bookTitle: book['title'],
+                                categories: book['categories'],
+                              ),
+                              binding: BookdetailcontrollerBindings(),
+                              arguments: {
+                                'bookDetails': book,
+                                'categories': book['categories'],
+                              },
+                            );
+>>>>>>> Stashed changes
                           },
                           child: Padding(
                             padding: EdgeInsets.only(right: 2.h),

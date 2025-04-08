@@ -1,6 +1,10 @@
 {
+<<<<<<< Updated upstream
     "java.configuration.updateBuildConfiguration": "interactive",
     "cSpell.words": [
         "Accountscreenwrapper"
     ]
+=======
+    "java.configuration.updateBuildConfiguration": "interactive"
+>>>>>>> Stashed changes
 }

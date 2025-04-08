@@ -8,11 +8,16 @@ import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../Constant/font_family.dart';
+<<<<<<< Updated upstream
 import '../../MainTab/BookDetailScreen/BookDetailController.dart';
 import '../../MainTab/BookDetailScreen/BookDetailScreenWrapper.dart';
 import '../../Widget/BuildRowList/buildRowList.dart';
 import '../../Widget/BookShimmer/ListViewBookShimmer/BookShimmer.dart';
 import '../../Widget/CustomBookContainer/CustomBookContainer.dart';
+=======
+import '../../Widget/BuildRowList/buildRowList.dart';
+import '../../Widget/BookShimmer/ListViewBookShimmer/BookShimmer.dart';
+>>>>>>> Stashed changes
 
 class ExploreScreenWrapper extends BaseView<ExploreController> {
   const ExploreScreenWrapper({super.key});
@@ -29,6 +34,7 @@ class ExploreScreenWrapper extends BaseView<ExploreController> {
             children: [
               SizedBox(height: 2.h),
               buildSearchBar(),
+<<<<<<< Updated upstream
               Obx(() => controller.isSearching.value
                   ? SizedBox() // Hide topic filters when searching
                   : Column(
@@ -76,6 +82,47 @@ class ExploreScreenWrapper extends BaseView<ExploreController> {
                           ],
                         ),
                       )),
+=======
+              SizedBox(height: 2.h),
+              buildTopicFilters(),
+              SizedBox(height: 2.h),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Obx(() {
+                        switch (controller.selectedTopicIndex.value) {
+                          case 0:
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                buildFictionBookList(),
+                                buildCultureBookList(),
+                                buildLifestyleBookList(),
+                                buildRomanceBookList(),
+                                buildThrillerBookList(),
+                                buildSciFiBookList(),
+                              ],
+                            );
+                          case 1:
+                            return buildCultureBookList();
+                          case 2:
+                            return buildLifestyleBookList();
+                          case 3:
+                            return buildRomanceBookList();
+                          case 4:
+                            return buildSciFiBookList();
+                          case 5:
+                            return buildThrillerBookList();
+                          default:
+                            return SizedBox();
+                        }
+                      }),
+                    ],
+                  ),
+                ),
+>>>>>>> Stashed changes
               ),
             ],
           ),
@@ -84,6 +131,7 @@ class ExploreScreenWrapper extends BaseView<ExploreController> {
     );
   }
 
+<<<<<<< Updated upstream
   // Build search results list with direct navigation to book details
   Widget buildSearchResults() {
     return Column(
@@ -222,6 +270,8 @@ class ExploreScreenWrapper extends BaseView<ExploreController> {
     );
   }
 
+=======
+>>>>>>> Stashed changes
   Widget buildSearchBar() {
     return Container(
       height: 6.h,
@@ -327,4 +377,8 @@ class ExploreScreenWrapper extends BaseView<ExploreController> {
         fontWeight: FontWeight.bold,
         color: AppColors.white100Color,
       );
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>> Stashed changes

@@ -30,6 +30,7 @@ class MyLibraryController extends BaseController {
   final FirebaseAuthService _authService = FirebaseAuthService();
 
   Future<void> fetchlibrary() async {
+<<<<<<< Updated upstream
     try {
       isLoading.value = true;
 
@@ -52,6 +53,11 @@ class MyLibraryController extends BaseController {
       print('Failed to fetch library: $e');
     } finally {
       isLoading.value = false;
+=======
+    var books = await _bookApiService.getRandomBooks();
+    if (books != null) {
+      library.assignAll(books);
+>>>>>>> Stashed changes
     }
   }
 

@@ -14,9 +14,12 @@ class Seemorecontroller extends BaseController {
   var books = <Map<String, dynamic>>[].obs;
   var category = ''.obs;
   var isLoading = true.obs;
+<<<<<<< Updated upstream
   
   // User-specific book lists
   var savedBooks = <Map<String, dynamic>>[].obs;
+=======
+>>>>>>> Stashed changes
 
   final FirestoreBookService _firestoreBookService = FirestoreBookService();
   final BookApiService _bookApiService = BookApiService();
@@ -29,6 +32,7 @@ class Seemorecontroller extends BaseController {
   Future<void> fetchBooksByCategory(String categoryName) async {
     try {
       isLoading.value = true;
+<<<<<<< Updated upstream
 
       // Get books by category from API directly
       var apiBooks = await _bookApiService.getBooksByCategory(categoryName);
@@ -38,6 +42,11 @@ class Seemorecontroller extends BaseController {
         
         // Check which books are saved
         await checkSavedBooks();
+=======
+      var fetchedBooks = await _bookApiService.getBooksByCategory(categoryName);
+      if (fetchedBooks != null) {
+        books.assignAll(fetchedBooks);
+>>>>>>> Stashed changes
       }
     } catch (e) {
       print('Failed to fetch books for category $categoryName: $e');
@@ -113,8 +122,11 @@ class Seemorecontroller extends BaseController {
     if (Get.arguments != null && Get.arguments['category'] != null) {
       setCategory(Get.arguments['category']);
     }
+<<<<<<< Updated upstream
     
     // Fetch saved books on init
     fetchSavedBooks();
+=======
+>>>>>>> Stashed changes
   }
 }

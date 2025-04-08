@@ -8,9 +8,12 @@ class BookApiService {
   final int maxBooks = 300;
   final String apiKey = 'AIzaSyAVkjmx50m8eN1Fo6rB53RQPP-qZw6TMog';
   final String baseUrl = 'https://www.googleapis.com/books/v1/volumes';
+<<<<<<< Updated upstream
   final String librivoxBaseUrl = 'https://librivox.org/api/feed/audiobooks';
   final String archiveBaseUrl = 'https://archive.org/advancedsearch.php';
   final String archiveDetailsUrl = 'https://archive.org/metadata/';
+=======
+>>>>>>> Stashed changes
   // final String downloadUrl = '&download=epub';
 
   Future<Response?> _fetchWithRetry(String url, {int retries = 3}) async {

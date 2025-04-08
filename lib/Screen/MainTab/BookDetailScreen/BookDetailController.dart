@@ -44,6 +44,7 @@ class BookDetailController extends BaseController {
       'bookTitle': bookData['title'] ?? 'Book Reader',
       'bookDetails': bookData.value
     });
+<<<<<<< Updated upstream
   }
 
   void openAudioPlayer() {
@@ -55,6 +56,8 @@ class BookDetailController extends BaseController {
           : 'Unknown Author',
       'coverImage': bookData['imageLinks']?['thumbnail']
     });
+=======
+>>>>>>> Stashed changes
   }
 
   void setCategories(List<String> bookCategories) {

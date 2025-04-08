@@ -46,6 +46,7 @@ class HomeController extends BaseController {
   }
 
   Future<void> fetchRecentArrivesBooks() async {
+<<<<<<< Updated upstream
     try {
       var books = await _bookApiService.getRecentArrivals();
       if (books != null) {
@@ -53,6 +54,11 @@ class HomeController extends BaseController {
       }
     } catch (e) {
       print('Error fetching recent arrivals: $e');
+=======
+    var books = await _bookApiService.getRecentArrivals();
+    if (books != null) {
+      recentArrive.assignAll(books);
+>>>>>>> Stashed changes
     }
   }
 
@@ -256,12 +262,34 @@ class HomeController extends BaseController {
     }
   }
 
+  String getGreeting() {
+    int hour = DateTime.now().hour;
+    if (hour < 12) {
+      return "Good Morning";
+    } else if (hour < 18) {
+      return "Good Afternoon";
+    } else {
+      return "Good Evening";
+    }
+  }
+
   @override
   void onInit() {
+<<<<<<< Updated upstream
     super.onInit();
     
     // Fetch all books
     fetchAllBooks();
+=======
+    fetchTrendingBooks();
+    fetchForYouBooks();
+    fetchFictionBooks();
+    fetchSciFiBooks();
+    fetchThrillerBooks();
+    fetchRomanceBooks();
+    fetchRecentArrivesBooks();
+    super.onInit();
+>>>>>>> Stashed changes
 
     Get.lazyPut(() => MyLibraryController());
     Get.lazyPut(() => ExploreController());

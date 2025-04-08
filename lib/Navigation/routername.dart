@@ -17,6 +17,9 @@ class RouterName {
 // =======
   static const String seeMoreScreenWrapper = '/Seemorescreenwrapper';
   static const String bookReaderScreenWrapper = '/BookReaderScreenWrapper';
+<<<<<<< Updated upstream
 // >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
   
 }

@@ -3,7 +3,10 @@ import 'package:book_nexus/Constant/colors.dart';
 import 'package:book_nexus/Screen/Basecontroller/basecontroller.dart';
 import 'package:book_nexus/Screen/MainTab/MyLibraryScreen/MyLibraryController.dart';
 import 'package:flutter/material.dart';
+<<<<<<< Updated upstream
 import 'package:get/get.dart';
+=======
+>>>>>>> Stashed changes
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../Widget/GridViewBookList/GridViewBookList.dart';
 
@@ -33,6 +36,7 @@ class MyLibraryScreenWrapper extends BaseView<MyLibraryController> {
               SizedBox(height: 3.h),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
+<<<<<<< Updated upstream
                 child: Obx(() => Row(
                       children: [
                         _buildCategoryButton(
@@ -60,6 +64,18 @@ class MyLibraryScreenWrapper extends BaseView<MyLibraryController> {
               SizedBox(
                   height: 80.h,
                   child: GridViewBookList(books: controller.library)),
+=======
+                child: Row(
+                  children: [
+                    _buildCategoryButton(AppImages.bookmark, 'Saved books'),
+                    _buildCategoryButton(AppImages.headphone, 'In Progress'),
+                    _buildCategoryButton(AppImages.checked, 'Completed'),
+                  ],
+                ),
+              ),
+              SizedBox(height: 3.h),
+              SizedBox(height: 80.h, child: GridViewBookList(books: controller.library)),
+>>>>>>> Stashed changes
             ],
           ),
         ),
@@ -67,25 +83,39 @@ class MyLibraryScreenWrapper extends BaseView<MyLibraryController> {
     );
   }
 
+<<<<<<< Updated upstream
   Widget _buildCategoryButton(String image, String category,
       {bool isSelected = false}) {
+=======
+  Widget _buildCategoryButton(String image, String text) {
+>>>>>>> Stashed changes
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 1.w),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+<<<<<<< Updated upstream
           backgroundColor: isSelected ? AppColors.green : AppColors.grey4,
         ),
         onPressed: () {
           controller.filterBooksByCategory(category);
         },
+=======
+          backgroundColor: AppColors.grey4,
+        ),
+        onPressed: () {},
+>>>>>>> Stashed changes
         child: Row(
           children: [
             Image.asset(image, height: 2.h),
             SizedBox(width: 1.w),
             Text(
+<<<<<<< Updated upstream
               category,
+=======
+              text,
+>>>>>>> Stashed changes
               style: TextStyle(fontSize: 15.sp, color: AppColors.white100Color),
             ),
           ],

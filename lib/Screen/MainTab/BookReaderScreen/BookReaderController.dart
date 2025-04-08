@@ -17,6 +17,7 @@ class BookReaderController extends BaseController {
   final isLoading = true.obs;
   final hasError = false.obs;
   final errorMessage = ''.obs;
+<<<<<<< Updated upstream
   final FirestoreBookService _bookService = FirestoreBookService();
   final currentProgress = 0.0.obs;
   String? currentBookId;
@@ -29,6 +30,8 @@ class BookReaderController extends BaseController {
   final isTimerDelayed = true.obs; // 1-minute delay flag
   Timer? _readingTimer;
   Timer? _delayTimer;
+=======
+>>>>>>> Stashed changes
 
   @override
   void onInit() {
@@ -72,11 +75,14 @@ class BookReaderController extends BaseController {
       print('Loading book URL: $secureUrl');
       if (bookDetails != null) {
         print('Book details: ${bookDetails['title']}');
+<<<<<<< Updated upstream
         currentBookId = bookDetails['id'];
         currentBookDetails = bookDetails;
 
         // Start reading timer and track activity
         _startReadingTimer();
+=======
+>>>>>>> Stashed changes
       }
 
       // Add additional headers for Google Books

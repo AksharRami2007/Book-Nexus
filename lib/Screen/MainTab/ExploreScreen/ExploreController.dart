@@ -1,6 +1,9 @@
 import 'package:book_nexus/Screen/Basecontroller/basecontroller.dart';
 import 'package:book_nexus/model/ApiService/BookApiService.dart';
+<<<<<<< Updated upstream
 import 'package:book_nexus/model/FirebaseService/FirestoreBookService.dart';
+=======
+>>>>>>> Stashed changes
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,9 +18,13 @@ class ExploreController extends BaseController {
   var isLoading = true.obs;
   var searchQuery = ''.obs;
   var selectedTopicIndex = 0.obs;
+<<<<<<< Updated upstream
   var isSearching = false.obs;
 
   // Book lists
+=======
+
+>>>>>>> Stashed changes
   var fictionBooks = <Map<String, dynamic>>[].obs;
   var cultureBooks = <Map<String, dynamic>>[].obs;
   var lifestyleBooks = <Map<String, dynamic>>[].obs;
@@ -25,6 +32,7 @@ class ExploreController extends BaseController {
   var scifiBooks = <Map<String, dynamic>>[].obs;
   var thrillerBooks = <Map<String, dynamic>>[].obs;
 
+<<<<<<< Updated upstream
   // Combined search results
   var searchResults = <Map<String, dynamic>>[].obs;
 
@@ -32,6 +40,8 @@ class ExploreController extends BaseController {
   var savedBooks = <Map<String, dynamic>>[].obs;
 
   // All books cache for filtering
+=======
+>>>>>>> Stashed changes
   var _allFictionBooks = <Map<String, dynamic>>[];
   var _allCultureBooks = <Map<String, dynamic>>[];
   var _allLifestyleBooks = <Map<String, dynamic>>[];
@@ -47,12 +57,16 @@ class ExploreController extends BaseController {
     'Education',
   ].obs;
 
+<<<<<<< Updated upstream
   final FirestoreBookService _firestoreBookService = FirestoreBookService();
+=======
+>>>>>>> Stashed changes
   final BookApiService _bookApiService = BookApiService();
   final TextEditingController searchController = TextEditingController();
 
   void setSearchQuery(String query) {
     searchQuery.value = query;
+<<<<<<< Updated upstream
     isSearching.value = query.isNotEmpty;
     _applyFilters();
     _updateSearchResults();
@@ -98,6 +112,9 @@ class ExploreController extends BaseController {
     }
 
     searchResults.assignAll(uniqueResults);
+=======
+    _applyFilters();
+>>>>>>> Stashed changes
   }
 
   void selectTopic(int index) {
@@ -232,6 +249,7 @@ class ExploreController extends BaseController {
     }
   }
 
+<<<<<<< Updated upstream
   // Firebase user-specific methods
 
   // Save a book to Firebase
@@ -297,6 +315,19 @@ class ExploreController extends BaseController {
       print('Error fetching all books: $e');
       isLoading.value = false;
     }
+=======
+  Future<void> fetchAllBooks() async {
+    isLoading.value = true;
+    await Future.wait([
+      fetchFictionBooks(),
+      fetchCultureBooks(),
+      fetchLifestyleBooks(),
+      fetchRomanceBooks(),
+      fetchSciFiBooks(),
+      fetchThrillerBooks(),
+    ]);
+    isLoading.value = false;
+>>>>>>> Stashed changes
   }
 
   @override
