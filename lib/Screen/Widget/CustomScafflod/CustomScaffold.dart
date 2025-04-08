@@ -41,7 +41,10 @@ class CustomScaffold extends StatelessWidget {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              Get.back();
+                              // Add debounce to prevent multiple navigation actions
+                              if (!Get.isSnackbarOpen) {
+                                Get.back();
+                              }
                             },
                             child: Image.asset(
                               AppImages.backBtn,

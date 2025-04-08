@@ -31,16 +31,17 @@ class LoginEmailScreenWrapper extends BaseView<LoginEmailController> {
             name: 'Email',
             obsecuretext: false,
             inputType: TextInputType.emailAddress,
+            controller: controller.emailController,
+            onChanged: (value) => controller.validateEmail(value),
           ),
           SizedBox(
             height: 2.h,
           ),
-          Custombutton(
-            name: 'Continue',
-            onclick: () {
-              Get.toNamed(RouterName.loginPasswordScreen);
-            }, 
-          ),
+          Obx(() => Custombutton(
+                name: 'Continue',
+                onclick: controller.proceedToPassword,
+                isEnabled: controller.isValidEmail.value,
+              )),
           SizedBox(
             height: 2.h,
           ),
@@ -65,11 +66,13 @@ class LoginEmailScreenWrapper extends BaseView<LoginEmailController> {
           SizedBox(
             height: 4.h,
           ),
-          buildLoginContainer(AppImages.facebook, 'Login With FaceBook'),
+          buildLoginContainer(AppImages.facebook, 'Login With FaceBook',
+              onTap: controller.signInWithFacebook),
           SizedBox(
             height: 3.h,
           ),
-          buildLoginContainer(AppImages.google, 'Login With Google'),
+          buildLoginContainer(AppImages.google, 'Login With Google',
+              onTap: controller.signInWithGoogle),
           SizedBox(
             height: 3.h,
           ),
@@ -101,31 +104,35 @@ class LoginEmailScreenWrapper extends BaseView<LoginEmailController> {
     ]));
   }
 
-  Widget buildLoginContainer(String image, String title) {
-    return Container(
-      height: 7.h,
-      width: 86.w,
-      decoration: BoxDecoration(
-          color: AppColors.white100Color,
-          borderRadius: BorderRadius.circular(10)),
-      child: Padding(
-        padding: EdgeInsets.all(4.w),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Image.asset(
-              image,
-              width: 7.w,
-            ),
-            Text(title,
-                style: TextStyle(
-                    fontSize: 18.sp,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w800)),
-            SizedBox(
-              width: 5.w,
-            )
-          ],
+  Widget buildLoginContainer(String image, String title,
+      {required Function() onTap}) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: 7.h,
+        width: 86.w,
+        decoration: BoxDecoration(
+            color: AppColors.white100Color,
+            borderRadius: BorderRadius.circular(10)),
+        child: Padding(
+          padding: EdgeInsets.all(4.w),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Image.asset(
+                image,
+                width: 7.w,
+              ),
+              Text(title,
+                  style: TextStyle(
+                      fontSize: 18.sp,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w800)),
+              SizedBox(
+                width: 5.w,
+              )
+            ],
+          ),
         ),
       ),
     );

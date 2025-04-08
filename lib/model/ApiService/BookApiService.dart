@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:convert';
 import 'package:dio/dio.dart';
 
 class BookApiService {
@@ -7,6 +8,9 @@ class BookApiService {
   final int maxBooks = 300;
   final String apiKey = 'AIzaSyAVkjmx50m8eN1Fo6rB53RQPP-qZw6TMog';
   final String baseUrl = 'https://www.googleapis.com/books/v1/volumes';
+  final String librivoxBaseUrl = 'https://librivox.org/api/feed/audiobooks';
+  final String archiveBaseUrl = 'https://archive.org/advancedsearch.php';
+  final String archiveDetailsUrl = 'https://archive.org/metadata/';
   // final String downloadUrl = '&download=epub';
 
   Future<Response?> _fetchWithRetry(String url, {int retries = 3}) async {
@@ -164,6 +168,213 @@ class BookApiService {
         .map((book) => _extractBookDetails(book))
         .take(maxBooks)
         .toList();
+  }
+
+  // Search for audiobooks in LibriVox by title
+  Future<Map<String, dynamic>?> searchLibrivoxByTitle(String title) async {
+    try {
+      final encodedTitle = Uri.encodeComponent(title);
+      final url = '$librivoxBaseUrl?title=$encodedTitle&format=json';
+
+      print('Searching LibriVox for title: $title with URL: $url');
+
+      final response = await _fetchWithRetry(url);
+
+      if (response != null && response.statusCode == 200) {
+        final data = response.data;
+
+        // Check if we have books in the response
+        if (data is Map &&
+            data.containsKey('books') &&
+            data['books'] is List &&
+            data['books'].isNotEmpty) {
+          final books = data['books'] as List;
+
+          // Get the first matching book
+          final book = books.first;
+
+          // Extract relevant information
+          final Map<String, dynamic> audiobook = {
+            'id': book['id']?.toString() ?? '',
+            'title': book['title'] ?? 'Unknown Title',
+            'authors': book['authors'] != null
+                ? List<String>.from(book['authors']
+                    .map((a) => a['first_name'] + ' ' + a['last_name']))
+                : ['Unknown Author'],
+            'url_librivox': book['url_librivox'] ?? '',
+            'url_iarchive': book['url_iarchive'] ?? '',
+            'url_text_source': book['url_text_source'] ?? '',
+            'language': book['language'] ?? 'English',
+            'description': book['description'] ?? 'No description available',
+            'totaltime': book['totaltime'] ?? '',
+            'totaltimesecs': book['totaltimesecs'] ?? 0,
+            'sections': book['sections'] ?? []
+          };
+
+          // Find the audio URL from sections
+          if (book['sections'] is List && book['sections'].isNotEmpty) {
+            final sections = book['sections'] as List;
+
+            // Get the first section's audio URL
+            for (var section in sections) {
+              if (section['listen_url'] != null &&
+                  section['listen_url'].toString().isNotEmpty) {
+                audiobook['audio_url'] = section['listen_url'];
+                break;
+              }
+            }
+          }
+
+          // If no section URL found, try to construct from Internet Archive URL
+          if (!audiobook.containsKey('audio_url') &&
+              book['url_iarchive'] != null) {
+            // Typically, Internet Archive URLs can be used to construct audio URLs
+            final archiveId = book['url_iarchive'].toString().split('/').last;
+            audiobook['audio_url'] =
+                'https://archive.org/download/$archiveId/${archiveId}_64kb_mp3.zip';
+          }
+
+          print(
+              'Found LibriVox audiobook: ${audiobook['title']} with audio URL: ${audiobook['audio_url']}');
+          return audiobook;
+        } else {
+          print('No audiobooks found in LibriVox for title: $title');
+        }
+      } else {
+        print('Failed to get response from LibriVox API for title: $title');
+      }
+      return null;
+    } catch (e) {
+      print('Error searching LibriVox: $e');
+      return null;
+    }
+  }
+
+  // Search for audiobooks in Internet Archive by title
+  Future<Map<String, dynamic>?> searchArchiveByTitle(String title) async {
+    try {
+      // Construct query with title and filter for audiobooks
+      final encodedTitle = Uri.encodeComponent(title);
+      final query =
+          'title:($encodedTitle) AND mediatype:(audio) AND format:(mp3)';
+      final url =
+          '$archiveBaseUrl?q=$query&output=json&rows=5&sort[]=downloads desc';
+
+      print('Searching Internet Archive for title: $title with URL: $url');
+
+      final response = await _fetchWithRetry(url);
+
+      if (response != null && response.statusCode == 200) {
+        final data = response.data;
+
+        // Check if we have results in the response
+        if (data is Map &&
+            data.containsKey('response') &&
+            data['response'] is Map &&
+            data['response'].containsKey('docs') &&
+            data['response']['docs'] is List &&
+            data['response']['docs'].isNotEmpty) {
+          final docs = data['response']['docs'] as List;
+
+          // Get the first matching item
+          final item = docs.first;
+
+          // Extract the identifier to get more details
+          final identifier = item['identifier'];
+
+          // Get detailed metadata for this item
+          final detailsUrl = '$archiveDetailsUrl/$identifier';
+          final detailsResponse = await _fetchWithRetry(detailsUrl);
+
+          if (detailsResponse != null && detailsResponse.statusCode == 200) {
+            final details = detailsResponse.data;
+
+            // Extract relevant information
+            final Map<String, dynamic> audiobook = {
+              'identifier': identifier,
+              'title': item['title'] ?? 'Unknown Title',
+              'creator': item['creator'] ?? ['Unknown Author'],
+              'description': item['description'] ?? 'No description available',
+              'date': item['date'] ?? '',
+              'files': details['files'] ?? []
+            };
+
+            // Find MP3 files in the item
+            if (details['files'] is List) {
+              final files = details['files'] as List;
+              final mp3Files = files
+                  .where((file) =>
+                      file['name'].toString().toLowerCase().endsWith('.mp3'))
+                  .toList();
+
+              if (mp3Files.isNotEmpty) {
+                // Sort by name to get the first chapter/part
+                mp3Files.sort((a, b) =>
+                    a['name'].toString().compareTo(b['name'].toString()));
+
+                // Construct the download URL for the first MP3 file
+                final fileName = mp3Files.first['name'];
+                audiobook['audio_url'] =
+                    'https://archive.org/download/$identifier/$fileName';
+
+                print(
+                    'Found Internet Archive audiobook: ${audiobook['title']} with audio URL: ${audiobook['audio_url']}');
+                return audiobook;
+              }
+            }
+          }
+        } else {
+          print('No audiobooks found in Internet Archive for title: $title');
+        }
+      } else {
+        print(
+            'Failed to get response from Internet Archive API for title: $title');
+      }
+      return null;
+    } catch (e) {
+      print('Error searching Internet Archive: $e');
+      return null;
+    }
+  }
+
+  // Get direct audio URL from Internet Archive by title
+  Future<String?> getArchiveAudioUrl(String title) async {
+    try {
+      final audiobook = await searchArchiveByTitle(title);
+
+      if (audiobook != null && audiobook.containsKey('audio_url')) {
+        return audiobook['audio_url'];
+      }
+
+      return null;
+    } catch (e) {
+      print('Error getting Internet Archive audio URL: $e');
+      return null;
+    }
+  }
+
+  // Get direct audio URL from LibriVox by title (keeping for backward compatibility)
+  Future<String?> getLibrivoxAudioUrl(String title) async {
+    try {
+      final audiobook = await searchLibrivoxByTitle(title);
+
+      if (audiobook != null && audiobook.containsKey('audio_url')) {
+        return audiobook['audio_url'];
+      } else if (audiobook != null && audiobook.containsKey('url_iarchive')) {
+        // Try to construct audio URL from Internet Archive URL
+        final archiveUrl = audiobook['url_iarchive'];
+        if (archiveUrl != null && archiveUrl.isNotEmpty) {
+          final archiveId = archiveUrl.toString().split('/').last;
+          // This is a common pattern for LibriVox files on Internet Archive
+          return 'https://archive.org/download/$archiveId/${archiveId}_64kb_mp3.zip';
+        }
+      }
+
+      return null;
+    } catch (e) {
+      print('Error getting LibriVox audio URL: $e');
+      return null;
+    }
   }
 
   Map<String, dynamic> _extractBookDetails(Map<String, dynamic> book) {

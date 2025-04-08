@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Book Nexus</string>
+    <string name="facebook_app_id">1406362030335585</string>
+    <string name="fb_login_protocol_scheme">fb1406362030335585</string>
+    <string name="facebook_client_token">78eaf25630aee45f7e67dd65b9f1298d</string>
+</resources>

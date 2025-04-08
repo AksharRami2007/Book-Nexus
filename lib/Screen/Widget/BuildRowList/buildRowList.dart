@@ -39,17 +39,21 @@ class BuildRowBookList extends StatelessWidget {
 
                         return GestureDetector(
                           onTap: () {
-                            Get.to(
-                              () => Bookdetailscreenwrapper(
-                                bookTitle: book['title'],
-                                categories: book['categories'],
-                              ),
-                              binding: BookdetailcontrollerBindings(),
-                              arguments: {
-                                'bookDetails': book,
-                                'categories': book['categories'],
-                              },
-                            );
+                            // Use addPostFrameCallback to ensure navigation happens after the current frame is built
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              // Navigate to book detail screen
+                              Get.to(
+                                () => Bookdetailscreenwrapper(
+                                  bookTitle: book['title'],
+                                  categories: book['categories'],
+                                ),
+                                binding: BookdetailcontrollerBindings(),
+                                arguments: {
+                                  'bookDetails': book,
+                                  'categories': book['categories'],
+                                },
+                              );
+                            });
                           },
                           child: Padding(
                             padding: EdgeInsets.only(right: 2.h),

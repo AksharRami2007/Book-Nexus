@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "872403860935",
+    "project_id": "booknexus-eea86",
+    "storage_bucket": "booknexus-eea86.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:872403860935:android:174aae9a057a224fe76de2",
+        "android_client_info": {
+          "package_name": "com.example.book_nexus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVktadtyO4zaVbAeu_c0wQaJ5HgyTZJDs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

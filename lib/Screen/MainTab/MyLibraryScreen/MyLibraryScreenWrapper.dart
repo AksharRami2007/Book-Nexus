@@ -3,6 +3,7 @@ import 'package:book_nexus/Constant/colors.dart';
 import 'package:book_nexus/Screen/Basecontroller/basecontroller.dart';
 import 'package:book_nexus/Screen/MainTab/MyLibraryScreen/MyLibraryController.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../Widget/GridViewBookList/GridViewBookList.dart';
 
@@ -32,16 +33,33 @@ class MyLibraryScreenWrapper extends BaseView<MyLibraryController> {
               SizedBox(height: 3.h),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    _buildCategoryButton(AppImages.bookmark, 'Saved books'),
-                    _buildCategoryButton(AppImages.headphone, 'In Progress'),
-                    _buildCategoryButton(AppImages.checked, 'Completed'),
-                  ],
-                ),
+                child: Obx(() => Row(
+                      children: [
+                        _buildCategoryButton(
+                          AppImages.bookmark,
+                          CATEGORY_SAVED,
+                          isSelected: controller.selectedCategory.value ==
+                              CATEGORY_SAVED,
+                        ),
+                        _buildCategoryButton(
+                          AppImages.headphone,
+                          CATEGORY_IN_PROGRESS,
+                          isSelected: controller.selectedCategory.value ==
+                              CATEGORY_IN_PROGRESS,
+                        ),
+                        _buildCategoryButton(
+                          AppImages.checked,
+                          CATEGORY_COMPLETED,
+                          isSelected: controller.selectedCategory.value ==
+                              CATEGORY_COMPLETED,
+                        ),
+                      ],
+                    )),
               ),
               SizedBox(height: 3.h),
-              SizedBox(height: 80.h, child: GridViewBookList(books: controller.library)),
+              SizedBox(
+                  height: 80.h,
+                  child: GridViewBookList(books: controller.library)),
             ],
           ),
         ),
@@ -49,22 +67,25 @@ class MyLibraryScreenWrapper extends BaseView<MyLibraryController> {
     );
   }
 
-  Widget _buildCategoryButton(String image, String text) {
+  Widget _buildCategoryButton(String image, String category,
+      {bool isSelected = false}) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 1.w),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-          backgroundColor: AppColors.grey4,
+          backgroundColor: isSelected ? AppColors.green : AppColors.grey4,
         ),
-        onPressed: () {},
+        onPressed: () {
+          controller.filterBooksByCategory(category);
+        },
         child: Row(
           children: [
             Image.asset(image, height: 2.h),
             SizedBox(width: 1.w),
             Text(
-              text,
+              category,
               style: TextStyle(fontSize: 15.sp, color: AppColors.white100Color),
             ),
           ],

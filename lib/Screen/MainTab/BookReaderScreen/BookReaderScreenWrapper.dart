@@ -24,7 +24,12 @@ class BookReaderScreenWrapper extends BaseView<BookReaderController> {
         title: Text(bookTitle),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Get.back(),
+          onPressed: () {
+            // Add debounce to prevent multiple navigation actions
+            if (!Get.isSnackbarOpen) {
+              Get.back();
+            }
+          },
         ),
         actions: [
           IconButton(

@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:book_nexus/model/FirebaseService/FirestoreBookService.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -15,6 +17,18 @@ class BookReaderController extends BaseController {
   final isLoading = true.obs;
   final hasError = false.obs;
   final errorMessage = ''.obs;
+  final FirestoreBookService _bookService = FirestoreBookService();
+  final currentProgress = 0.0.obs;
+  String? currentBookId;
+  Map<String, dynamic>? currentBookDetails;
+  
+  // Reading timer variables
+  final readingStartTime = DateTime.now().obs;
+  final readingDuration = 0.obs; // Duration in minutes
+  final isTimerActive = false.obs;
+  final isTimerDelayed = true.obs; // 1-minute delay flag
+  Timer? _readingTimer;
+  Timer? _delayTimer;
 
   @override
   void onInit() {
@@ -58,6 +72,11 @@ class BookReaderController extends BaseController {
       print('Loading book URL: $secureUrl');
       if (bookDetails != null) {
         print('Book details: ${bookDetails['title']}');
+        currentBookId = bookDetails['id'];
+        currentBookDetails = bookDetails;
+
+        // Start reading timer and track activity
+        _startReadingTimer();
       }
 
       // Add additional headers for Google Books
@@ -86,5 +105,124 @@ class BookReaderController extends BaseController {
       hasError.value = true;
       errorMessage.value = 'Error loading book: $e';
     }
+  }
+  
+  // Start the reading timer with a 1-minute delay
+  void _startReadingTimer() {
+    // Reset timer state
+    readingStartTime.value = DateTime.now();
+    readingDuration.value = 0;
+    isTimerActive.value = true;
+    isTimerDelayed.value = true;
+    
+    // Cancel any existing timers
+    _readingTimer?.cancel();
+    _delayTimer?.cancel();
+    
+    // Start a 1-minute delay before counting reading time
+    _delayTimer = Timer(const Duration(minutes: 1), () {
+      isTimerDelayed.value = false;
+      readingStartTime.value = DateTime.now(); // Reset start time after delay
+      
+      // Start the actual reading timer
+      _readingTimer = Timer.periodic(const Duration(minutes: 1), (timer) {
+        if (isTimerActive.value && !isTimerDelayed.value) {
+          readingDuration.value++;
+          print('Reading duration: ${readingDuration.value} minutes');
+        }
+      });
+    });
+    
+    // Track initial reading activity
+    _trackReadingActivity();
+  }
+  
+  // Stop the reading timer and update reading history
+  void _stopReadingTimer() {
+    isTimerActive.value = false;
+    _readingTimer?.cancel();
+    _delayTimer?.cancel();
+    
+    // Update reading history with final duration
+    if (currentBookId != null && readingDuration.value > 0) {
+      _updateReadingHistory();
+    }
+  }
+
+  // Track reading activity
+  void _trackReadingActivity() {
+    if (currentBookId != null) {
+      // Default to 0.0 progress when starting to read
+      currentProgress.value = 0.0;
+
+      // Add to reading history
+      _bookService
+          .addToReadingHistory(currentBookId!, currentProgress.value)
+          .then((success) {
+        if (success) {
+          print('Reading activity tracked successfully');
+        } else {
+          print('Failed to track reading activity');
+        }
+      });
+      
+      // Also add a reading history entry with duration
+      if (currentBookDetails != null) {
+        _bookService.addReadingHistoryEntry(
+          currentBookId!,
+          currentBookDetails!['title'] ?? '',
+          currentBookDetails!['imageLinks']?['thumbnail'] ?? '',
+          0.0, // Starting progress
+          0, // Initial duration
+        );
+      }
+    }
+  }
+
+  // Update reading progress and duration
+  void _updateReadingProgress() {
+    if (currentBookId != null) {
+      _bookService
+          .addToReadingHistory(currentBookId!, currentProgress.value)
+          .then((success) {
+        if (success) {
+          print('Reading progress updated successfully');
+        } else {
+          print('Failed to update reading progress');
+        }
+      });
+    }
+  }
+  
+  // Update reading history with duration
+  void _updateReadingHistory() {
+    if (currentBookId != null && currentBookDetails != null) {
+      _bookService.addReadingHistoryEntry(
+        currentBookId!,
+        currentBookDetails!['title'] ?? '',
+        currentBookDetails!['imageLinks']?['thumbnail'] ?? '',
+        1.0, // Completed
+        readingDuration.value,
+      ).then((success) {
+        if (success) {
+          print('Reading history with duration updated successfully');
+        } else {
+          print('Failed to update reading history with duration');
+        }
+      });
+    }
+  }
+
+  @override
+  void onClose() {
+    // Stop timer and update reading history when reader is closed
+    _stopReadingTimer();
+    
+    // Final update of reading progress
+    if (currentBookId != null) {
+      currentProgress.value = 1.0; // Simplified - assume finished when closing
+      _updateReadingProgress();
+    }
+    super.onClose();
   }
 }

@@ -31,7 +31,12 @@ class Seemorescreenwrapper extends BaseView<Seemorecontroller> {
                     color: AppColors.white100Color),
               ),
               leading: GestureDetector(
-                onTap: () => Get.back(),
+                onTap: () {
+                  // Add debounce to prevent multiple navigation actions
+                  if (!Get.isSnackbarOpen) {
+                    Get.back();
+                  }
+                },
                 child: Icon(
                   Icons.arrow_back_ios,
                   size: 3.h,
@@ -42,7 +47,6 @@ class Seemorescreenwrapper extends BaseView<Seemorecontroller> {
           ],
           body: SizedBox(
             height: 500.h,
-            
             child: Obx(() {
               if (controller.books.isEmpty) {
                 return buildShimmerEffect();

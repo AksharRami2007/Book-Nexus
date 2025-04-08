@@ -7,12 +7,14 @@ class Custombutton extends StatelessWidget {
   final VoidCallback? onclick;
   final double height;
   final double width;
+  final bool isEnabled;
   const Custombutton(
       {super.key,
       required this.name,
       this.onclick,
       this.height = 5.5,
-      this.width = 86});
+      this.width = 86,
+      this.isEnabled = true});
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +22,14 @@ class Custombutton extends StatelessWidget {
         height: height.h,
         width: width.w,
         decoration: BoxDecoration(
-            color:AppColors.green, borderRadius: BorderRadius.circular(10)),
+            color: AppColors.green, borderRadius: BorderRadius.circular(10)),
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                backgroundColor: AppColors.green,),
-            onPressed: onclick,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              backgroundColor: isEnabled ? AppColors.green : AppColors.grey,
+            ),
+            onPressed: isEnabled ? onclick : null,
             child: Text(
               name,
               style: TextStyle(

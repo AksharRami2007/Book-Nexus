@@ -12,11 +12,14 @@
         </trust-anchors>
     </base-config>
     
-    <!-- Allow Google domains specifically -->
-    <domain-config>
+    <!-- Allow Google and Firebase domains specifically -->
+    <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">google.com</domain>
         <domain includeSubdomains="true">googleapis.com</domain>
         <domain includeSubdomains="true">books.google.com</domain>
+        <domain includeSubdomains="true">firebaseio.com</domain>
+        <domain includeSubdomains="true">firebase.com</domain>
+        <domain includeSubdomains="true">firebasestorage.googleapis.com</domain>
         <trust-anchors>
             <certificates src="system" />
         </trust-anchors>

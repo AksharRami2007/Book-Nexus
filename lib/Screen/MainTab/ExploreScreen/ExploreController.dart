@@ -1,5 +1,6 @@
 import 'package:book_nexus/Screen/Basecontroller/basecontroller.dart';
 import 'package:book_nexus/model/ApiService/BookApiService.dart';
+import 'package:book_nexus/model/FirebaseService/FirestoreBookService.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +15,9 @@ class ExploreController extends BaseController {
   var isLoading = true.obs;
   var searchQuery = ''.obs;
   var selectedTopicIndex = 0.obs;
+  var isSearching = false.obs;
 
+  // Book lists
   var fictionBooks = <Map<String, dynamic>>[].obs;
   var cultureBooks = <Map<String, dynamic>>[].obs;
   var lifestyleBooks = <Map<String, dynamic>>[].obs;
@@ -22,6 +25,13 @@ class ExploreController extends BaseController {
   var scifiBooks = <Map<String, dynamic>>[].obs;
   var thrillerBooks = <Map<String, dynamic>>[].obs;
 
+  // Combined search results
+  var searchResults = <Map<String, dynamic>>[].obs;
+
+  // User-specific book lists
+  var savedBooks = <Map<String, dynamic>>[].obs;
+
+  // All books cache for filtering
   var _allFictionBooks = <Map<String, dynamic>>[];
   var _allCultureBooks = <Map<String, dynamic>>[];
   var _allLifestyleBooks = <Map<String, dynamic>>[];
@@ -37,12 +47,57 @@ class ExploreController extends BaseController {
     'Education',
   ].obs;
 
+  final FirestoreBookService _firestoreBookService = FirestoreBookService();
   final BookApiService _bookApiService = BookApiService();
   final TextEditingController searchController = TextEditingController();
 
   void setSearchQuery(String query) {
     searchQuery.value = query;
+    isSearching.value = query.isNotEmpty;
     _applyFilters();
+    _updateSearchResults();
+  }
+
+  void _updateSearchResults() {
+    if (searchQuery.value.isEmpty) {
+      searchResults.clear();
+      return;
+    }
+
+    // Combine results from all categories
+    final allResults = [
+      ..._allFictionBooks,
+      ..._allCultureBooks,
+      ..._allLifestyleBooks,
+      ..._allRomanceBooks,
+      ..._allScifiBooks,
+      ..._allThrillerBooks,
+    ];
+
+    final query = searchQuery.value.toLowerCase();
+    final filteredResults = allResults.where((book) {
+      final title = (book['title'] ?? '').toString().toLowerCase();
+      final authors = (book['authors'] as List?)?.join(' ').toLowerCase() ?? '';
+      final description = (book['description'] ?? '').toString().toLowerCase();
+
+      return title.contains(query) ||
+          authors.contains(query) ||
+          description.contains(query);
+    }).toList();
+
+    // Remove duplicates (books might appear in multiple categories)
+    final uniqueResults = <Map<String, dynamic>>[];
+    final seenIds = <String>{};
+
+    for (final book in filteredResults) {
+      final id = book['id']?.toString() ?? '';
+      if (id.isNotEmpty && !seenIds.contains(id)) {
+        seenIds.add(id);
+        uniqueResults.add(book);
+      }
+    }
+
+    searchResults.assignAll(uniqueResults);
   }
 
   void selectTopic(int index) {
@@ -177,17 +232,71 @@ class ExploreController extends BaseController {
     }
   }
 
+  // Firebase user-specific methods
+
+  // Save a book to Firebase
+  Future<bool> saveBook(Map<String, dynamic> bookData) async {
+    try {
+      return await _firestoreBookService.saveBook(bookData);
+    } catch (e) {
+      print('Error saving book: $e');
+      return false;
+    }
+  }
+
+  // Remove a book from saved books
+  Future<bool> removeBook(String bookId) async {
+    try {
+      return await _firestoreBookService.removeBook(bookId);
+    } catch (e) {
+      print('Error removing book: $e');
+      return false;
+    }
+  }
+
+  // Fetch user's saved books
+  Future<void> fetchSavedBooks() async {
+    try {
+      final books = await _firestoreBookService.getSavedBooks();
+      if (books != null) {
+        savedBooks.assignAll(books);
+      }
+    } catch (e) {
+      print('Error fetching saved books: $e');
+    }
+  }
+
+  // Check if a book is saved
+  Future<bool> isBookSaved(String bookId) async {
+    try {
+      return await _firestoreBookService.isBookSaved(bookId);
+    } catch (e) {
+      print('Error checking if book is saved: $e');
+      return false;
+    }
+  }
+
   Future<void> fetchAllBooks() async {
-    isLoading.value = true;
-    await Future.wait([
-      fetchFictionBooks(),
-      fetchCultureBooks(),
-      fetchLifestyleBooks(),
-      fetchRomanceBooks(),
-      fetchSciFiBooks(),
-      fetchThrillerBooks(),
-    ]);
-    isLoading.value = false;
+    try {
+      isLoading.value = true;
+
+      await Future.wait([
+        fetchFictionBooks(),
+        fetchCultureBooks(),
+        fetchLifestyleBooks(),
+        fetchRomanceBooks(),
+        fetchSciFiBooks(),
+        fetchThrillerBooks(),
+      ]);
+
+      // Fetch user-specific data
+      await fetchSavedBooks();
+
+      isLoading.value = false;
+    } catch (e) {
+      print('Error fetching all books: $e');
+      isLoading.value = false;
+    }
   }
 
   @override

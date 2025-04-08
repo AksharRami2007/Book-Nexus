@@ -37,8 +37,12 @@ class SeeMoreRow extends StatelessWidget {
           padding: EdgeInsets.only(top: 0.7.h),
           child: GestureDetector(
             onTap: () {
-              Get.toNamed(RouterName.seeMoreScreenWrapper, arguments: {
-                'category': title,
+              // Use addPostFrameCallback to ensure navigation happens after the current frame is built
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                // Navigate to see more screen
+                Get.toNamed(RouterName.seeMoreScreenWrapper, arguments: {
+                  'category': title,
+                });
               });
             },
             child: Text(

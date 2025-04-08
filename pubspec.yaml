@@ -30,10 +30,19 @@ environment:
 dependencies:
   cupertino_icons: ^1.0.8
   dio: ^5.8.0+1
+  firebase_core: ^2.27.1
+  firebase_auth: ^4.17.9
+  cloud_firestore: ^4.15.9
+  firebase_storage: ^11.6.10
+  firebase_app_check: ^0.2.1+14
   flutter:
     sdk: flutter
+  flutter_facebook_auth: ^6.0.4
+  google_sign_in: ^6.2.1
   flutter_floating_bottom_bar: ^1.2.1+1
+  just_audio: ^0.9.36
   shimmer: ^3.0.0
+  table_calendar: ^3.0.9
   url_launcher: ^6.3.1
   webview_flutter: ^4.10.0
 

@@ -27,25 +27,43 @@ class LoginPasswordScreenWrapper extends BaseView<LoginPasswordController> {
           SizedBox(
             height: 3.h,
           ),
-          buildProfileRow(),
-          SizedBox(
-            height: 2.h,
+          Text(
+            'Enter your password',
+            style: TextStyle(
+              fontSize: 18.sp,
+              color: AppColors.white100Color,
+            ),
           ),
-          Customtextfield(
-            name: 'Email',
-            obsecuretext: false,
-           
-            inputType: TextInputType.emailAddress,
+          SizedBox(height: 1.h),
+          Text(
+            controller.email,
+            style: TextStyle(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.bold,
+              color: AppColors.green,
+            ),
           ),
-          SizedBox(
-            height: 2.h,
-          ),
-          Custombutton(
-            name: 'Continue',
-            onclick: () {
-              Get.toNamed(RouterName.recoverPasswordscreen);
-            },
-          ),
+          SizedBox(height: 3.h),
+          Obx(() => Customtextfield(
+                name: 'Password',
+                obsecuretext: controller.obscurePassword.value,
+                controller: controller.passwordController,
+                suffixicon: IconButton(
+                  icon: Icon(
+                    controller.obscurePassword.value
+                        ? Icons.visibility_off
+                        : Icons.visibility,
+                    color: AppColors.black,
+                  ),
+                  onPressed: controller.togglePasswordVisibility,
+                ),
+              )),
+          SizedBox(height: 3.h),
+          Obx(() => Custombutton(
+                name: controller.isLoading.value ? 'Signing In...' : 'Sign In',
+                onclick: controller.signIn,
+                isEnabled: !controller.isLoading.value,
+              )),
           SizedBox(
             height: 2.h,
           ),

@@ -1,3 +1,5 @@
+import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -12,8 +14,21 @@ import 'Navigation/routername.dart';
 Locale? initialLocale;
 
 void main() async {
-  await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
+
+  try {
+    await Firebase.initializeApp();
+    print("Firebase initialized successfully");
+
+    await FirebaseAppCheck.instance.activate(
+      appleProvider: AppleProvider.appAttest,
+      androidProvider: AndroidProvider.playIntegrity,
+    );
+    print("Firebase App Check initialized successfully");
+  } catch (e) {
+    print("Error initializing Firebase: $e");
+  }
 
   runApp(const MyApp());
 }

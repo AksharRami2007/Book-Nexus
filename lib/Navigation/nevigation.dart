@@ -9,8 +9,6 @@ import 'package:book_nexus/Screen/MainTab/AccountScreen/AccountController.dart';
 import 'package:book_nexus/Screen/MainTab/AccountScreen/AccountScreenWrapper.dart';
 import 'package:book_nexus/Screen/MainTab/AudioPlayerScreen/AudioPlayerController.dart';
 import 'package:book_nexus/Screen/MainTab/AudioPlayerScreen/AudioPlayerScreenWrapper.dart';
-import 'package:book_nexus/Screen/MainTab/BookDetailScreen/BookDetailController.dart';
-import 'package:book_nexus/Screen/MainTab/BookDetailScreen/BookDetailScreenWrapper.dart';
 import 'package:book_nexus/Screen/MainTab/BookReaderScreen/BookReaderController.dart';
 import 'package:book_nexus/Screen/MainTab/BookReaderScreen/BookReaderScreenWrapper.dart';
 import 'package:book_nexus/Screen/MainTab/HomeSrceen/HomeController.dart';
@@ -86,21 +84,25 @@ class Pages {
         page: () => const MyLibraryScreenWrapper(),
         binding: MylibrarycontrollerBindings(),
       ),
-      // GetPage(
-        // name: RouterName.seeMoreScreen,
+      GetPage(
+        name: RouterName.seeMoreScreen,
         page: () => const Seemorescreenwrapper(),
         binding: SeemorecontrollerBindings(),
       ),
       GetPage(
-<<<<<<< Updated upstream
         name: RouterName.audioPlayerScreen,
         page: () => const Audioplayerscreenwrapper(),
         binding: AudioplayercontrollerBindings(),
-// =======
-        // name: RouterName.bookReaderScreenWrapper,
+      ),
+      GetPage(
+        name: RouterName.bookReaderScreenWrapper,
         page: () => const BookReaderScreenWrapper(),
         binding: BookReaderControllerBindings(),
->>>>>>> Stashed changes
+      ),
+      GetPage(
+        name: RouterName.profileDetailScreen,
+        page: () => const Profiledetailscreenwrapper(),
+        binding: ProfiledetailcontrollerBindings(),
       ),
     ];
   }
