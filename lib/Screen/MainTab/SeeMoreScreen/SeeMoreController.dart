@@ -14,12 +14,9 @@ class Seemorecontroller extends BaseController {
   var books = <Map<String, dynamic>>[].obs;
   var category = ''.obs;
   var isLoading = true.obs;
-<<<<<<< Updated upstream
-  
+
   // User-specific book lists
   var savedBooks = <Map<String, dynamic>>[].obs;
-=======
->>>>>>> Stashed changes
 
   final FirestoreBookService _firestoreBookService = FirestoreBookService();
   final BookApiService _bookApiService = BookApiService();
@@ -32,21 +29,15 @@ class Seemorecontroller extends BaseController {
   Future<void> fetchBooksByCategory(String categoryName) async {
     try {
       isLoading.value = true;
-<<<<<<< Updated upstream
 
       // Get books by category from API directly
       var apiBooks = await _bookApiService.getBooksByCategory(categoryName);
 
       if (apiBooks != null) {
         books.assignAll(apiBooks);
-        
+
         // Check which books are saved
         await checkSavedBooks();
-=======
-      var fetchedBooks = await _bookApiService.getBooksByCategory(categoryName);
-      if (fetchedBooks != null) {
-        books.assignAll(fetchedBooks);
->>>>>>> Stashed changes
       }
     } catch (e) {
       print('Failed to fetch books for category $categoryName: $e');
@@ -54,9 +45,9 @@ class Seemorecontroller extends BaseController {
       isLoading.value = false;
     }
   }
-  
+
   // Firebase user-specific methods
-  
+
   // Fetch user's saved books
   Future<void> fetchSavedBooks() async {
     try {
@@ -68,25 +59,23 @@ class Seemorecontroller extends BaseController {
       print('Error fetching saved books: $e');
     }
   }
-  
+
   // Check which books in the current list are saved
   Future<void> checkSavedBooks() async {
     try {
       await fetchSavedBooks();
-      
+
       // No need to update UI here, just having the saved books list is enough
-      // The UI can check if a book is in the savedBooks list
     } catch (e) {
       print('Error checking saved books: $e');
     }
   }
-  
+
   // Save a book to Firebase
   Future<bool> saveBook(Map<String, dynamic> bookData) async {
     try {
       bool result = await _firestoreBookService.saveBook(Map<String, dynamic>.from(bookData));
       if (result) {
-        // Refresh saved books list
         await fetchSavedBooks();
       }
       return result;
@@ -95,13 +84,12 @@ class Seemorecontroller extends BaseController {
       return false;
     }
   }
-  
+
   // Remove a book from saved books
   Future<bool> removeBook(String bookId) async {
     try {
       bool result = await _firestoreBookService.removeBook(bookId);
       if (result) {
-        // Refresh saved books list
         await fetchSavedBooks();
       }
       return result;
@@ -110,7 +98,7 @@ class Seemorecontroller extends BaseController {
       return false;
     }
   }
-  
+
   // Check if a book is saved
   bool isBookSaved(String bookId) {
     return savedBooks.any((book) => book['id'] == bookId);
@@ -122,11 +110,8 @@ class Seemorecontroller extends BaseController {
     if (Get.arguments != null && Get.arguments['category'] != null) {
       setCategory(Get.arguments['category']);
     }
-<<<<<<< Updated upstream
-    
+
     // Fetch saved books on init
     fetchSavedBooks();
-=======
->>>>>>> Stashed changes
   }
 }

@@ -14,11 +14,11 @@ class HomeControllerBindings implements Bindings {
   }
 }
 
+
 class HomeController extends BaseController {
   var selectedIndex = 0.obs;
   var isKeyboardVisible = false.obs;
-  
-  // Book lists
+
   var trendingBooks = <Map<String, dynamic>>[].obs;
   var recentArrive = <Map<String, dynamic>>[].obs;
   var forYouBooks = <Map<String, dynamic>>[].obs;
@@ -26,12 +26,11 @@ class HomeController extends BaseController {
   var scifiBooks = <Map<String, dynamic>>[].obs;
   var thrillerBooks = <Map<String, dynamic>>[].obs;
   var romanceBooks = <Map<String, dynamic>>[].obs;
-  
-  // User-specific book lists
+
   var savedBooks = <Map<String, dynamic>>[].obs;
   var favoriteBooks = <Map<String, dynamic>>[].obs;
   var readingHistory = <Map<String, dynamic>>[].obs;
-  
+
   var isDataLoading = false.obs;
 
   final FirestoreBookService _firestoreBookService = FirestoreBookService();
@@ -46,7 +45,6 @@ class HomeController extends BaseController {
   }
 
   Future<void> fetchRecentArrivesBooks() async {
-<<<<<<< Updated upstream
     try {
       var books = await _bookApiService.getRecentArrivals();
       if (books != null) {
@@ -54,11 +52,6 @@ class HomeController extends BaseController {
       }
     } catch (e) {
       print('Error fetching recent arrivals: $e');
-=======
-    var books = await _bookApiService.getRecentArrivals();
-    if (books != null) {
-      recentArrive.assignAll(books);
->>>>>>> Stashed changes
     }
   }
 
@@ -128,9 +121,7 @@ class HomeController extends BaseController {
     }
   }
 
-  // Firebase user-specific methods
-  
-  // Save a book to Firebase
+  // Firebase book interactions
   Future<bool> saveBook(Map<String, dynamic> bookData) async {
     try {
       return await _firestoreBookService.saveBook(bookData);
@@ -139,8 +130,7 @@ class HomeController extends BaseController {
       return false;
     }
   }
-  
-  // Remove a book from saved books
+
   Future<bool> removeBook(String bookId) async {
     try {
       return await _firestoreBookService.removeBook(bookId);
@@ -149,8 +139,7 @@ class HomeController extends BaseController {
       return false;
     }
   }
-  
-  // Fetch user's saved books
+
   Future<void> fetchSavedBooks() async {
     try {
       final books = await _firestoreBookService.getSavedBooks();
@@ -161,8 +150,7 @@ class HomeController extends BaseController {
       print('Error fetching saved books: $e');
     }
   }
-  
-  // Check if a book is saved
+
   Future<bool> isBookSaved(String bookId) async {
     try {
       return await _firestoreBookService.isBookSaved(bookId);
@@ -171,8 +159,7 @@ class HomeController extends BaseController {
       return false;
     }
   }
-  
-  // Add book to favorites
+
   Future<bool> addToFavorites(String bookId) async {
     try {
       return await _firestoreBookService.addToFavorites(bookId);
@@ -181,8 +168,7 @@ class HomeController extends BaseController {
       return false;
     }
   }
-  
-  // Remove book from favorites
+
   Future<bool> removeFromFavorites(String bookId) async {
     try {
       return await _firestoreBookService.removeFromFavorites(bookId);
@@ -191,8 +177,7 @@ class HomeController extends BaseController {
       return false;
     }
   }
-  
-  // Fetch user's favorite books
+
   Future<void> fetchFavoriteBooks() async {
     try {
       final books = await _firestoreBookService.getFavoriteBooks();
@@ -203,8 +188,7 @@ class HomeController extends BaseController {
       print('Error fetching favorite books: $e');
     }
   }
-  
-  // Add book to reading history
+
   Future<bool> addToReadingHistory(String bookId, double progress) async {
     try {
       return await _firestoreBookService.addToReadingHistory(bookId, progress);
@@ -213,8 +197,7 @@ class HomeController extends BaseController {
       return false;
     }
   }
-  
-  // Fetch user's reading history
+
   Future<void> fetchReadingHistory() async {
     try {
       final books = await _firestoreBookService.getReadingHistory();
@@ -226,24 +209,23 @@ class HomeController extends BaseController {
     }
   }
 
-  // Fetch all book categories
   Future<void> fetchAllBooks() async {
     try {
       isDataLoading.value = true;
-      
-      await fetchTrendingBooks();
-      await fetchForYouBooks();
-      await fetchFictionBooks();
-      await fetchSciFiBooks();
-      await fetchThrillerBooks();
-      await fetchRomanceBooks();
-      await fetchRecentArrivesBooks();
-      
-      // Fetch user-specific data
-      await fetchSavedBooks();
-      await fetchFavoriteBooks();
-      await fetchReadingHistory();
-      
+
+      await Future.wait([
+        fetchTrendingBooks(),
+        fetchForYouBooks(),
+        fetchFictionBooks(),
+        fetchSciFiBooks(),
+        fetchThrillerBooks(),
+        fetchRomanceBooks(),
+        fetchRecentArrivesBooks(),
+        fetchSavedBooks(),
+        fetchFavoriteBooks(),
+        fetchReadingHistory(),
+      ]);
+
       isDataLoading.value = false;
     } catch (e) {
       print('Error fetching all books: $e');
@@ -253,44 +235,15 @@ class HomeController extends BaseController {
 
   String getGreeting() {
     int hour = DateTime.now().hour;
-    if (hour < 12) {
-      return "Good Morning";
-    } else if (hour < 18) {
-      return "Good Afternoon";
-    } else {
-      return "Good Evening";
-    }
-  }
-
-  String getGreeting() {
-    int hour = DateTime.now().hour;
-    if (hour < 12) {
-      return "Good Morning";
-    } else if (hour < 18) {
-      return "Good Afternoon";
-    } else {
-      return "Good Evening";
-    }
+    if (hour < 12) return "Good Morning";
+    if (hour < 18) return "Good Afternoon";
+    return "Good Evening";
   }
 
   @override
   void onInit() {
-<<<<<<< Updated upstream
     super.onInit();
-    
-    // Fetch all books
     fetchAllBooks();
-=======
-    fetchTrendingBooks();
-    fetchForYouBooks();
-    fetchFictionBooks();
-    fetchSciFiBooks();
-    fetchThrillerBooks();
-    fetchRomanceBooks();
-    fetchRecentArrivesBooks();
-    super.onInit();
->>>>>>> Stashed changes
-
     Get.lazyPut(() => MyLibraryController());
     Get.lazyPut(() => ExploreController());
   }

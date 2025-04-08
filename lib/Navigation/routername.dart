@@ -11,15 +11,10 @@ class RouterName {
   static const String accountScreen = '/Accountscreenwrapper';
   static const String profileDetailScreen = '/Profiledetailscreenwrapper';
   static const String myLibraryScreen = '/Mylibraryscreenwrapper';
-// <<<<<<< Updated upstream
   static const String seeMoreScreen = '/Seemorescreenwrapper';
   static const String audioPlayerScreen = '/Audioplayerscreenwrapper';
-// =======
   static const String seeMoreScreenWrapper = '/Seemorescreenwrapper';
   static const String bookReaderScreenWrapper = '/BookReaderScreenWrapper';
-<<<<<<< Updated upstream
-// >>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+  
   
 }

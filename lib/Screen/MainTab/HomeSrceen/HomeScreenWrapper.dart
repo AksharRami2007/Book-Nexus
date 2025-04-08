@@ -15,79 +15,43 @@ class HomeScreenWrapper extends BaseView<HomeController> {
 
   @override
   Widget vBuilder(BuildContext context) {
-<<<<<<< Updated upstream
     return WillPopScope(
-        onWillPop: () async {
-          Get.back();
-          return false;
-        },
-        child: SafeArea(
-          child: Scaffold(
-            backgroundColor: Colors.black,
-            body: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 3.w),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 2.h),
-                    buildProfileRow(),
-                    SizedBox(height: 2.h),
-                    // buildForYouBookList(),
-                    // SizedBox(height: 2.h),
-                    // buildRecentArrivesBookList(),
-                    // SizedBox(height: 2.h),
-                    // buildTrendingBookList(),
-                    // SizedBox(height: 2.h),
-                    // buildPopularBookList(),
-                    // SizedBox(height: 2.h),
-                    // buildThrillerBookList(),
-                    // SizedBox(height: 2.h),
-                    // buildSciFiBookList(),
-                    // SizedBox(height: 2.h),
-                    // buildRomanceBookList(),
-                    // SizedBox(height: 10.h),
-                  ],
-                ),
+      onWillPop: () async {
+        Get.back();
+        return false;
+      },
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: Colors.black,
+          body: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 3.w),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 2.h),
+                  buildProfileRow(),
+                  SizedBox(height: 2.h),
+                  buildForYouBookList(),
+                  SizedBox(height: 2.h),
+                  buildRecentArrivesBookList(),
+                  SizedBox(height: 2.h),
+                  buildTrendingBookList(),
+                  SizedBox(height: 2.h),
+                  buildPopularBookList(),
+                  SizedBox(height: 2.h),
+                  buildThrillerBookList(),
+                  SizedBox(height: 2.h),
+                  buildSciFiBookList(),
+                  SizedBox(height: 2.h),
+                  buildRomanceBookList(),
+                  SizedBox(height: 10.h),
+                ],
               ),
-=======
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 3.w),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 2.h),
-                buildProfileRow(),
-                SizedBox(height: 2.h),
-                buildForYouBookList(),
-                SizedBox(height: 2.h),
-                buildRecentArrivesBookList(),
-                SizedBox(height: 2.h),
-                buildTrendingBookList(),
-                SizedBox(height: 2.h),
-                buildPopularBookList(),
-                SizedBox(height: 2.h),
-                buildThrillerBookList(),
-                SizedBox(height: 2.h),
-                buildSciFiBookList(),
-                SizedBox(height: 2.h),
-                buildRomanceBookList(),
-                SizedBox(height: 10.h),
-              ],
->>>>>>> Stashed changes
             ),
           ),
-        ));
-  }
-
-  Widget buildRecentArrivesBookList() {
-    return BuildRowBookList(
-      title: 'Recent Arrive',
-      books: controller.recentArrive,
+        ),
+      ),
     );
   }
 
@@ -161,13 +125,7 @@ class HomeScreenWrapper extends BaseView<HomeController> {
         ),
         GestureDetector(
           onTap: () {
-<<<<<<< Updated upstream
-            // WidgetsBinding.instance.addPostFrameCallback((_) {
             Get.toNamed(RouterName.accountScreen);
-            // });
-=======
-            Get.toNamed(RouterName.accountScreen);
->>>>>>> Stashed changes
           },
           child: ClipRRect(
             borderRadius: BorderRadius.circular(30),

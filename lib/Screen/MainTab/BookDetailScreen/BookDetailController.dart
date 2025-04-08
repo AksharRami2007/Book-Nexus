@@ -3,7 +3,6 @@ import 'package:book_nexus/Screen/Basecontroller/basecontroller.dart';
 import 'package:book_nexus/model/ApiService/BookApiService.dart';
 import 'package:book_nexus/model/FirebaseService/FirestoreBookService.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class BookdetailcontrollerBindings implements Bindings {
   @override
@@ -17,6 +16,11 @@ class BookDetailController extends BaseController {
   var categoryBooks = <Map<String, dynamic>>[].obs;
   var isLoading = true.obs;
   var isBookSaved = false.obs;
+   final showFullDescription = false.obs;
+
+ void toggleDescription() {
+    showFullDescription.value = !showFullDescription.value;
+  }
 
   final FirestoreBookService _firestoreBookService = FirestoreBookService();
   final BookApiService _bookApiService = BookApiService();
@@ -34,7 +38,6 @@ class BookDetailController extends BaseController {
       fetchBooksByCategory(categories);
     }
 
-    // Check if the book is saved
     checkIfBookIsSaved();
   }
 
@@ -44,7 +47,6 @@ class BookDetailController extends BaseController {
       'bookTitle': bookData['title'] ?? 'Book Reader',
       'bookDetails': bookData.value
     });
-<<<<<<< Updated upstream
   }
 
   void openAudioPlayer() {
@@ -56,8 +58,6 @@ class BookDetailController extends BaseController {
           : 'Unknown Author',
       'coverImage': bookData['imageLinks']?['thumbnail']
     });
-=======
->>>>>>> Stashed changes
   }
 
   void setCategories(List<String> bookCategories) {
@@ -69,13 +69,10 @@ class BookDetailController extends BaseController {
     try {
       isLoading.value = true;
 
-      // Get book details from API
       final apiBookDetails = await _bookApiService.getBookDetailsByTitle(title);
 
       if (apiBookDetails != null) {
         bookData.value = apiBookDetails;
-
-        // Check if the book is saved
         checkIfBookIsSaved();
       } else {
         print('Error: Book details not found for title: $title');
@@ -93,7 +90,6 @@ class BookDetailController extends BaseController {
     try {
       isLoading.value = true;
 
-      // Get books by category from API
       final apiBooks =
           await _bookApiService.getBooksByCategory(categories.first);
 
@@ -107,9 +103,6 @@ class BookDetailController extends BaseController {
     }
   }
 
-  // Firebase user-specific methods
-
-  // Check if the current book is saved
   Future<void> checkIfBookIsSaved() async {
     try {
       if (bookData.isEmpty || bookData['id'] == null) return;
@@ -122,7 +115,6 @@ class BookDetailController extends BaseController {
     }
   }
 
-  // Save the current book
   Future<bool> saveBook() async {
     try {
       if (bookData.isEmpty) return false;
@@ -139,7 +131,6 @@ class BookDetailController extends BaseController {
     }
   }
 
-  // Remove the current book from saved books
   Future<bool> removeBook() async {
     try {
       if (bookData.isEmpty || bookData['id'] == null) return false;
@@ -156,12 +147,10 @@ class BookDetailController extends BaseController {
     }
   }
 
-  // Toggle save status
   Future<bool> toggleSaveStatus() async {
     return isBookSaved.value ? await removeBook() : await saveBook();
   }
 
-  // Add book to reading history with progress
   Future<bool> addToReadingHistory(double progress) async {
     try {
       if (bookData.isEmpty || bookData['id'] == null) return false;
@@ -179,7 +168,6 @@ class BookDetailController extends BaseController {
     super.onInit();
     if (Get.arguments != null) {
       if (Get.arguments['bookDetails'] != null) {
-        // Use book details directly from arguments
         Map<String, dynamic> details = Get.arguments['bookDetails'];
         List<String>? cats;
 
@@ -189,7 +177,6 @@ class BookDetailController extends BaseController {
 
         setBookDetails(details, categoryList: cats);
       } else if (Get.arguments['bookTitle'] != null) {
-        // Fallback to fetching by title if only title is provided
         String title = Get.arguments['bookTitle'];
         List<String>? cats;
 

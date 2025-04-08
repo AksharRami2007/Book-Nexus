@@ -30,7 +30,6 @@ class MyLibraryController extends BaseController {
   final FirebaseAuthService _authService = FirebaseAuthService();
 
   Future<void> fetchlibrary() async {
-<<<<<<< Updated upstream
     try {
       isLoading.value = true;
 
@@ -53,11 +52,6 @@ class MyLibraryController extends BaseController {
       print('Failed to fetch library: $e');
     } finally {
       isLoading.value = false;
-=======
-    var books = await _bookApiService.getRandomBooks();
-    if (books != null) {
-      library.assignAll(books);
->>>>>>> Stashed changes
     }
   }
 
@@ -74,33 +68,24 @@ class MyLibraryController extends BaseController {
         }
         break;
       case CATEGORY_IN_PROGRESS:
-        // Filter reading history for books with progress > 0 and < 1.0
-        var inProgressBooks = <Map<String, dynamic>>[];
-        for (var entry in readingHistory) {
-          if (entry.containsKey('progress') &&
-              entry['progress'] > 0.0 &&
-              entry['progress'] < 1.0) {
-            inProgressBooks.add(entry);
-          }
-        }
+        var inProgressBooks = readingHistory
+            .where((entry) =>
+                entry.containsKey('progress') &&
+                entry['progress'] > 0.0 &&
+                entry['progress'] < 1.0)
+            .toList();
         library.assignAll(inProgressBooks);
         break;
       case CATEGORY_COMPLETED:
-        // Filter reading history for books with progress = 1.0
-        var completedBooks = <Map<String, dynamic>>[];
-        for (var entry in readingHistory) {
-          if (entry.containsKey('progress') && entry['progress'] == 1.0) {
-            completedBooks.add(entry);
-          }
-        }
+        var completedBooks = readingHistory
+            .where((entry) =>
+                entry.containsKey('progress') && entry['progress'] == 1.0)
+            .toList();
         library.assignAll(completedBooks);
         break;
       case CATEGORY_ALL:
       default:
-        // Fetch all books if library is empty
-        if (library.isEmpty) {
-          fetchlibrary();
-        }
+        fetchlibrary(); // Re-fetch from API if needed
         break;
     }
   }

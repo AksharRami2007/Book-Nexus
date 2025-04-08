@@ -9,10 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:get/get.dart';
 
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -26,10 +23,7 @@ class Bookdetailscreenwrapper extends BaseView<BookDetailController> {
 
   @override
   Widget vBuilder(BuildContext context) {
-<<<<<<< Updated upstream
-=======
     
->>>>>>> Stashed changes
     return SafeArea(
       child: Scaffold(
           backgroundColor: Colors.black,
@@ -52,16 +46,12 @@ class Bookdetailscreenwrapper extends BaseView<BookDetailController> {
                     Padding(
                       padding: EdgeInsets.only(top: 2.h),
                       child: GestureDetector(
-<<<<<<< Updated upstream
                         onTap: () {
                           // Add debounce to prevent multiple navigation actions
                           if (!Get.isSnackbarOpen) {
                             Get.back();
                           }
                         },
-=======
-                        onTap: () => Get.back(),
->>>>>>> Stashed changes
                         child: Icon(
                           Icons.arrow_back_ios,
                           size: 3.h,

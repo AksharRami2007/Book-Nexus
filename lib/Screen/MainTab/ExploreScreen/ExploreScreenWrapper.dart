@@ -5,19 +5,12 @@ import 'package:book_nexus/Screen/MainTab/ExploreScreen/ExploreController.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:get/get.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../../../Constant/font_family.dart';
-<<<<<<< Updated upstream
 import '../../MainTab/BookDetailScreen/BookDetailController.dart';
 import '../../MainTab/BookDetailScreen/BookDetailScreenWrapper.dart';
 import '../../Widget/BuildRowList/buildRowList.dart';
 import '../../Widget/BookShimmer/ListViewBookShimmer/BookShimmer.dart';
-import '../../Widget/CustomBookContainer/CustomBookContainer.dart';
-=======
-import '../../Widget/BuildRowList/buildRowList.dart';
-import '../../Widget/BookShimmer/ListViewBookShimmer/BookShimmer.dart';
->>>>>>> Stashed changes
 
 class ExploreScreenWrapper extends BaseView<ExploreController> {
   const ExploreScreenWrapper({super.key});
@@ -34,9 +27,8 @@ class ExploreScreenWrapper extends BaseView<ExploreController> {
             children: [
               SizedBox(height: 2.h),
               buildSearchBar(),
-<<<<<<< Updated upstream
               Obx(() => controller.isSearching.value
-                  ? SizedBox() // Hide topic filters when searching
+                  ? SizedBox()
                   : Column(
                       children: [
                         SizedBox(height: 2.h),
@@ -46,7 +38,7 @@ class ExploreScreenWrapper extends BaseView<ExploreController> {
               SizedBox(height: 2.h),
               Expanded(
                 child: Obx(() => controller.isSearching.value
-                    ? buildSearchResults() // Show search results when searching
+                    ? buildSearchResults()
                     : SingleChildScrollView(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +47,8 @@ class ExploreScreenWrapper extends BaseView<ExploreController> {
                               switch (controller.selectedTopicIndex.value) {
                                 case 0:
                                   return Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       buildFictionBookList(),
                                       buildCultureBookList(),
@@ -82,47 +75,6 @@ class ExploreScreenWrapper extends BaseView<ExploreController> {
                           ],
                         ),
                       )),
-=======
-              SizedBox(height: 2.h),
-              buildTopicFilters(),
-              SizedBox(height: 2.h),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Obx(() {
-                        switch (controller.selectedTopicIndex.value) {
-                          case 0:
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                buildFictionBookList(),
-                                buildCultureBookList(),
-                                buildLifestyleBookList(),
-                                buildRomanceBookList(),
-                                buildThrillerBookList(),
-                                buildSciFiBookList(),
-                              ],
-                            );
-                          case 1:
-                            return buildCultureBookList();
-                          case 2:
-                            return buildLifestyleBookList();
-                          case 3:
-                            return buildRomanceBookList();
-                          case 4:
-                            return buildSciFiBookList();
-                          case 5:
-                            return buildThrillerBookList();
-                          default:
-                            return SizedBox();
-                        }
-                      }),
-                    ],
-                  ),
-                ),
->>>>>>> Stashed changes
               ),
             ],
           ),
@@ -131,8 +83,66 @@ class ExploreScreenWrapper extends BaseView<ExploreController> {
     );
   }
 
-<<<<<<< Updated upstream
-  // Build search results list with direct navigation to book details
+  Widget buildSearchBar() {
+    return Container(
+      height: 6.h,
+      decoration: BoxDecoration(
+        color: AppColors.bgshade,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: TextField(
+        controller: controller.searchController,
+        style: TextStyle(color: AppColors.white100Color),
+        decoration: InputDecoration(
+          hintText: 'Search for books, authors...',
+          hintStyle: TextStyle(color: AppColors.grey),
+          prefixIcon: Icon(Icons.search, color: AppColors.grey),
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.symmetric(vertical: 1.5.h),
+        ),
+        onChanged: controller.setSearchQuery,
+      ),
+    );
+  }
+
+  Widget buildTopicFilters() {
+    return SizedBox(
+      height: 5.h,
+      child: Obx(() => ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: controller.topics.length,
+            itemBuilder: (context, index) {
+              final isSelected =
+                  controller.selectedTopicIndex.value == index;
+              return GestureDetector(
+                onTap: () => controller.selectTopic(index),
+                child: Container(
+                  margin: EdgeInsets.only(right: 2.w),
+                  padding: EdgeInsets.symmetric(horizontal: 4.w),
+                  decoration: BoxDecoration(
+                    color:
+                        isSelected ? AppColors.green : AppColors.bgshade,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Center(
+                    child: Text(
+                      controller.topics[index],
+                      style: TextStyle(
+                        color: isSelected
+                            ? AppColors.white100Color
+                            : AppColors.grey,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          )),
+    );
+  }
+
   Widget buildSearchResults() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -155,14 +165,13 @@ class ExploreScreenWrapper extends BaseView<ExploreController> {
                 ),
               );
             }
-            
+
             return ListView.builder(
               itemCount: controller.searchResults.length,
               itemBuilder: (context, index) {
                 final book = controller.searchResults[index];
                 return GestureDetector(
                   onTap: () {
-                    // Direct navigation to book details screen
                     Get.to(
                       () => Bookdetailscreenwrapper(
                         bookTitle: book['title'],
@@ -184,17 +193,11 @@ class ExploreScreenWrapper extends BaseView<ExploreController> {
                     ),
                     child: Row(
                       children: [
-                        // Book cover image
                         ClipRRect(
                           borderRadius: BorderRadius.circular(8),
                           child: Image.network(
-                            book['imageLinks'] != null &&
-                                    book['imageLinks']['thumbnail'] != null &&
-                                    book['imageLinks']['thumbnail']
-                                        .toString()
-                                        .isNotEmpty
-                                ? book['imageLinks']['thumbnail']
-                                : 'assets/images/book_placeholder.png',
+                            book['imageLinks']?['thumbnail'] ??
+                                'assets/images/book_placeholder.png',
                             height: 15.h,
                             width: 20.w,
                             fit: BoxFit.cover,
@@ -209,7 +212,6 @@ class ExploreScreenWrapper extends BaseView<ExploreController> {
                           ),
                         ),
                         SizedBox(width: 3.w),
-                        // Book details
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -239,8 +241,7 @@ class ExploreScreenWrapper extends BaseView<ExploreController> {
                               if (book['categories'] != null)
                                 Text(
                                   (book['categories'] as List?)
-                                          ?.join(', ')
-                                          .toString() ??
+                                          ?.join(', ') ??
                                       '',
                                   style: TextStyle(
                                     color: AppColors.green,
@@ -252,7 +253,6 @@ class ExploreScreenWrapper extends BaseView<ExploreController> {
                             ],
                           ),
                         ),
-                        // Arrow icon
                         Icon(
                           Icons.arrow_forward_ios,
                           color: AppColors.white100Color,
@@ -270,105 +270,28 @@ class ExploreScreenWrapper extends BaseView<ExploreController> {
     );
   }
 
-=======
->>>>>>> Stashed changes
-  Widget buildSearchBar() {
-    return Container(
-      height: 6.h,
-      decoration: BoxDecoration(
-        color: AppColors.bgshade,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: TextField(
-        controller: controller.searchController,
-        style: TextStyle(color: AppColors.white100Color),
-        decoration: InputDecoration(
-          hintText: 'Search for books, authors...',
-          hintStyle: TextStyle(color: AppColors.grey),
-          prefixIcon: Icon(Icons.search, color: AppColors.grey),
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.symmetric(vertical: 1.5.h),
-        ),
-        onChanged: controller.setSearchQuery,
-      ),
-    );
-  }
-
-  Widget buildTopicFilters() {
-    return SizedBox(
-        height: 5.h,
-        child: Obx(() => ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: controller.topics.length,
-              itemBuilder: (context, index) {
-                final isSelected = controller.selectedTopicIndex.value == index;
-                return GestureDetector(
-                  onTap: () => controller.selectTopic(index),
-                  child: Container(
-                    margin: EdgeInsets.only(right: 2.w),
-                    padding: EdgeInsets.symmetric(horizontal: 4.w),
-                    decoration: BoxDecoration(
-                      color: isSelected ? AppColors.green : AppColors.bgshade,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Center(
-                      child: Text(
-                        controller.topics[index],
-                        style: TextStyle(
-                          color: isSelected
-                              ? AppColors.white100Color
-                              : AppColors.grey,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            )));
-  }
-
   Widget buildFictionBookList() {
-    return BuildRowBookList(
-      title: 'Fiction',
-      books: controller.fictionBooks,
-    );
+    return BuildRowBookList(title: 'Fiction', books: controller.fictionBooks);
   }
 
   Widget buildCultureBookList() {
-    return BuildRowBookList(
-      title: 'Culture & Society',
-      books: controller.cultureBooks,
-    );
+    return BuildRowBookList(title: 'Culture & Society', books: controller.cultureBooks);
   }
 
   Widget buildLifestyleBookList() {
-    return BuildRowBookList(
-      title: 'Life Style',
-      books: controller.lifestyleBooks,
-    );
+    return BuildRowBookList(title: 'Life Style', books: controller.lifestyleBooks);
   }
 
   Widget buildRomanceBookList() {
-    return BuildRowBookList(
-      title: 'Romance',
-      books: controller.romanceBooks,
-    );
+    return BuildRowBookList(title: 'Romance', books: controller.romanceBooks);
   }
 
   Widget buildSciFiBookList() {
-    return BuildRowBookList(
-      title: 'Sci-Fi',
-      books: controller.scifiBooks,
-    );
+    return BuildRowBookList(title: 'Sci-Fi', books: controller.scifiBooks);
   }
 
   Widget buildThrillerBookList() {
-    return BuildRowBookList(
-      title: 'Thriller',
-      books: controller.thrillerBooks,
-    );
+    return BuildRowBookList(title: 'Thriller', books: controller.thrillerBooks);
   }
 
   TextStyle buildSectionTitleTextStyle() => TextStyle(
@@ -377,8 +300,4 @@ class ExploreScreenWrapper extends BaseView<ExploreController> {
         fontWeight: FontWeight.bold,
         color: AppColors.white100Color,
       );
-<<<<<<< Updated upstream
 }
-=======
-}
->>>>>>> Stashed changes

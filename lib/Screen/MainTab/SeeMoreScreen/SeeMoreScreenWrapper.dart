@@ -26,43 +26,40 @@ class Seemorescreenwrapper extends BaseView<Seemorecontroller> {
               largeTitle: Text(
                 controller.category.value,
                 style: TextStyle(
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.white100Color),
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.white100Color,
+                ),
               ),
               leading: GestureDetector(
-<<<<<<< Updated upstream
                 onTap: () {
                   // Add debounce to prevent multiple navigation actions
                   if (!Get.isSnackbarOpen) {
                     Get.back();
                   }
                 },
-=======
-                onTap: () => Get.back(),
->>>>>>> Stashed changes
                 child: Icon(
                   Icons.arrow_back_ios,
                   size: 3.h,
                   color: AppColors.white100Color,
                 ),
               ),
-            )
+            ),
           ],
           body: SizedBox(
             height: 500.h,
-            
             child: Obx(() {
               if (controller.books.isEmpty) {
                 return buildShimmerEffect();
               }
               return GridView.builder(
                 shrinkWrap: true,
+                padding: EdgeInsets.symmetric(vertical: 2.h),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 2.w,
-                  childAspectRatio: 0.6,
                   mainAxisSpacing: 2.h,
+                  childAspectRatio: 0.6,
                 ),
                 itemCount: controller.books.length,
                 itemBuilder: (BuildContext context, int index) {

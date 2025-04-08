@@ -7,13 +7,10 @@ import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/VerifyCodeScreen/Ver
 import 'package:book_nexus/Screen/Auth/ForgotPasswordScreen/VerifyCodeScreen/VerifyCodeScreenWrapper.dart';
 import 'package:book_nexus/Screen/MainTab/AccountScreen/AccountController.dart';
 import 'package:book_nexus/Screen/MainTab/AccountScreen/AccountScreenWrapper.dart';
-<<<<<<< Updated upstream
 import 'package:book_nexus/Screen/MainTab/AudioPlayerScreen/AudioPlayerController.dart';
 import 'package:book_nexus/Screen/MainTab/AudioPlayerScreen/AudioPlayerScreenWrapper.dart';
-=======
 import 'package:book_nexus/Screen/MainTab/BookDetailScreen/BookDetailController.dart';
 import 'package:book_nexus/Screen/MainTab/BookDetailScreen/BookDetailScreenWrapper.dart';
->>>>>>> Stashed changes
 import 'package:book_nexus/Screen/MainTab/BookReaderScreen/BookReaderController.dart';
 import 'package:book_nexus/Screen/MainTab/BookReaderScreen/BookReaderScreenWrapper.dart';
 import 'package:book_nexus/Screen/MainTab/HomeSrceen/HomeController.dart';
@@ -95,26 +92,22 @@ class Pages {
         binding: SeemorecontrollerBindings(),
       ),
       GetPage(
-<<<<<<< Updated upstream
         name: RouterName.audioPlayerScreen,
         page: () => const Audioplayerscreenwrapper(),
         binding: AudioplayercontrollerBindings(),
       ),
       GetPage(
-=======
->>>>>>> Stashed changes
+
         name: RouterName.bookReaderScreenWrapper,
         page: () => const BookReaderScreenWrapper(),
         binding: BookReaderControllerBindings(),
       ),
-<<<<<<< Updated upstream
       GetPage(
         name: RouterName.profileDetailScreen,
         page: () => const Profiledetailscreenwrapper(),
         binding: ProfiledetailcontrollerBindings(),
       ),
-=======
->>>>>>> Stashed changes
+
     ];
   }
 }
