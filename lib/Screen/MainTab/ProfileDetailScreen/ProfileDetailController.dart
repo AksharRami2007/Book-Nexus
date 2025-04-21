@@ -92,29 +92,24 @@ class Profiledetailcontroller extends BaseController {
     }
   }
 
-  // Save user data
   Future<void> saveUserData() async {
     if (!isEditing.value) return;
 
     isLoading.value = true;
 
     try {
-      // Update display name in Firebase Auth
       if (nameController.text != userName.value) {
         await _authService.updateUserProfile(displayName: nameController.text);
       }
 
-      // Update user data in Firestore
       await _userService.updateUserData(
         name: nameController.text,
         photoURL: null,
       );
 
-      // Update local values
       userName.value = nameController.text;
       dateOfBirth.value = dobController.text;
 
-      // Exit editing mode
       isEditing.value = false;
 
       Get.snackbar(
@@ -134,7 +129,6 @@ class Profiledetailcontroller extends BaseController {
     }
   }
 
-  // Cancel editing
   void cancelEditing() {
     isEditing.value = false;
   }

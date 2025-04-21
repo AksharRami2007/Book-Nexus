@@ -171,7 +171,6 @@ class BookApiService {
         .toList();
   }
 
-  // Search for audiobooks in LibriVox by title
   Future<Map<String, dynamic>?> searchLibrivoxByTitle(String title) async {
     try {
       final encodedTitle = Uri.encodeComponent(title);
@@ -184,17 +183,14 @@ class BookApiService {
       if (response != null && response.statusCode == 200) {
         final data = response.data;
 
-        // Check if we have books in the response
         if (data is Map &&
             data.containsKey('books') &&
             data['books'] is List &&
             data['books'].isNotEmpty) {
           final books = data['books'] as List;
 
-          // Get the first matching book
           final book = books.first;
 
-          // Extract relevant information
           final Map<String, dynamic> audiobook = {
             'id': book['id']?.toString() ?? '',
             'title': book['title'] ?? 'Unknown Title',
@@ -212,11 +208,9 @@ class BookApiService {
             'sections': book['sections'] ?? []
           };
 
-          // Find the audio URL from sections
           if (book['sections'] is List && book['sections'].isNotEmpty) {
             final sections = book['sections'] as List;
 
-            // Get the first section's audio URL
             for (var section in sections) {
               if (section['listen_url'] != null &&
                   section['listen_url'].toString().isNotEmpty) {
@@ -226,10 +220,8 @@ class BookApiService {
             }
           }
 
-          // If no section URL found, try to construct from Internet Archive URL
           if (!audiobook.containsKey('audio_url') &&
               book['url_iarchive'] != null) {
-            // Typically, Internet Archive URLs can be used to construct audio URLs
             final archiveId = book['url_iarchive'].toString().split('/').last;
             audiobook['audio_url'] =
                 'https://archive.org/download/$archiveId/${archiveId}_64kb_mp3.zip';
@@ -251,10 +243,8 @@ class BookApiService {
     }
   }
 
-  // Search for audiobooks in Internet Archive by title
   Future<Map<String, dynamic>?> searchArchiveByTitle(String title) async {
     try {
-      // Construct query with title and filter for audiobooks
       final encodedTitle = Uri.encodeComponent(title);
       final query =
           'title:($encodedTitle) AND mediatype:(audio) AND format:(mp3)';
@@ -268,7 +258,6 @@ class BookApiService {
       if (response != null && response.statusCode == 200) {
         final data = response.data;
 
-        // Check if we have results in the response
         if (data is Map &&
             data.containsKey('response') &&
             data['response'] is Map &&
@@ -276,21 +265,16 @@ class BookApiService {
             data['response']['docs'] is List &&
             data['response']['docs'].isNotEmpty) {
           final docs = data['response']['docs'] as List;
-
-          // Get the first matching item
           final item = docs.first;
 
-          // Extract the identifier to get more details
           final identifier = item['identifier'];
 
-          // Get detailed metadata for this item
           final detailsUrl = '$archiveDetailsUrl/$identifier';
           final detailsResponse = await _fetchWithRetry(detailsUrl);
 
           if (detailsResponse != null && detailsResponse.statusCode == 200) {
             final details = detailsResponse.data;
 
-            // Extract relevant information
             final Map<String, dynamic> audiobook = {
               'identifier': identifier,
               'title': item['title'] ?? 'Unknown Title',
@@ -300,7 +284,6 @@ class BookApiService {
               'files': details['files'] ?? []
             };
 
-            // Find MP3 files in the item
             if (details['files'] is List) {
               final files = details['files'] as List;
               final mp3Files = files
@@ -309,11 +292,9 @@ class BookApiService {
                   .toList();
 
               if (mp3Files.isNotEmpty) {
-                // Sort by name to get the first chapter/part
                 mp3Files.sort((a, b) =>
                     a['name'].toString().compareTo(b['name'].toString()));
 
-                // Construct the download URL for the first MP3 file
                 final fileName = mp3Files.first['name'];
                 audiobook['audio_url'] =
                     'https://archive.org/download/$identifier/$fileName';
@@ -338,7 +319,6 @@ class BookApiService {
     }
   }
 
-  // Get direct audio URL from Internet Archive by title
   Future<String?> getArchiveAudioUrl(String title) async {
     try {
       final audiobook = await searchArchiveByTitle(title);
@@ -354,7 +334,6 @@ class BookApiService {
     }
   }
 
-  // Get direct audio URL from LibriVox by title (keeping for backward compatibility)
   Future<String?> getLibrivoxAudioUrl(String title) async {
     try {
       final audiobook = await searchLibrivoxByTitle(title);
@@ -362,11 +341,9 @@ class BookApiService {
       if (audiobook != null && audiobook.containsKey('audio_url')) {
         return audiobook['audio_url'];
       } else if (audiobook != null && audiobook.containsKey('url_iarchive')) {
-        // Try to construct audio URL from Internet Archive URL
         final archiveUrl = audiobook['url_iarchive'];
         if (archiveUrl != null && archiveUrl.isNotEmpty) {
           final archiveId = archiveUrl.toString().split('/').last;
-          // This is a common pattern for LibriVox files on Internet Archive
           return 'https://archive.org/download/$archiveId/${archiveId}_64kb_mp3.zip';
         }
       }

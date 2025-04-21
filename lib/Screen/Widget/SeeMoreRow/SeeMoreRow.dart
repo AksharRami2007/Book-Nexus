@@ -37,7 +37,6 @@ class SeeMoreRow extends StatelessWidget {
           padding: EdgeInsets.only(top: 0.7.h),
           child: GestureDetector(
             onTap: () {
-              // Navigate to see more screen after current frame
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 Get.toNamed(RouterName.seeMoreScreenWrapper, arguments: {
                   'category': title,

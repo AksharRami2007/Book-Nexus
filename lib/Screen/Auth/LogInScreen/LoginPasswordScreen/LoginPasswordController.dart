@@ -26,9 +26,11 @@ class LoginPasswordController extends BaseController {
     if (Get.arguments != null) {
       email = Get.arguments as String;
     } else {
-      if (!Get.isSnackbarOpen) {
-        Get.back();
-      }
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!Get.isSnackbarOpen) {
+          Get.back();
+        }
+      });
     }
   }
 

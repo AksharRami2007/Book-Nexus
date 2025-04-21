@@ -47,7 +47,6 @@ class Book {
     this.createdAt,
   });
 
-  // Create a Book from a Firestore document
   factory Book.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
     return Book(
@@ -75,7 +74,6 @@ class Book {
     );
   }
 
-  // Convert a Book to a Firestore document
   Map<String, dynamic> toFirestore() {
     return {
       'title': title,
@@ -101,7 +99,6 @@ class Book {
     };
   }
 
-  // Create a Book from the Google Books API response
   factory Book.fromGoogleBooksApi(Map<String, dynamic> data) {
     return Book(
       id: data['id'] ?? '',

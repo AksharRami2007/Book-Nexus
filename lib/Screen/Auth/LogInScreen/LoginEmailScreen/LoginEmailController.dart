@@ -20,9 +20,11 @@ class LoginEmailController extends BaseController {
   @override
   void onInit() {
     super.onInit();
-    if (_authService.currentUser != null) {
-      Get.offAllNamed(RouterName.homescreen);
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_authService.currentUser != null) {
+        Get.offAllNamed(RouterName.homescreen);
+      }
+    });
   }
 
   @override

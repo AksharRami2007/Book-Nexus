@@ -31,8 +31,6 @@ class MyLibraryScreenWrapper extends BaseView<MyLibraryController> {
               ),
               Image.asset(AppImages.line, width: 27.w),
               SizedBox(height: 3.h),
-
-              /// Category Buttons
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Obx(
@@ -60,10 +58,7 @@ class MyLibraryScreenWrapper extends BaseView<MyLibraryController> {
                   ),
                 ),
               ),
-
               SizedBox(height: 3.h),
-
-              /// Book Grid View
               SizedBox(
                 height: 80.h,
                 child: GridViewBookList(books: controller.library),
@@ -75,7 +70,7 @@ class MyLibraryScreenWrapper extends BaseView<MyLibraryController> {
     );
   }
 
-  Widget _buildCategoryButton(String image, String category,
+  Widget _buildCategoryButton(String image , String category,
       {bool isSelected = false}) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 1.w),

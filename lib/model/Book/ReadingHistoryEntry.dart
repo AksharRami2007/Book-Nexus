@@ -7,7 +7,7 @@ class ReadingHistoryEntry {
   final String? bookCoverUrl;
   final Timestamp readDate;
   final double progress;
-  final int duration; // Reading duration in minutes
+  final int duration; 
 
   ReadingHistoryEntry({
     required this.id,
@@ -16,10 +16,9 @@ class ReadingHistoryEntry {
     this.bookCoverUrl,
     required this.readDate,
     required this.progress,
-    this.duration = 0, // Default to 0 minutes
+    this.duration = 0, 
   });
 
-  // Create a ReadingHistoryEntry from a Firestore document
   factory ReadingHistoryEntry.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
     return ReadingHistoryEntry(
@@ -33,7 +32,6 @@ class ReadingHistoryEntry {
     );
   }
 
-  // Convert a ReadingHistoryEntry to a Firestore document
   Map<String, dynamic> toFirestore() {
     return {
       'bookId': bookId,

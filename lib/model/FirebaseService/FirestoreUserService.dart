@@ -6,17 +6,13 @@ class FirestoreUserService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Collection references
   CollectionReference get _usersCollection => _firestore.collection('users');
 
-  // Get current user ID
   String? get _currentUserId => _auth.currentUser?.uid;
 
-  // Get user document reference
   DocumentReference? get _userDocRef =>
       _currentUserId != null ? _usersCollection.doc(_currentUserId) : null;
 
-  // Create a new user document in Firestore
   Future<bool> createUserDocument({
     required String name,
     required String email,
@@ -46,7 +42,6 @@ class FirestoreUserService {
     }
   }
 
-  // Update user data
   Future<bool> updateUserData({
     String? name,
     List<String>? favoriteGenres,
@@ -77,7 +72,6 @@ class FirestoreUserService {
     }
   }
 
-  // Get user data
   Future<Map<String, dynamic>?> getUserData() async {
     if (_currentUserId == null || _userDocRef == null) {
       Get.snackbar('Error', 'User must be authenticated to get profile');
@@ -100,7 +94,6 @@ class FirestoreUserService {
     }
   }
 
-  // Check if user document exists
   Future<bool> userDocumentExists() async {
     if (_currentUserId == null || _userDocRef == null) {
       return false;
@@ -115,7 +108,6 @@ class FirestoreUserService {
     }
   }
 
-  // Save user's genre preferences
   Future<bool> saveGenrePreferences(List<String> genres) async {
     return updateUserData(favoriteGenres: genres);
   }

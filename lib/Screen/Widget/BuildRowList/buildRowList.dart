@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -39,7 +38,6 @@ class BuildRowBookList extends StatelessWidget {
 
                         return GestureDetector(
                           onTap: () {
-                            // Use addPostFrameCallback to ensure navigation happens after the current frame is built
                             WidgetsBinding.instance.addPostFrameCallback((_) {
                               Get.to(
                                 () => Bookdetailscreenwrapper(

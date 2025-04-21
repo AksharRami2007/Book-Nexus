@@ -15,7 +15,6 @@ class Seemorecontroller extends BaseController {
   var category = ''.obs;
   var isLoading = true.obs;
 
-  // User-specific book lists
   var savedBooks = <Map<String, dynamic>>[].obs;
 
   final FirestoreBookService _firestoreBookService = FirestoreBookService();
@@ -30,13 +29,11 @@ class Seemorecontroller extends BaseController {
     try {
       isLoading.value = true;
 
-      // Get books by category from API directly
       var apiBooks = await _bookApiService.getBooksByCategory(categoryName);
 
       if (apiBooks != null) {
         books.assignAll(apiBooks);
 
-        // Check which books are saved
         await checkSavedBooks();
       }
     } catch (e) {
@@ -46,9 +43,7 @@ class Seemorecontroller extends BaseController {
     }
   }
 
-  // Firebase user-specific methods
 
-  // Fetch user's saved books
   Future<void> fetchSavedBooks() async {
     try {
       final books = await _firestoreBookService.getSavedBooks();
@@ -60,18 +55,15 @@ class Seemorecontroller extends BaseController {
     }
   }
 
-  // Check which books in the current list are saved
   Future<void> checkSavedBooks() async {
     try {
       await fetchSavedBooks();
 
-      // No need to update UI here, just having the saved books list is enough
     } catch (e) {
       print('Error checking saved books: $e');
     }
   }
 
-  // Save a book to Firebase
   Future<bool> saveBook(Map<String, dynamic> bookData) async {
     try {
       bool result = await _firestoreBookService.saveBook(Map<String, dynamic>.from(bookData));
@@ -85,7 +77,6 @@ class Seemorecontroller extends BaseController {
     }
   }
 
-  // Remove a book from saved books
   Future<bool> removeBook(String bookId) async {
     try {
       bool result = await _firestoreBookService.removeBook(bookId);
@@ -99,7 +90,6 @@ class Seemorecontroller extends BaseController {
     }
   }
 
-  // Check if a book is saved
   bool isBookSaved(String bookId) {
     return savedBooks.any((book) => book['id'] == bookId);
   }
@@ -111,7 +101,6 @@ class Seemorecontroller extends BaseController {
       setCategory(Get.arguments['category']);
     }
 
-    // Fetch saved books on init
     fetchSavedBooks();
   }
 }

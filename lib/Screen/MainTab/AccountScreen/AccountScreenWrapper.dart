@@ -135,37 +135,122 @@ class Accountscreenwrapper extends BaseView<Accountcontroller> {
           SizedBox(
             height: 3.h,
           ),
-          Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(40),
-                child: Image.asset(
-                  AppImages.profilePic,
-                  height: 7.h,
-                ),
-              ),
-              SizedBox(
-                width: 3.w,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+          Obx(() => Row(
                 children: [
-                  Text(
-                    'Jone Doe',
-                    style: TextStyle(
-                        fontSize: 17.sp,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.white100Color),
+                  GestureDetector(
+                    onTap: () {
+                      controller.uploadProfilePicture();
+                    },
+                    child: Stack(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(40),
+                          child: controller.profilePictureUrl.value.isNotEmpty
+                              ? Image.network(
+                                  controller.profilePictureUrl.value,
+                                  height: 7.h,
+                                  width: 7.h,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Image.asset(
+                                      AppImages.profilePic,
+                                      height: 7.h,
+                                      width: 7.h,
+                                      fit: BoxFit.cover,
+                                    );
+                                  },
+                                  loadingBuilder: (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return Container(
+                                      height: 7.h,
+                                      width: 7.h,
+                                      color: AppColors.grey4,
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                          color: AppColors.green,
+                                          value: loadingProgress.expectedTotalBytes != null
+                                              ? loadingProgress.cumulativeBytesLoaded /
+                                                  loadingProgress.expectedTotalBytes!
+                                              : null,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                )
+                              : Image.asset(
+                                  AppImages.profilePic,
+                                  height: 7.h,
+                                  width: 7.h,
+                                  fit: BoxFit.cover,
+                                ),
+                        ),
+                        if (controller.isUploadingImage.value)
+                          Positioned.fill(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.5),
+                                borderRadius: BorderRadius.circular(40),
+                              ),
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  color: AppColors.green,
+                                ),
+                              ),
+                            ),
+                          ),
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Container(
+                            padding: EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              color: AppColors.green,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.camera_alt,
+                              size: 1.5.h,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  Text(
-                    'john.doe@example.com',
-                    style: TextStyle(
-                        fontSize: 15.sp, color: AppColors.white100Color),
+                  SizedBox(
+                    width: 3.w,
                   ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        controller.userName.value,
+                        style: TextStyle(
+                            fontSize: 17.sp,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.white100Color),
+                      ),
+                      Text(
+                        controller.userEmail.value,
+                        style: TextStyle(
+                            fontSize: 15.sp, color: AppColors.white100Color),
+                      ),
+                    ],
+                  ),
+                  if (controller.isLoadingUserData.value)
+                    Padding(
+                      padding: EdgeInsets.only(left: 2.w),
+                      child: SizedBox(
+                        height: 2.h,
+                        width: 2.h,
+                        child: CircularProgressIndicator(
+                          color: AppColors.green,
+                          strokeWidth: 2,
+                        ),
+                      ),
+                    ),
                 ],
-              )
-            ],
-          ),
+              )),
           SizedBox(
             height: 3.h,
           ),

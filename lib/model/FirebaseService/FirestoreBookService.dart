@@ -7,37 +7,29 @@ class FirestoreBookService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Collection references
   CollectionReference get _usersCollection => _firestore.collection('users');
 
-  // Get current user ID
   String? get _currentUserId => _auth.currentUser?.uid;
 
-  // Get user document reference
   DocumentReference? get _userDocRef =>
       _currentUserId != null ? _usersCollection.doc(_currentUserId) : null;
 
-  // Get user's saved books collection reference
   CollectionReference? get _userSavedBooksCollection =>
       _currentUserId != null ? _userDocRef?.collection('saved_books') : null;
 
-  // Get user's favorites collection reference
   CollectionReference? get _userFavoritesCollection =>
       _currentUserId != null ? _userDocRef?.collection('favorites') : null;
 
-  // Get user's reading history collection reference
   CollectionReference? get _userReadingHistoryCollection =>
       _currentUserId != null
           ? _userDocRef?.collection('reading_history')
           : null;
 
-  // Get user's reading history entries collection reference
   CollectionReference? get _userReadingHistoryEntriesCollection =>
       _currentUserId != null
           ? _userDocRef?.collection('reading_history_entries')
           : null;
 
-  // Save a book to user's saved books
   Future<bool> saveBook(Map<String, dynamic> bookData) async {
     if (_currentUserId == null || _userSavedBooksCollection == null) {
       Get.snackbar('Error', 'You must be logged in to save books');
@@ -48,7 +40,6 @@ class FirestoreBookService {
       String bookId =
           bookData['id'] ?? DateTime.now().millisecondsSinceEpoch.toString();
 
-      // Add to saved books with timestamp
       await _userSavedBooksCollection!.doc(bookId).set({
         ...bookData,
         'savedAt': FieldValue.serverTimestamp(),
@@ -63,7 +54,6 @@ class FirestoreBookService {
     }
   }
 
-  // Remove a book from saved books
   Future<bool> removeBook(String bookId) async {
     if (_currentUserId == null || _userSavedBooksCollection == null) {
       Get.snackbar('Error', 'You must be logged in to manage saved books');
@@ -81,7 +71,6 @@ class FirestoreBookService {
     }
   }
 
-  // Get user's saved books
   Future<List<Map<String, dynamic>>?> getSavedBooks() async {
     if (_currentUserId == null || _userSavedBooksCollection == null) {
       Get.snackbar('Error', 'You must be logged in to view saved books');
@@ -100,7 +89,6 @@ class FirestoreBookService {
     }
   }
 
-  // Check if a book is saved
   Future<bool> isBookSaved(String bookId) async {
     if (_currentUserId == null || _userSavedBooksCollection == null) {
       return false;
@@ -116,7 +104,6 @@ class FirestoreBookService {
     }
   }
 
-  // Add book to favorites
   Future<bool> addToFavorites(String bookId) async {
     if (_currentUserId == null ||
         _userFavoritesCollection == null ||
@@ -126,7 +113,6 @@ class FirestoreBookService {
     }
 
     try {
-      // Get the book data first from saved books
       final DocumentSnapshot doc =
           await _userSavedBooksCollection!.doc(bookId).get();
 
@@ -137,7 +123,6 @@ class FirestoreBookService {
 
       final bookData = doc.data() as Map<String, dynamic>;
 
-      // Add to favorites with timestamp
       await _userFavoritesCollection!.doc(bookId).set({
         ...bookData,
         'addedAt': FieldValue.serverTimestamp(),
@@ -152,7 +137,6 @@ class FirestoreBookService {
     }
   }
 
-  // Remove book from favorites
   Future<bool> removeFromFavorites(String bookId) async {
     if (_currentUserId == null || _userFavoritesCollection == null) {
       Get.snackbar('Error', 'You must be logged in to manage favorites');
@@ -170,7 +154,6 @@ class FirestoreBookService {
     }
   }
 
-  // Get user's favorite books
   Future<List<Map<String, dynamic>>?> getFavoriteBooks() async {
     if (_currentUserId == null || _userFavoritesCollection == null) {
       Get.snackbar('Error', 'You must be logged in to view favorites');
@@ -189,7 +172,6 @@ class FirestoreBookService {
     }
   }
 
-  // Add book to reading history (updates the most recent reading record)
   Future<bool> addToReadingHistory(String bookId, double progress) async {
     if (_currentUserId == null ||
         _userReadingHistoryCollection == null ||
@@ -199,7 +181,6 @@ class FirestoreBookService {
     }
 
     try {
-      // Get the book data first from saved books
       final DocumentSnapshot doc =
           await _userSavedBooksCollection!.doc(bookId).get();
 
@@ -210,14 +191,12 @@ class FirestoreBookService {
 
       final bookData = doc.data() as Map<String, dynamic>;
 
-      // Add to reading history with timestamp and progress
       await _userReadingHistoryCollection!.doc(bookId).set({
         ...bookData,
         'lastReadAt': FieldValue.serverTimestamp(),
         'progress': progress,
       });
 
-      // Also add a detailed reading history entry
       await addReadingHistoryEntry(bookId, bookData['title'] ?? 'Unknown Book',
           bookData['imageLinks']?['thumbnail'], progress);
 
@@ -228,7 +207,6 @@ class FirestoreBookService {
     }
   }
 
-  // Add a detailed reading history entry
   Future<bool> addReadingHistoryEntry(
       String bookId, String bookTitle, String? bookCoverUrl, double progress,
       [int duration = 0]) async {
@@ -239,7 +217,6 @@ class FirestoreBookService {
     }
 
     try {
-      // Create a new reading history entry with current timestamp
       final ReadingHistoryEntry entry = ReadingHistoryEntry(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         bookId: bookId,
@@ -247,10 +224,9 @@ class FirestoreBookService {
         bookCoverUrl: bookCoverUrl,
         readDate: Timestamp.now(),
         progress: progress,
-        duration: duration, // Include reading duration
+        duration: duration, 
       );
 
-      // Add to reading history entries collection
       await _userReadingHistoryEntriesCollection!.add(entry.toFirestore());
       return true;
     } catch (e) {
@@ -259,7 +235,6 @@ class FirestoreBookService {
     }
   }
 
-  // Get user's reading history (most recent reading for each book)
   Future<List<Map<String, dynamic>>?> getReadingHistory() async {
     if (_currentUserId == null || _userReadingHistoryCollection == null) {
       Get.snackbar('Error', 'You must be logged in to view reading history');
@@ -302,7 +277,6 @@ class FirestoreBookService {
     }
   }
 
-  // Get reading history entries for a specific date range
   Future<List<ReadingHistoryEntry>?> getReadingHistoryEntriesForDateRange(
       DateTime startDate, DateTime endDate) async {
     if (_currentUserId == null ||
@@ -332,7 +306,6 @@ class FirestoreBookService {
     }
   }
 
-  // Process book snapshots into a list of maps
   List<Map<String, dynamic>>? _processBookSnapshots(QuerySnapshot snapshot) {
     if (snapshot.docs.isEmpty) return [];
 

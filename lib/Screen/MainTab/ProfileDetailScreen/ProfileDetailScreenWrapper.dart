@@ -18,7 +18,6 @@ class Profiledetailscreenwrapper extends BaseView<Profiledetailcontroller> {
         backgroundColor: AppColors.black,
         leading: IconButton(
           onPressed: () {
-            // Add debounce to prevent multiple navigation actions
             if (!Get.isSnackbarOpen) {
               Get.back();
             }
@@ -38,13 +37,11 @@ class Profiledetailscreenwrapper extends BaseView<Profiledetailcontroller> {
           ),
         ),
         actions: [
-          // Edit/Save button
           Obx(() => controller.isLoading.value
-              ? Container() // Hide button when loading
+              ? Container() 
               : controller.isEditing.value
                   ? Row(
                       children: [
-                        // Save button
                         IconButton(
                           onPressed: controller.saveUserData,
                           icon: Icon(
@@ -75,7 +72,6 @@ class Profiledetailscreenwrapper extends BaseView<Profiledetailcontroller> {
         ],
       ),
       body: Obx(() {
-        // Show loading indicator when loading
         if (controller.isLoading.value) {
           return Center(
             child: CircularProgressIndicator(
@@ -83,8 +79,6 @@ class Profiledetailscreenwrapper extends BaseView<Profiledetailcontroller> {
             ),
           );
         }
-
-        // Show profile content when loaded
         return SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 2.w),
@@ -101,7 +95,6 @@ class Profiledetailscreenwrapper extends BaseView<Profiledetailcontroller> {
                   ),
                 ),
                 SizedBox(height: 3.h),
-                // Profile picture
                 Padding(
                   padding: EdgeInsets.only(left: 35.w),
                   child: Stack(
@@ -157,8 +150,6 @@ class Profiledetailscreenwrapper extends BaseView<Profiledetailcontroller> {
                   thickness: 2,
                 ),
                 SizedBox(height: 2.5.h),
-
-                // Name field
                 Text(
                   'Your Name',
                   style: TextStyle(
@@ -182,8 +173,6 @@ class Profiledetailscreenwrapper extends BaseView<Profiledetailcontroller> {
                   ),
                 ),
                 SizedBox(height: 2.5.h),
-
-                // Email field
                 Text(
                   'Email',
                   style: TextStyle(
@@ -207,8 +196,6 @@ class Profiledetailscreenwrapper extends BaseView<Profiledetailcontroller> {
                   ),
                 ),
                 SizedBox(height: 2.5.h),
-
-                // Date of Birth field
                 Text(
                   'Date Of Birth',
                   style: TextStyle(
@@ -231,10 +218,7 @@ class Profiledetailscreenwrapper extends BaseView<Profiledetailcontroller> {
                     ),
                   ),
                 ),
-
                 SizedBox(height: 4.h),
-
-                // Save button (only shown in edit mode)
                 Obx(() => controller.isEditing.value
                     ? Center(
                         child: ElevatedButton(

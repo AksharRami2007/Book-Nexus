@@ -33,7 +33,6 @@ class Seemorescreenwrapper extends BaseView<Seemorecontroller> {
               ),
               leading: GestureDetector(
                 onTap: () {
-                  // Add debounce to prevent multiple navigation actions
                   if (!Get.isSnackbarOpen) {
                     Get.back();
                   }

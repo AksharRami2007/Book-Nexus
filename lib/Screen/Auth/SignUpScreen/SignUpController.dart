@@ -40,7 +40,6 @@ class Signupcontroller extends BaseController {
     super.onClose();
   }
 
-  // Validate input fields
   bool validateInputs() {
     if (nameController.text.isEmpty) {
       Get.snackbar('Error', 'Please enter your name');
@@ -61,7 +60,6 @@ class Signupcontroller extends BaseController {
     return true;
   }
 
-  // Create a new user account
   Future<void> createAccount() async {
     if (!validateInputs()) return;
 

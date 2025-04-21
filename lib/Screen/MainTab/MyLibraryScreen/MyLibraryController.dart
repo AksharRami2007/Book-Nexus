@@ -32,21 +32,15 @@ class MyLibraryController extends BaseController {
   Future<void> fetchlibrary() async {
     try {
       isLoading.value = true;
-
-      // Get random books directly from API
       var apiBooks = await _bookApiService.getRandomBooks();
       if (apiBooks != null) {
         library.assignAll(apiBooks);
       }
-
-      // Fetch user-specific data if user is logged in
       if (_authService.currentUser != null) {
         await fetchSavedBooks();
         await fetchFavorites();
         await fetchReadingHistory();
       }
-
-      // Apply initial category filter
       filterBooksByCategory(selectedCategory.value);
     } catch (e) {
       print('Failed to fetch library: $e');
@@ -54,8 +48,6 @@ class MyLibraryController extends BaseController {
       isLoading.value = false;
     }
   }
-
-  // Filter books based on selected category
   void filterBooksByCategory(String category) {
     selectedCategory.value = category;
 
@@ -85,7 +77,7 @@ class MyLibraryController extends BaseController {
         break;
       case CATEGORY_ALL:
       default:
-        fetchlibrary(); // Re-fetch from API if needed
+        fetchlibrary(); 
         break;
     }
   }

@@ -2,6 +2,7 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -28,6 +29,30 @@ void main() async {
     print("Firebase App Check initialized successfully");
   } catch (e) {
     print("Error initializing Firebase: $e");
+
+    // Check for Play Store integrity API error
+    if (e.toString().contains("Integrity API error") &&
+        e
+            .toString()
+            .contains("Binding to the service in the Play Store has failed")) {
+      // Show a dialog to prompt the user to update Play Store
+      Future.delayed(Duration.zero, () {
+        Get.dialog(
+          AlertDialog(
+            title: Text('Update Required'),
+            content: Text(
+                'Please update your Google Play Store app to continue using this application.'),
+            actions: [
+              TextButton(
+                onPressed: () => Get.back(),
+                child: Text('OK'),
+              ),
+            ],
+          ),
+          barrierDismissible: false,
+        );
+      });
+    }
   }
 
   runApp(const MyApp());

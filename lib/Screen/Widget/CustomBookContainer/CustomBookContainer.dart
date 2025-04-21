@@ -6,14 +6,12 @@ class BookContainer extends StatelessWidget {
   final String image;
   final String bookName;
   final String authorsName;
-  // final String audioLength;
 
   const BookContainer({
     super.key,
     required this.image,
     required this.bookName,
     required this.authorsName,
-    // required this.audioLength,
   });
 
   @override
