@@ -1,9 +1,11 @@
 import 'package:book_nexus/Constant/colors.dart';
+import 'package:book_nexus/Navigation/routername.dart';
 import 'package:book_nexus/Screen/Auth/SignUpScreen/SignUpController.dart';
 import 'package:book_nexus/Screen/Basecontroller/basecontroller.dart';
 import 'package:book_nexus/Screen/Widget/CustomScafflod/CustomScaffold.dart';
 import 'package:book_nexus/Screen/Widget/Custombutton/Custombutton.dart';
 import 'package:book_nexus/Screen/Widget/Customtextfield/Customtextfield.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:get/get.dart';
@@ -37,7 +39,7 @@ class Signupscreenwrapper extends BaseView<Signupcontroller> {
             Customtextfield(
               name: 'Name',
               obsecuretext: false,
-             
+              controller: controller.nameController,
               inputType: TextInputType.name,
             ),
             SizedBox(
@@ -46,7 +48,7 @@ class Signupscreenwrapper extends BaseView<Signupcontroller> {
             Customtextfield(
               name: 'Email',
               obsecuretext: false,
-             
+              controller: controller.emailController,
               inputType: TextInputType.emailAddress,
             ),
             SizedBox(
@@ -56,7 +58,7 @@ class Signupscreenwrapper extends BaseView<Signupcontroller> {
               () => Customtextfield(
                   name: 'Password',
                   obsecuretext: controller.isPasswordhidden.value,
-                
+                  controller: controller.passwordController,
                   inputType: TextInputType.visiblePassword,
                   suffixicon: IconButton(
                       onPressed: () {
@@ -86,10 +88,12 @@ class Signupscreenwrapper extends BaseView<Signupcontroller> {
             SizedBox(
               height: 2.h,
             ),
-            Custombutton(
-              name: 'Create Account',
-              onclick: () {},
-            ),
+            Obx(() => controller.isLoading.value
+                ? CircularProgressIndicator(color: AppColors.green)
+                : Custombutton(
+                    name: 'Create Account',
+                    onclick: () => controller.createAccount(),
+                  )),
             SizedBox(
               height: 3.h,
             ),
@@ -104,6 +108,8 @@ class Signupscreenwrapper extends BaseView<Signupcontroller> {
               ),
               TextSpan(
                 text: 'Log In',
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () => Get.offAllNamed(RouterName.loginEmailScreen),
                 style: TextStyle(
                     fontSize: 15.sp,
                     color: AppColors.green,

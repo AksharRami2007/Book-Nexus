@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -39,17 +38,19 @@ class BuildRowBookList extends StatelessWidget {
 
                         return GestureDetector(
                           onTap: () {
-                            Get.to(
-                              () => Bookdetailscreenwrapper(
-                                bookTitle: book['title'],
-                                categories: book['categories'],
-                              ),
-                              binding: BookdetailcontrollerBindings(),
-                              arguments: {
-                                'bookDetails': book,
-                                'categories': book['categories'],
-                              },
-                            );
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              Get.to(
+                                () => Bookdetailscreenwrapper(
+                                  bookTitle: book['title'],
+                                  categories: book['categories'],
+                                ),
+                                binding: BookdetailcontrollerBindings(),
+                                arguments: {
+                                  'bookDetails': book,
+                                  'categories': book['categories'],
+                                },
+                              );
+                            });
                           },
                           child: Padding(
                             padding: EdgeInsets.only(right: 2.h),

@@ -1,5 +1,6 @@
 import 'package:book_nexus/Screen/Basecontroller/basecontroller.dart';
 import 'package:book_nexus/model/ApiService/BookApiService.dart';
+import 'package:book_nexus/model/FirebaseService/FirestoreBookService.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,9 +14,11 @@ class HomeControllerBindings implements Bindings {
   }
 }
 
+
 class HomeController extends BaseController {
   var selectedIndex = 0.obs;
   var isKeyboardVisible = false.obs;
+
   var trendingBooks = <Map<String, dynamic>>[].obs;
   var recentArrive = <Map<String, dynamic>>[].obs;
   var forYouBooks = <Map<String, dynamic>>[].obs;
@@ -24,6 +27,13 @@ class HomeController extends BaseController {
   var thrillerBooks = <Map<String, dynamic>>[].obs;
   var romanceBooks = <Map<String, dynamic>>[].obs;
 
+  var savedBooks = <Map<String, dynamic>>[].obs;
+  var favoriteBooks = <Map<String, dynamic>>[].obs;
+  var readingHistory = <Map<String, dynamic>>[].obs;
+
+  var isDataLoading = false.obs;
+
+  final FirestoreBookService _firestoreBookService = FirestoreBookService();
   final BookApiService _bookApiService = BookApiService();
 
   void checkKeyboardVisibility(BuildContext context) {
@@ -35,76 +45,205 @@ class HomeController extends BaseController {
   }
 
   Future<void> fetchRecentArrivesBooks() async {
-    var books = await _bookApiService.getRecentArrivals();
-    if (books != null) {
-      recentArrive.assignAll(books);
+    try {
+      var books = await _bookApiService.getRecentArrivals();
+      if (books != null) {
+        recentArrive.assignAll(books);
+      }
+    } catch (e) {
+      print('Error fetching recent arrivals: $e');
     }
   }
 
   Future<void> fetchTrendingBooks() async {
-    var books = await _bookApiService.getTrendingBooks();
-    if (books != null) {
-      trendingBooks.assignAll(books);
+    try {
+      var books = await _bookApiService.getTrendingBooks();
+      if (books != null) {
+        trendingBooks.assignAll(books);
+      }
+    } catch (e) {
+      print('Error fetching trending books: $e');
     }
   }
 
   Future<void> fetchForYouBooks() async {
-    var books = await _bookApiService.getRandomBooks();
-    if (books != null) {
-      forYouBooks.assignAll(books);
+    try {
+      var books = await _bookApiService.getRandomBooks();
+      if (books != null) {
+        forYouBooks.assignAll(books);
+      }
+    } catch (e) {
+      print('Error fetching for you books: $e');
     }
   }
 
   Future<void> fetchFictionBooks() async {
-    var books = await _bookApiService.getFictionBooks();
-    if (books != null) {
-      fictionBooks.assignAll(books);
+    try {
+      var books = await _bookApiService.getFictionBooks();
+      if (books != null) {
+        fictionBooks.assignAll(books);
+      }
+    } catch (e) {
+      print('Error fetching fiction books: $e');
     }
   }
 
   Future<void> fetchSciFiBooks() async {
-    var books = await _bookApiService.getSciFiBooks();
-    if (books != null) {
-      scifiBooks.assignAll(books);
+    try {
+      var books = await _bookApiService.getSciFiBooks();
+      if (books != null) {
+        scifiBooks.assignAll(books);
+      }
+    } catch (e) {
+      print('Error fetching sci-fi books: $e');
     }
   }
 
   Future<void> fetchThrillerBooks() async {
-    var books = await _bookApiService.getThrillerBooks();
-    if (books != null) {
-      thrillerBooks.assignAll(books);
+    try {
+      var books = await _bookApiService.getThrillerBooks();
+      if (books != null) {
+        thrillerBooks.assignAll(books);
+      }
+    } catch (e) {
+      print('Error fetching thriller books: $e');
     }
   }
 
   Future<void> fetchRomanceBooks() async {
-    var books = await _bookApiService.getRomanceBooks();
-    if (books != null) {
-      romanceBooks.assignAll(books);
+    try {
+      var books = await _bookApiService.getRomanceBooks();
+      if (books != null) {
+        romanceBooks.assignAll(books);
+      }
+    } catch (e) {
+      print('Error fetching romance books: $e');
+    }
+  }
+
+  // Firebase book interactions
+  Future<bool> saveBook(Map<String, dynamic> bookData) async {
+    try {
+      return await _firestoreBookService.saveBook(bookData);
+    } catch (e) {
+      print('Error saving book: $e');
+      return false;
+    }
+  }
+
+  Future<bool> removeBook(String bookId) async {
+    try {
+      return await _firestoreBookService.removeBook(bookId);
+    } catch (e) {
+      print('Error removing book: $e');
+      return false;
+    }
+  }
+
+  Future<void> fetchSavedBooks() async {
+    try {
+      final books = await _firestoreBookService.getSavedBooks();
+      if (books != null) {
+        savedBooks.assignAll(books);
+      }
+    } catch (e) {
+      print('Error fetching saved books: $e');
+    }
+  }
+
+  Future<bool> isBookSaved(String bookId) async {
+    try {
+      return await _firestoreBookService.isBookSaved(bookId);
+    } catch (e) {
+      print('Error checking if book is saved: $e');
+      return false;
+    }
+  }
+
+  Future<bool> addToFavorites(String bookId) async {
+    try {
+      return await _firestoreBookService.addToFavorites(bookId);
+    } catch (e) {
+      print('Error adding to favorites: $e');
+      return false;
+    }
+  }
+
+  Future<bool> removeFromFavorites(String bookId) async {
+    try {
+      return await _firestoreBookService.removeFromFavorites(bookId);
+    } catch (e) {
+      print('Error removing from favorites: $e');
+      return false;
+    }
+  }
+
+  Future<void> fetchFavoriteBooks() async {
+    try {
+      final books = await _firestoreBookService.getFavoriteBooks();
+      if (books != null) {
+        favoriteBooks.assignAll(books);
+      }
+    } catch (e) {
+      print('Error fetching favorite books: $e');
+    }
+  }
+
+  Future<bool> addToReadingHistory(String bookId, double progress) async {
+    try {
+      return await _firestoreBookService.addToReadingHistory(bookId, progress);
+    } catch (e) {
+      print('Error adding to reading history: $e');
+      return false;
+    }
+  }
+
+  Future<void> fetchReadingHistory() async {
+    try {
+      final books = await _firestoreBookService.getReadingHistory();
+      if (books != null) {
+        readingHistory.assignAll(books);
+      }
+    } catch (e) {
+      print('Error fetching reading history: $e');
+    }
+  }
+
+  Future<void> fetchAllBooks() async {
+    try {
+      isDataLoading.value = true;
+
+      await Future.wait([
+        fetchTrendingBooks(),
+        fetchForYouBooks(),
+        fetchFictionBooks(),
+        fetchSciFiBooks(),
+        fetchThrillerBooks(),
+        fetchRomanceBooks(),
+        fetchRecentArrivesBooks(),
+        fetchSavedBooks(),
+        fetchFavoriteBooks(),
+        fetchReadingHistory(),
+      ]);
+
+      isDataLoading.value = false;
+    } catch (e) {
+      print('Error fetching all books: $e');
+      isDataLoading.value = false;
     }
   }
 
   String getGreeting() {
     int hour = DateTime.now().hour;
-    if (hour < 12) {
-      return "Good Morning";
-    } else if (hour < 18) {
-      return "Good Afternoon";
-    } else {
-      return "Good Evening";
-    }
+    if (hour < 12) return "Good Morning";
+    if (hour < 18) return "Good Afternoon";
+    return "Good Evening";
   }
 
   @override
   void onInit() {
-    fetchTrendingBooks();
-    fetchForYouBooks();
-    fetchFictionBooks();
-    fetchSciFiBooks();
-    fetchThrillerBooks();
-    fetchRomanceBooks();
-    fetchRecentArrivesBooks();
     super.onInit();
-
+    fetchAllBooks();
     Get.lazyPut(() => MyLibraryController());
     Get.lazyPut(() => ExploreController());
   }

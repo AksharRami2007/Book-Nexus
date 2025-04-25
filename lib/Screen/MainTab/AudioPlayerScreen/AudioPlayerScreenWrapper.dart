@@ -28,7 +28,12 @@ class Audioplayerscreenwrapper extends BaseView<Audioplayercontroller> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      // Add debounce to prevent multiple navigation actions
+                      if (!Get.isSnackbarOpen) {
+                        Get.back();
+                      }
+                    },
                     icon: Icon(
                       Icons.keyboard_arrow_down_sharp,
                       size: 4.h,
@@ -56,10 +61,17 @@ class Audioplayerscreenwrapper extends BaseView<Audioplayercontroller> {
                           filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
                           child: Container(
                             decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: ExactAssetImage(AppImages.bookcover),
-                                fit: BoxFit.cover,
-                              ),
+                              image: controller.coverImage.value.isNotEmpty
+                                  ? DecorationImage(
+                                      image: NetworkImage(
+                                          controller.coverImage.value),
+                                      fit: BoxFit.cover,
+                                    )
+                                  : DecorationImage(
+                                      image:
+                                          ExactAssetImage(AppImages.bookcover),
+                                      fit: BoxFit.cover,
+                                    ),
                             ),
                             child:
                                 Container(color: Colors.black.withOpacity(0.4)),
@@ -70,30 +82,53 @@ class Audioplayerscreenwrapper extends BaseView<Audioplayercontroller> {
                     Positioned(
                       top: 22.h,
                       left: 20.w,
-                      child: Image.asset(
-                        AppImages.bookcover,
-                        height: 35.h,
-                      ),
+                      child: Obx(() => controller.coverImage.value.isNotEmpty
+                          ? Image.network(
+                              controller.coverImage.value,
+                              height: 35.h,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.asset(
+                              AppImages.bookcover,
+                              height: 35.h,
+                            )),
                     ),
                   ],
                 ),
               ),
               SizedBox(height: 1.h),
-              Text(
-                'Futurama',
-                style: TextStyle(
-                  fontSize: 17.sp,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.white100Color,
-                ),
-              ),
+              Obx(() => Text(
+                    controller.bookTitle.value,
+                    style: TextStyle(
+                      fontSize: 17.sp,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.white100Color,
+                    ),
+                  )),
               SizedBox(height: 1.h),
-              Text(
-                'By Kory Kogon, Suzette Blackmore, and James Wood',
-                style:
-                    TextStyle(fontSize: 15.sp, color: AppColors.white100Color),
-              ),
+              Obx(() => Text(
+                    'By ${controller.authors.value}',
+                    style: TextStyle(
+                        fontSize: 15.sp, color: AppColors.white100Color),
+                  )),
               SizedBox(height: 1.h),
+              // Status message
+              Obx(() => Visibility(
+                    visible: !controller.isAudioAvailable.value,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 1.h),
+                      child: Center(
+                        child: Text(
+                          controller.statusMessage.value,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: AppColors.white100Color,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )),
               Obx(
                 () => Expanded(
                     child: SfSlider(
@@ -124,23 +159,25 @@ class Audioplayerscreenwrapper extends BaseView<Audioplayercontroller> {
                   Row(
                     children: [
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () => controller.skipBackward(),
                         icon: Icon(
                           Icons.replay_10_sharp,
                           size: 4.h,
                           color: AppColors.white100Color,
                         ),
                       ),
+                      Obx(() => IconButton(
+                            onPressed: () => controller.togglePlayPause(),
+                            icon: Icon(
+                              controller.isPlaying.value
+                                  ? Icons.pause_circle_filled_sharp
+                                  : Icons.play_circle_fill_sharp,
+                              size: 7.h,
+                              color: AppColors.green,
+                            ),
+                          )),
                       IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.play_circle_fill_sharp,
-                          size: 7.h,
-                          color: AppColors.green,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {},
+                        onPressed: () => controller.skipForward(),
                         icon: Icon(
                           Icons.forward_10_sharp,
                           size: 4.h,
@@ -171,13 +208,16 @@ class Audioplayerscreenwrapper extends BaseView<Audioplayercontroller> {
                       color: AppColors.white100Color,
                     ),
                   ),
-                  Text(
-                    '1.0x',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.white100Color,
-                    ),
+                  GestureDetector(
+                    onTap: () => controller.changeSpeed(),
+                    child: Obx(() => Text(
+                          '${controller.playbackSpeed.value}x',
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.white100Color,
+                          ),
+                        )),
                   ),
                 ],
               ),

@@ -15,8 +15,17 @@ class BookReaderScreenWrapper extends BaseView<BookReaderController> {
     final String bookTitle = args['bookTitle'] ?? 'Book Reader';
     final Map<String, dynamic> bookDetails = args['bookDetails'] ?? {};
 
-    if (bookUrl.isNotEmpty) {
-      controller.loadBook(bookUrl, bookDetails);
+    // Only load the book after first frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (bookUrl.isNotEmpty && !controller.hasLoadedBook.value) {
+        controller.loadBook(bookUrl, bookDetails);
+      }
+    });
+
+    void _reloadBook() {
+      if (bookUrl.isNotEmpty) {
+        controller.loadBook(bookUrl, bookDetails);
+      }
     }
 
     return Scaffold(
@@ -29,11 +38,7 @@ class BookReaderScreenWrapper extends BaseView<BookReaderController> {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: () {
-              if (bookUrl.isNotEmpty) {
-                controller.loadBook(bookUrl, bookDetails);
-              }
-            },
+            onPressed: _reloadBook,
           ),
         ],
       ),
@@ -52,11 +57,7 @@ class BookReaderScreenWrapper extends BaseView<BookReaderController> {
                 ),
                 const SizedBox(height: 24),
                 ElevatedButton(
-                  onPressed: () {
-                    if (bookUrl.isNotEmpty) {
-                      controller.loadBook(bookUrl, bookDetails);
-                    }
-                  },
+                  onPressed: _reloadBook,
                   child: const Text('Try Again'),
                 ),
               ],

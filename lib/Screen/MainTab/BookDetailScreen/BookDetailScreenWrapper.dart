@@ -9,15 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:get/get.dart';
 
-
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../Widget/BuildRowList/buildRowList.dart';
 
 class Bookdetailscreenwrapper extends BaseView<BookDetailController> {
-
-  
   final String bookTitle;
   final List<String>? categories;
   const Bookdetailscreenwrapper(
@@ -25,7 +22,6 @@ class Bookdetailscreenwrapper extends BaseView<BookDetailController> {
 
   @override
   Widget vBuilder(BuildContext context) {
-    
     return SafeArea(
       child: Scaffold(
           backgroundColor: Colors.black,
@@ -48,7 +44,12 @@ class Bookdetailscreenwrapper extends BaseView<BookDetailController> {
                     Padding(
                       padding: EdgeInsets.only(top: 2.h),
                       child: GestureDetector(
-                        onTap: () => Get.back(),
+                        onTap: () {
+                          // Add debounce to prevent multiple navigation actions
+                          if (!Get.isSnackbarOpen) {
+                            Get.back();
+                          }
+                        },
                         child: Icon(
                           Icons.arrow_back_ios,
                           size: 3.h,
@@ -176,7 +177,12 @@ class Bookdetailscreenwrapper extends BaseView<BookDetailController> {
             SizedBox(
               width: 5.w,
             ),
-            buildTextRow(AppImages.headphone, 'Play Nexus')
+            GestureDetector(
+              onTap: () {
+                controller.openAudioPlayer();
+              },
+              child: buildTextRow(AppImages.headphone, 'Play Nexus'),
+            )
           ],
         ),
       ),
@@ -223,14 +229,20 @@ class Bookdetailscreenwrapper extends BaseView<BookDetailController> {
             ),
           ),
         ),
-        IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.bookmark_border_outlined,
-            size: 3.5.h,
-            color: AppColors.white100Color,
-          ),
-        ),
+        Obx(() => IconButton(
+              onPressed: () async {
+                await controller.toggleSaveStatus();
+              },
+              icon: Icon(
+                controller.isBookSaved.value
+                    ? Icons.bookmark
+                    : Icons.bookmark_border_outlined,
+                size: 3.5.h,
+                color: controller.isBookSaved.value
+                    ? AppColors.green
+                    : AppColors.white100Color,
+              ),
+            )),
       ],
     );
   }

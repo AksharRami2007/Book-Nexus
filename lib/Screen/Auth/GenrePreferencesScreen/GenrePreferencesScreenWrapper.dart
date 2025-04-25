@@ -6,7 +6,8 @@ import '../../../Constant/colors.dart';
 import '../../Basecontroller/basecontroller.dart';
 import 'GenrePreferencesController.dart';
 
-class GenrePreferencesScreenWrapper extends BaseView<GenrePreferencesController> {
+class GenrePreferencesScreenWrapper
+    extends BaseView<GenrePreferencesController> {
   const GenrePreferencesScreenWrapper({super.key});
 
   @override
@@ -64,7 +65,6 @@ class GenrePreferencesScreenWrapper extends BaseView<GenrePreferencesController>
         ),
         child: Column(
           children: [
-            // Make the entire list scrollable to prevent overflow
             Flexible(
               child: SingleChildScrollView(
                 child: Column(
@@ -136,30 +136,40 @@ class GenrePreferencesScreenWrapper extends BaseView<GenrePreferencesController>
               ),
             ),
             SizedBox(height: 2.h),
-            Container(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed:
-                    controller.selectedCategories.length >= 3 ? () {} : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.green,
-                  disabledBackgroundColor: AppColors.grey.withOpacity(0.5),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+            Obx(() => Container(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: controller.selectedCategories.length >= 3
+                        ? () => controller.saveGenresAndContinue()
+                        : null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.green,
+                      disabledBackgroundColor: AppColors.grey.withOpacity(0.5),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 1.5.h, horizontal: 10.w),
+                    ),
+                    child: controller.isLoading.value
+                        ? SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              color: AppColors.black,
+                              strokeWidth: 2,
+                            ),
+                          )
+                        : Text(
+                            'Continue',
+                            style: TextStyle(
+                              color: AppColors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.sp,
+                            ),
+                          ),
                   ),
-                  padding:
-                      EdgeInsets.symmetric(vertical: 1.5.h, horizontal: 10.w),
-                ),
-                child: Text(
-                  'Continue',
-                  style: TextStyle(
-                    color: AppColors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.sp,
-                  ),
-                ),
-              ),
-            ),
+                )),
             SizedBox(height: 1.h),
             Text(
               'Select 3 or more genres to continue',

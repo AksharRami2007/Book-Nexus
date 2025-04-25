@@ -6,15 +6,17 @@ class Customtextfield extends StatelessWidget {
   final String name;
   final TextInputType? inputType;
   final bool obsecuretext;
-  
+  final TextEditingController? controller;
   final Widget? suffixicon;
+  final Function(String)? onChanged;
   const Customtextfield(
       {Key? key,
       required this.name,
       this.inputType,
       required this.obsecuretext,
-     
-      this.suffixicon})
+      this.controller,
+      this.suffixicon,
+      this.onChanged})
       : super(key: key);
 
   @override
@@ -23,15 +25,16 @@ class Customtextfield extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 4.w),
       child: TextField(
         obscureText: obsecuretext,
-       
+        controller: controller,
         keyboardType: inputType,
+        onChanged: onChanged,
         decoration: InputDecoration(
-          hintText: name,suffixIcon: suffixicon,
+          hintText: name,
+          suffixIcon: suffixicon,
           filled: true,
           fillColor: AppColors.white100Color,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            
           ),
         ),
       ),
