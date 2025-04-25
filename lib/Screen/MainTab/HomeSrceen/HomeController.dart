@@ -14,7 +14,6 @@ class HomeControllerBindings implements Bindings {
   }
 }
 
-
 class HomeController extends BaseController {
   var selectedIndex = 0.obs;
   var isKeyboardVisible = false.obs;
@@ -42,17 +41,6 @@ class HomeController extends BaseController {
 
   void changeIndex(int index) {
     selectedIndex.value = index;
-  }
-
-  Future<void> fetchRecentArrivesBooks() async {
-    try {
-      var books = await _bookApiService.getRecentArrivals();
-      if (books != null) {
-        recentArrive.assignAll(books);
-      }
-    } catch (e) {
-      print('Error fetching recent arrivals: $e');
-    }
   }
 
   Future<void> fetchTrendingBooks() async {
@@ -99,17 +87,6 @@ class HomeController extends BaseController {
     }
   }
 
-  Future<void> fetchThrillerBooks() async {
-    try {
-      var books = await _bookApiService.getThrillerBooks();
-      if (books != null) {
-        thrillerBooks.assignAll(books);
-      }
-    } catch (e) {
-      print('Error fetching thriller books: $e');
-    }
-  }
-
   Future<void> fetchRomanceBooks() async {
     try {
       var books = await _bookApiService.getRomanceBooks();
@@ -121,7 +98,6 @@ class HomeController extends BaseController {
     }
   }
 
-  // Firebase book interactions
   Future<bool> saveBook(Map<String, dynamic> bookData) async {
     try {
       return await _firestoreBookService.saveBook(bookData);
@@ -209,28 +185,65 @@ class HomeController extends BaseController {
     }
   }
 
-  Future<void> fetchAllBooks() async {
+  var loadedCategories = <String>[].obs;
+
+  Future<void> fetchEssentialBooks() async {
     try {
       isDataLoading.value = true;
 
-      await Future.wait([
-        fetchTrendingBooks(),
-        fetchForYouBooks(),
-        fetchFictionBooks(),
-        fetchSciFiBooks(),
-        fetchThrillerBooks(),
-        fetchRomanceBooks(),
-        fetchRecentArrivesBooks(),
-        fetchSavedBooks(),
-        fetchFavoriteBooks(),
-        fetchReadingHistory(),
-      ]);
+      await fetchSavedBooks();
+      await fetchFavoriteBooks();
+      await fetchReadingHistory();
+
+      await fetchTrendingBooks();
+      loadedCategories.add('trending');
+
+      await Future.delayed(Duration(seconds: 5));
+
+      await fetchForYouBooks();
+      loadedCategories.add('forYou');
 
       isDataLoading.value = false;
     } catch (e) {
-      print('Error fetching all books: $e');
+      print('Error fetching essential books: $e');
       isDataLoading.value = false;
     }
+  }
+
+  Future<void> fetchAdditionalCategory(String category) async {
+    if (loadedCategories.contains(category)) {
+      return;
+    }
+
+    try {
+      isDataLoading.value = true;
+
+      switch (category) {
+        case 'fiction':
+          await fetchFictionBooks();
+          break;
+        case 'scifi':
+          await fetchSciFiBooks();
+          break;
+        case 'romance':
+          await fetchRomanceBooks();
+          break;
+        default:
+          print('Unknown category: $category');
+          isDataLoading.value = false;
+          return;
+      }
+
+      loadedCategories.add(category);
+      isDataLoading.value = false;
+    } catch (e) {
+      print('Error fetching $category books: $e');
+      isDataLoading.value = false;
+    }
+  }
+
+  bool isCategoryLoaded(String category) {
+    return loadedCategories.contains(category);
   }
 
   String getGreeting() {
@@ -243,7 +256,7 @@ class HomeController extends BaseController {
   @override
   void onInit() {
     super.onInit();
-    fetchAllBooks();
+    fetchEssentialBooks();
     Get.lazyPut(() => MyLibraryController());
     Get.lazyPut(() => ExploreController());
   }

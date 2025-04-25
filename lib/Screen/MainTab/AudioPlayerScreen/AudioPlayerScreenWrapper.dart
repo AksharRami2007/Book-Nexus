@@ -112,20 +112,59 @@ class Audioplayerscreenwrapper extends BaseView<Audioplayercontroller> {
                         fontSize: 15.sp, color: AppColors.white100Color),
                   )),
               SizedBox(height: 1.h),
-              // Status message
+              // Status message and alternative source button
               Obx(() => Visibility(
                     visible: !controller.isAudioAvailable.value,
                     child: Padding(
                       padding: EdgeInsets.symmetric(vertical: 1.h),
-                      child: Center(
-                        child: Text(
-                          controller.statusMessage.value,
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            color: AppColors.white100Color,
-                            fontStyle: FontStyle.italic,
+                      child: Column(
+                        children: [
+                          Center(
+                            child: Text(
+                              controller.statusMessage.value,
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                color: AppColors.white100Color,
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ),
                           ),
-                        ),
+                          SizedBox(height: 1.h),
+                          Center(
+                            child: ElevatedButton(
+                              onPressed: () =>
+                                  controller.tryAlternativeSource(),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.green,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 4.w, vertical: 1.h),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              child: Text(
+                                'Try Another Source',
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: AppColors.white100Color,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Obx(() => Padding(
+                                padding: EdgeInsets.only(top: 0.5.h),
+                                child: Center(
+                                  child: Text(
+                                    'Current source: ${controller.currentApiSource.value}',
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                      color: AppColors.white100Color,
+                                    ),
+                                  ),
+                                ),
+                              )),
+                        ],
                       ),
                     ),
                   )),

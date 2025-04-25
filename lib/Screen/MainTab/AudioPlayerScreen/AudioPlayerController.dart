@@ -70,8 +70,8 @@ class Audioplayercontroller extends BaseController {
         print('Processed audio URL: $processedUrl');
 
         try {
-          _audioPlayer.playbackEventStream.listen((event) {
-          }, onError: (Object e, StackTrace st) {
+          _audioPlayer.playbackEventStream.listen((event) {},
+              onError: (Object e, StackTrace st) {
             print('Audio player error: $e');
             print('Stack trace: $st');
             statusMessage.value =
@@ -163,7 +163,7 @@ class Audioplayercontroller extends BaseController {
       return url;
     } catch (e) {
       print('Error processing audio URL: $e');
-      return url; 
+      return url;
     }
   }
 
@@ -225,7 +225,7 @@ class Audioplayercontroller extends BaseController {
 
           await _audioPlayer.play();
           statusMessage.value = 'Playing sample audio';
-          break; 
+          break;
         } catch (e) {
           print('Error with fallback URL $url: $e');
           errorMessage = e.toString();
@@ -242,28 +242,46 @@ class Audioplayercontroller extends BaseController {
     }
   }
 
+  // Current API source being used
+  RxString currentApiSource =
+      'archive'.obs; // 'archive', 'librivox', or 'google'
+
   Future<String?> findAudioUrl(String title) async {
     try {
-      final archiveUrl = await searchInternetArchive(title);
-      if (archiveUrl != null) {
-        return archiveUrl;
+      String? audioUrl;
+
+      // Only search using the current API source
+      if (currentApiSource.value == 'archive') {
+        audioUrl = await searchInternetArchive(title);
+      } else if (currentApiSource.value == 'librivox') {
+        audioUrl = await searchLibrivox(title);
+      } else if (currentApiSource.value == 'google') {
+        audioUrl = await searchGoogleBooks(title);
       }
 
-      final librivoxUrl = await searchLibrivox(title);
-      if (librivoxUrl != null) {
-        return librivoxUrl;
-      }
-
-      final googleBooksUrl = await searchGoogleBooks(title);
-      if (googleBooksUrl != null) {
-        return googleBooksUrl;
-      }
-
-      return null;
+      return audioUrl;
     } catch (e) {
       print('Error finding audio URL: $e');
       return null;
     }
+  }
+
+  // Method to try a different API source
+  Future<void> tryAlternativeSource() async {
+    // Rotate through available API sources
+    if (currentApiSource.value == 'archive') {
+      currentApiSource.value = 'librivox';
+    } else if (currentApiSource.value == 'librivox') {
+      currentApiSource.value = 'google';
+    } else {
+      currentApiSource.value = 'archive';
+    }
+
+    statusMessage.value =
+        'Searching ${currentApiSource.value} for audiobook...';
+
+    // Reinitialize the audio player with the new source
+    await initAudioPlayer();
   }
 
   Future<String?> searchLibrivox(String title) async {
@@ -337,10 +355,8 @@ class Audioplayercontroller extends BaseController {
 
   Future<String?> searchGoogleBooks(String title) async {
     try {
-     
       await Future.delayed(Duration(seconds: 1));
 
-    
       return null;
     } catch (e) {
       print('Error searching Google Books: $e');
@@ -358,7 +374,7 @@ class Audioplayercontroller extends BaseController {
   }
 
   void skipForward() {
-    final newPosition = position.value + 10000; 
+    final newPosition = position.value + 10000;
     if (newPosition < duration.value) {
       _audioPlayer.seek(Duration(milliseconds: newPosition.toInt()));
     } else {
@@ -367,7 +383,7 @@ class Audioplayercontroller extends BaseController {
   }
 
   void skipBackward() {
-    final newPosition = position.value - 10000; 
+    final newPosition = position.value - 10000;
     if (newPosition > 0) {
       _audioPlayer.seek(Duration(milliseconds: newPosition.toInt()));
     } else {

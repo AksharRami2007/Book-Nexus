@@ -4,9 +4,9 @@ import 'package:dio/dio.dart';
 
 class BookApiService {
   final Dio _dio = Dio();
-  final int maxRetries = 3;
+  final int maxRetries = 1;
   final int maxBooks = 300;
-  final String apiKey = 'AIzaSyAVkjmx50m8eN1Fo6rB53RQPP-qZw6TMog';
+  final String apiKey = 'AIzaSyBHsfO0WHI7Fgom3zg9qJRPT3tbrqcw5hE';
   final String baseUrl = 'https://www.googleapis.com/books/v1/volumes';
   final String librivoxBaseUrl = 'https://librivox.org/api/feed/audiobooks';
   final String archiveBaseUrl = 'https://archive.org/advancedsearch.php';
@@ -14,7 +14,7 @@ class BookApiService {
 
   // final String downloadUrl = '&download=epub';
 
-  Future<Response?> _fetchWithRetry(String url, {int retries = 3}) async {
+  Future<Response?> _fetchWithRetry(String url, {int retries = 1}) async {
     for (int i = 0; i < retries; i++) {
       try {
         final response = await _dio.get(url);
@@ -37,17 +37,7 @@ class BookApiService {
     return null;
   }
 
-  Future<List<Map<String, dynamic>>?> getRecentArrivals({int count = 5}) async {
-    final url = '$baseUrl?q=*&orderBy=newest&key=$apiKey';
-    final response = await _fetchWithRetry(url);
 
-    if (response != null && response.data['items'] != null) {
-      List<Map<String, dynamic>> books =
-          _extractBookData(response.data['items']);
-      return books.take(min(count, maxBooks)).toList();
-    }
-    return null;
-  }
 
   Future<List<Map<String, dynamic>>?> getRandomBooks({int count = 5}) async {
     final url = '$baseUrl?q=subject:fiction&orderBy=relevance&key=$apiKey';

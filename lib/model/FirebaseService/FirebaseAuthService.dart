@@ -62,7 +62,17 @@ class FirebaseAuthService {
 
   Future<void> signOut() async {
     try {
+      final GoogleSignIn googleSignIn = GoogleSignIn();
+      if (await googleSignIn.isSignedIn()) {
+        await googleSignIn.signOut();
+        print('Signed out from Google');
+      }
+
+      await FacebookAuth.instance.logOut();
+      print('Signed out from Facebook');
+
       await _auth.signOut();
+      print('Signed out from Firebase Auth');
     } catch (e) {
       print('Error signing out: $e');
       Get.snackbar('Error', 'An error occurred while signing out.');

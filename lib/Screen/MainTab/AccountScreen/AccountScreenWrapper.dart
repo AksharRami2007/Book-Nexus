@@ -38,16 +38,13 @@ class Accountscreenwrapper extends BaseView<Accountcontroller> {
                         color: AppColors.white100Color,
                       )),
                   Text(
-                    'Home',
+                    'Account Deatils',
                     style: TextStyle(
                         fontSize: 17.sp,
                         fontWeight: FontWeight.w500,
                         color: AppColors.white100Color),
                   ),
                 ],
-              ),
-              SizedBox(
-                height: 3.h,
               ),
               Obx(() => Text(
                     controller.tabTitles[controller.selectedTabIndex.value],
@@ -74,7 +71,6 @@ class Accountscreenwrapper extends BaseView<Accountcontroller> {
     );
   }
 
-  // Build tabs
   Widget _buildTabs() {
     return Container(
       height: 5.h,
@@ -114,7 +110,6 @@ class Accountscreenwrapper extends BaseView<Accountcontroller> {
     );
   }
 
-  // Build tab content based on selected tab
   Widget _buildTabContent() {
     switch (controller.selectedTabIndex.value) {
       case 0:
@@ -126,7 +121,6 @@ class Accountscreenwrapper extends BaseView<Accountcontroller> {
     }
   }
 
-  // Build account content
   Widget _buildAccountContent() {
     return SingleChildScrollView(
       child: Column(
@@ -159,7 +153,8 @@ class Accountscreenwrapper extends BaseView<Accountcontroller> {
                                       fit: BoxFit.cover,
                                     );
                                   },
-                                  loadingBuilder: (context, child, loadingProgress) {
+                                  loadingBuilder:
+                                      (context, child, loadingProgress) {
                                     if (loadingProgress == null) return child;
                                     return Container(
                                       height: 7.h,
@@ -168,9 +163,13 @@ class Accountscreenwrapper extends BaseView<Accountcontroller> {
                                       child: Center(
                                         child: CircularProgressIndicator(
                                           color: AppColors.green,
-                                          value: loadingProgress.expectedTotalBytes != null
-                                              ? loadingProgress.cumulativeBytesLoaded /
-                                                  loadingProgress.expectedTotalBytes!
+                                          value: loadingProgress
+                                                      .expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
                                               : null,
                                         ),
                                       ),
@@ -357,7 +356,9 @@ class Accountscreenwrapper extends BaseView<Accountcontroller> {
                 ],
               ),
               IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    controller.logout();
+                  },
                   icon: Icon(
                     Icons.arrow_forward_ios_sharp,
                     size: 3.h,
@@ -401,7 +402,6 @@ class Accountscreenwrapper extends BaseView<Accountcontroller> {
     );
   }
 
-  // Build reading calendar content
   Widget _buildReadingCalendarContent() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -423,7 +423,6 @@ class Accountscreenwrapper extends BaseView<Accountcontroller> {
           ),
         ),
         SizedBox(height: 1.h),
-        // Reading time statistics
         Obx(() => controller.isLoadingStats.value
             ? Center(
                 child: CircularProgressIndicator(

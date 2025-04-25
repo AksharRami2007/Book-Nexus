@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'package:book_nexus/Navigation/routername.dart';
 import 'package:book_nexus/Screen/Basecontroller/basecontroller.dart';
 import 'package:book_nexus/Screen/MainTab/ProfileDetailScreen/BookCalendarController.dart';
 import 'package:book_nexus/model/Book/ReadingHistoryEntry.dart';
@@ -161,6 +162,20 @@ class Accountcontroller extends BaseController {
       print('Error loading reading statistics: $e');
     } finally {
       isLoadingStats.value = false;
+    }
+  }
+
+  Future<void> logout() async {
+    try {
+      await _authService.signOut();
+      Get.offAllNamed(RouterName.loginEmailScreen);
+    } catch (e) {
+      print('Error during logout: $e');
+      Get.snackbar(
+        'Error',
+        'Failed to logout. Please try again.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 
