@@ -45,6 +45,7 @@ class BookReaderController extends BaseController {
           },
           onPageFinished: (url) {
             isLoading.value = false;
+            _applyReadingStyles();
           },
           onWebResourceError: (error) {
             isLoading.value = false;
@@ -56,7 +57,54 @@ class BookReaderController extends BaseController {
       )
       ..setUserAgent(
           'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36')
-      ..enableZoom(true);
+      ..enableZoom(true)
+      ..setBackgroundColor(
+          const Color(0xFF121212)); // Dark background for better reading
+  }
+
+  void _applyReadingStyles() {
+    // Apply custom CSS and JS to improve reading experience
+    webController.runJavaScript('''
+      // Add smooth scrolling
+      document.body.style.cssText += 'scroll-behavior: smooth !important;';
+      
+      // Improve text readability
+      var style = document.createElement('style');
+      style.textContent = `
+        body {
+          padding: 16px !important;
+          line-height: 1.6 !important;
+          font-size: 18px !important;
+          color: #e0e0e0 !important;
+          background-color: #121212 !important;
+        }
+        p, div {
+          margin-bottom: 16px !important;
+        }
+        img {
+          max-width: 100% !important;
+          height: auto !important;
+          display: block !important;
+          margin: 16px auto !important;
+        }
+        ::-webkit-scrollbar {
+          width: 8px !important;
+        }
+        ::-webkit-scrollbar-track {
+          background: #1e1e1e !important;
+        }
+        ::-webkit-scrollbar-thumb {
+          background: #555 !important;
+          border-radius: 4px !important;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+          background: #777 !important;
+        }
+      `;
+      document.head.appendChild(style);
+    ''').catchError((e) {
+      print('Error applying reading styles: $e');
+    });
   }
 
   void loadBook(String url, [Map<String, dynamic>? bookDetails]) {
@@ -143,8 +191,9 @@ class BookReaderController extends BaseController {
           currentBookDetails!['title'] ?? '',
           currentBookDetails!['imageLinks']?['thumbnail'] ?? '',
           0.0,
-          0,
+          0, // Initial duration is 0
         );
+        print('Reading started at: ${readingStartTime.value}');
       }
     }
   }

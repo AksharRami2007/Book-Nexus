@@ -15,7 +15,6 @@ class BookReaderScreenWrapper extends BaseView<BookReaderController> {
     final String bookTitle = args['bookTitle'] ?? 'Book Reader';
     final Map<String, dynamic> bookDetails = args['bookDetails'] ?? {};
 
-    // Only load the book after first frame
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (bookUrl.isNotEmpty && !controller.hasLoadedBook.value) {
         controller.loadBook(bookUrl, bookDetails);

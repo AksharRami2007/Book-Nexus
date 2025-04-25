@@ -34,13 +34,9 @@ class HomeScreenWrapper extends BaseView<HomeController> {
                   SizedBox(height: 2.h),
                   buildForYouBookList(),
                   SizedBox(height: 2.h),
-                  buildRecentArrivesBookList(),
-                  SizedBox(height: 2.h),
                   buildTrendingBookList(),
                   SizedBox(height: 2.h),
                   buildPopularBookList(),
-                  SizedBox(height: 2.h),
-                  buildThrillerBookList(),
                   SizedBox(height: 2.h),
                   buildSciFiBookList(),
                   SizedBox(height: 2.h),
@@ -55,19 +51,6 @@ class HomeScreenWrapper extends BaseView<HomeController> {
     );
   }
 
-  Widget buildRecentArrivesBookList() {
-    return BuildRowBookList(
-      title: 'Recent Arrive',
-      books: controller.recentArrive,
-    );
-  }
-
-  Widget buildThrillerBookList() {
-    return BuildRowBookList(
-      title: 'Thriller',
-      books: controller.thrillerBooks,
-    );
-  }
 
   Widget buildSciFiBookList() {
     return BuildRowBookList(

@@ -31,15 +31,13 @@ class GridViewBookList extends BaseView<MyLibraryController> {
             itemCount: books.length,
             itemBuilder: (BuildContext context, int index) {
               var book = books[index];
-              return Expanded(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 5.w),
-                  child: BookContainer(
-                    image: book['imageLinks']['thumbnail'],
-                    bookName: book['title'] ?? 'No Title',
-                    authorsName: (book['authors'] as List?)?.join(', ') ??
-                        'Unknown Author',
-                  ),
+              return Padding(
+                padding: EdgeInsets.only(left: 5.w),
+                child: BookContainer(
+                  image: book['imageLinks']['thumbnail'],
+                  bookName: book['title'] ?? 'No Title',
+                  authorsName: (book['authors'] as List?)?.join(', ') ??
+                      'Unknown Author',
                 ),
               );
             });
